@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from "recompose";
+import { compose, withHandlers } from 'recompose';
 import { bindActionCreators } from 'redux';
 // import {getOneBetEvent, setBetEvents} from '../actions'
 import { updateCurrentTab } from '../../actions';
-import { navStyle } from './Nav.styles'
+import { navStyle } from './Nav.styles';
 
 export const Nav = ({
   handleTabClick
@@ -20,7 +20,7 @@ export const Nav = ({
 const mapStateToProps = ({
   superbetsState
 }) => ({
-    superbetsState
+  superbetsState
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -29,12 +29,12 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 const handleTabClick = ({ updateCurrentTab }) => (tab) => {
   updateCurrentTab(tab);
-}
+};
 
 export const recomposedFunction = compose(
   connect(mapStateToProps, mapDispatchToProps),
   withHandlers({handleTabClick})
 );
 
-export default recomposedFunction(Nav)
+export default recomposedFunction(Nav);
 

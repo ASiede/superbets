@@ -2,12 +2,12 @@ import React from 'react';
 // import { render } from '@testing-library/react';
 import expect from 'expect';
 import { shallow } from 'enzyme';
-import App from './App';
+import Nav from './Nav';
 
-describe('App', () => {
+describe('Nav', () => {
   it('renders a dev', () => {
-    const app = shallow(<App />);
-    const div = app.find('div');
-    expect(div.length).toEqual(1);
+    const app = shallow(<Nav />);
+    const nav = app.find('nav');
+    expect(nav.length).toEqual(1);
   });
 });
