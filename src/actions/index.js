@@ -3,10 +3,8 @@ import { createAction } from 'redux-actions';
 export const SET_BET_EVENTS = 'SET_BET_EVENTS';
 export const setBetEvents = createAction(SET_BET_EVENTS)
 
-// export const setBetEvents = betEvents => ({
-//   type: SET_BET_EVENTS,
-// 	betEvents
-// })
+export const UPDATE_CURRENT_TAB = 'UPDATE_CURRENT_TAB';
+export const updateCurrentTab = createAction(UPDATE_CURRENT_TAB)
 
 const proxy = 'https://cors-anywhere.herokuapp.com/'
 

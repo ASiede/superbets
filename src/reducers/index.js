@@ -3,22 +3,22 @@ import * as actions from '../actions/index'
 
 const initialState = {
   betEvents: [],
-  test: 'its wired'
+  currentTab: 'HOME'
 };
 
-export const superbetsState = (state=initialState, action) => {
-  let expression = action.type
-  console.log('ACTION', action) 
-	switch (expression) {
-
+export const superbetsState = (state=initialState, { type, payload }) => {
+	switch (type) {
 		case actions.SET_BET_EVENTS:
-      console.log('ACTION', action) 
-      // console.log('payload', payload) 
 			return {
         ...state, 
-				betEvents: [...action.betEvent]
-      }		
-
+				betEvents: [...payload]
+      }
+  case actions.UPDATE_CURRENT_TAB:
+    console.log('ACTION', payload) 
+    return {
+      ...state, 
+      currentTab: payload
+    }		
 		default:
 		return state;
 	}

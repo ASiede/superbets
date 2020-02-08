@@ -14,7 +14,7 @@ export const Thing = ({
 }) => (
     <div className="Thing">
       {console.log('constant Prop', superbetsState)}
-      <p>HERE IS A NAME OF A BET EVENT</p>
+      <p>HERE IS THE LANDING PAGE</p>
         {/* <p>{test}</p> */}
       <p>{superbetsState.betEvents}</p>
     </div>
@@ -43,5 +43,5 @@ export const recomposedFunction = compose(
     }})
 );
 
-export default recomposedFunction(Thing)
+export default recomposedFunction(Thing);
 
