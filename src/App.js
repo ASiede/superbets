@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from "recompose";
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Thing from './components/thing';
@@ -9,7 +9,7 @@ import SubmitBet from './components/SubmitBet/SubmitBet';
 import Leaderbaord from './components/Leaderboard/Leaderboard';
 import './App.css';
 
-export const App = ({currentTab }) => (
+export const App = ({ currentTab }) => (
   <div className="App">
     <header className="App-header">
       <Nav />
@@ -27,20 +27,20 @@ export const App = ({currentTab }) => (
       <Leaderbaord />
     }     
   </div>
-  );
+);
 
 App.propTypes = {
   currentTab: PropTypes.string
 };
 
-const mapStateToProps = ({
+export const mapStateToProps = ({
   superbetsState: { currentTab }
 }) => ({
   currentTab
-})
+});
 
 export const recomposedFunction = compose(
   connect(mapStateToProps)
-)  
+);  
 
 export default recomposedFunction(App);
