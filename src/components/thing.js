@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withProps, withState, lifecycle } from "recompose";
+import { compose, withState, lifecycle } from 'recompose';
 import {getOneBetEvent, setBetEvents} from '../actions'
 import { bindActionCreators } from 'redux';
 
@@ -12,19 +12,19 @@ export const Thing = ({
   state,
   superbetsState
 }) => (
-    <div className="Thing">
-      {console.log('constant Prop', superbetsState)}
-      <p>HERE IS THE LANDING PAGE</p>
-        {/* <p>{test}</p> */}
-      <p>{superbetsState.betEvents}</p>
-    </div>
-  );
+  <div className="Thing">
+    {console.log('constant Prop', superbetsState)}
+    <p>HERE IS THE LANDING PAGE</p>
+    {/* <p>{test}</p> */}
+    <p>{superbetsState.betEvents}</p>
+  </div>
+);
 
 const mapStateToProps = ({
   superbetsState
 }) => ({
-    // betEvents: state.betEvents,
-    superbetsState
+  // betEvents: state.betEvents,
+  superbetsState
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -38,7 +38,7 @@ export const recomposedFunction = compose(
   withState('state', 'setState', 'something'),
   lifecycle({
     componentDidMount() {
-      // this.props.getOneBetEvent()
+      // this.props.getOneBetEvent();
       // this.props.setBetEvents({name: 'pains'})
     }})
 );
