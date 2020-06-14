@@ -4,17 +4,19 @@ import { compose, withHandlers } from 'recompose';
 import { bindActionCreators } from 'redux';
 // import {getOneBetEvent, setBetEvents} from '../actions'
 import { updateCurrentTab } from '../../actions';
-import { navStyle } from './Nav.styles';
+import { navStyle, navWrapperStyle } from './Nav.styles';
 
 export const Nav = ({
   handleTabClick
 }) => (
-  <nav style={navStyle}>
-    <p onClick={() => handleTabClick('HOME')}>SUPERBETS</p>
-    <p onClick={() => handleTabClick('MANAGE')}>MANAGE BET EVENT | </p>
-    <p onClick={() => handleTabClick('SUBMIT')}>SUBMIT BET | </p>
-    <p onClick={() => handleTabClick('LEADERBOARD')}>LEADERBOARD | </p>
-  </nav>
+  <div style={navWrapperStyle}>
+    <header style={{textAlign: 'start'}} onClick={() => handleTabClick('HOME')}>SUPERBETS</header>
+    <nav style={navStyle}>
+      <p onClick={() => handleTabClick('MANAGE')}>MANAGE BET EVENT</p>
+      <p onClick={() => handleTabClick('SUBMIT')}>SUBMIT BET</p>
+      <p onClick={() => handleTabClick('LEADERBOARD')}>LEADERBOARD</p>
+    </nav>
+  </div>
 );
 
 const mapStateToProps = ({
