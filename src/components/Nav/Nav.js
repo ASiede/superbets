@@ -1,42 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
-import { bindActionCreators } from 'redux';
-// import {getOneBetEvent, setBetEvents} from '../actions'
-import { updateCurrentTab } from '../../actions';
-import { navStyle, navWrapperStyle } from './Nav.styles';
+import { Link } from 'react-router-dom';
+import {
+  navStyle,
+  navWrapperStyle,
+  linkStyle,
+  headerStyle,
+  headerLinkStyle
+} from './Nav.styles';
 
-export const Nav = ({
-  handleTabClick
-}) => (
+export const Nav = () => (
   <div style={navWrapperStyle}>
-    <header style={{textAlign: 'start'}} onClick={() => handleTabClick('HOME')}>SUPERBETS</header>
+    <header style={headerStyle}>
+      <Link style={headerLinkStyle} to='/'>SUPERBETS</Link>
+    </header>
     <nav style={navStyle}>
-      <p onClick={() => handleTabClick('MANAGE')}>MANAGE BET EVENT</p>
-      <p onClick={() => handleTabClick('SUBMIT')}>SUBMIT BET</p>
-      <p onClick={() => handleTabClick('LEADERBOARD')}>LEADERBOARD</p>
+      <Link style={linkStyle} to='/manage'>MANAGE BET EVENT</Link>
+      <Link style={linkStyle} to='/submit'>SUBMIT BET</Link>
+      <Link style={linkStyle} to='/leaderboard'>LEADERBOARD</Link>
     </nav>
   </div>
 );
 
-const mapStateToProps = ({
-  superbetsState
-}) => ({
-  superbetsState
-});
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  updateCurrentTab
-}, dispatch);
-
-const handleTabClick = ({ updateCurrentTab }) => (tab) => {
-  updateCurrentTab(tab);
-};
-
-export const recomposedFunction = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withHandlers({handleTabClick})
-);
-
-export default recomposedFunction(Nav);
+export default Nav;
 

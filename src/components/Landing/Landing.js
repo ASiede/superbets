@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState, lifecycle } from 'recompose';
-import {getOneBetEvent, setBetEvents} from '../actions'
+// import {getOneBetEvent, setBetEvents} from '../actions';
 import { bindActionCreators } from 'redux';
 
 export const Thing = ({
@@ -28,8 +28,8 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getOneBetEvent,
-  setBetEvents
+  // getOneBetEvent,
+  // setBetEvents
 }, dispatch);
 
 

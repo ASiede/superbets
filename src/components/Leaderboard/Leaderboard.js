@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Leaderbaord = ({
+export const Leaderboard = ({
 
 }) => (
   <div>
@@ -8,4 +8,4 @@ export const Leaderbaord = ({
   </div>
 )
 
-export default Leaderbaord
+export default Leaderboard;
