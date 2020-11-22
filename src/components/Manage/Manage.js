@@ -10,7 +10,7 @@ export const Manage = ({
   submitHandler
 }) => (
   <div style={containerStyle}>
-    <p>THIS IS THE MANAGE AREA</p>
+    <p>CREATE A NEW BET EVENT</p>
     <CreateBetEventForm onSubmit={submitHandler} />
   </div>
 );
