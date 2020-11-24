@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { compose, withHandlers, withState } from 'recompose';
 import BetEventFormAnswer from '../BetEventFormAnswer/BetEventFormAnswer';
-import { questionStyle } from './BetEventFormQuestion.styles';
+import './BetEventFormQuestion.css';
 
 export const BetEventFormQuestion = ({
   numberOfAnswers,
@@ -22,10 +22,10 @@ export const BetEventFormQuestion = ({
   }
   
   return (
-    <div style={questionStyle}>
-      <label htmlFor={`q${questionIndex}`}>Question</label>
+    <div className='questionStyle'>
+      <label className='question-label' htmlFor={`q${questionIndex}`}>#{questionIndex + 1} Question Text: </label>
       <Field name={`q${questionIndex}`} component="input" type="text" />
-      <p>Answers</p>
+      <p>Answers: </p>
       {answersList}
       <button onClick={addAnswer}>Add An Answer</button>
 

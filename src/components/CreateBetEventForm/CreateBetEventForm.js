@@ -7,7 +7,6 @@ import {
   withState
 } from 'recompose';
 import { Field, reduxForm } from 'redux-form';
-import { formStyle } from './CreateBetEventForm.styles';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import {
 //   faPlusCircle,
@@ -15,6 +14,7 @@ import { formStyle } from './CreateBetEventForm.styles';
 // } from '@fortawesome/free-solid-svg-icons';
 
 import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
+import './CreateBetEventForm.css';
 
 
 export let CreateBetEventForm = ({
@@ -33,13 +33,17 @@ export let CreateBetEventForm = ({
   }
   return (
     <form onSubmit={handleSubmit}>{
-      <div style={formStyle}>
-        <label htmlFor="name">Name</label>
-        <Field name="name" component="input" type="text" />
-        <label htmlFor="password">Password</label>
-        <Field name="password" component="input" type="text" />
+      <div>
+        <div className='main-input'>
+          <label className='label' htmlFor="name">Name of Betting Event: </label>
+          <Field className='field' name="name" component="input" type="text" />
+        </div>
+        <div className='main-input'>
+          <label className='label' htmlFor="password">Password (optional): </label>
+          <Field className='field' name="password" component="input" type="password" />
+        </div>
         <div>
-          <p>Questions</p>
+          <p className='main-input'>Questions: </p>
           {/* <FontAwesomeIcon
             icon={faPlusCircle}
             onClick={addQuestion}

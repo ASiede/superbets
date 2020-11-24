@@ -5,11 +5,12 @@ import { bindActionCreators } from 'redux';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
 import { containerStyle } from './Manage.styles';
 import {persistBetEvent } from '../../actions';
+import './Manage.css';
 
 export const Manage = ({
   submitHandler
 }) => (
-  <div style={containerStyle}>
+  <div className="manage" style={containerStyle}>
     <p>CREATE A NEW BET EVENT</p>
     <CreateBetEventForm onSubmit={submitHandler} />
   </div>
