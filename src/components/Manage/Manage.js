@@ -4,7 +4,8 @@ import { compose, withHandlers } from 'recompose';
 import { bindActionCreators } from 'redux';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
 import { containerStyle } from './Manage.styles';
-import {persistBetEvent } from '../../actions';
+import { persistBetEvent } from '../../actions/betEvent.actions.js';
+
 import './Manage.css';
 
 export const Manage = ({

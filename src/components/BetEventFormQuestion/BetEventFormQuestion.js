@@ -27,7 +27,7 @@ export const BetEventFormQuestion = ({
       <Field name={`q${questionIndex}`} component="input" type="text" />
       <p>Answers: </p>
       {answersList}
-      <button onClick={addAnswer}>Add An Answer</button>
+      <button type='button' onClick={addAnswer}>Add An Answer</button>
 
     </div>
   );

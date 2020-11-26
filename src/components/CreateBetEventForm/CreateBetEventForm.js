@@ -50,7 +50,7 @@ export let CreateBetEventForm = ({
           /> */}
         </div>
         {questionsList}
-        <button onClick={addQuestion}>Add A Question</button>
+        <button type='button' onClick={addQuestion}>Add A Question</button>
         <button type="submit">Submit</button>
       </div>
     }</form>

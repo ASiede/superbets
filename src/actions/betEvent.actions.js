@@ -1,4 +1,6 @@
 
+export const baseUrl = 'https://cors-anywhere.herokuapp.com/https://superbets-api.herokuapp.com/betevent/';
+
 export const persistBetEvent = (variables) => async(dispatch) => {
   const questionKeys = Object.keys(variables).reduce((acc, cur) => {
     if (cur.includes('q') && !cur.includes(':')) {
@@ -11,8 +13,6 @@ export const persistBetEvent = (variables) => async(dispatch) => {
   for (let i=0; i < numberOfQuestions; i++) {
     const answers = Object.keys(variables).reduce((acc, cur) => {
       if (cur.includes(`q${i}:a`) && !cur.includes('odds')) {
-        console.log('cur', cur);
-        console.log('the', parseInt(cur.split(':')[1].substring(1)) + 1);
         acc.push({
           answerId: parseInt(cur.split(':')[1].substring(1)) + 1,
           text: variables[cur],
@@ -39,6 +39,7 @@ export const persistBetEvent = (variables) => async(dispatch) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
-  const newResponse = await response.json();
-  console.log('POSTING BET EVENT', newResponse);
+  // const newResponse = await response.json();
+  // console.log('POSTING BET EVENT', newResponse);
+  // TODO: on success and on failter
 };
