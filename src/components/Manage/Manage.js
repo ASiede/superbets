@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers, withState } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
@@ -9,22 +9,35 @@ import { persistBetEvent } from '../../actions/betEvent.actions.js';
 import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import './Manage.css';
+import { loadUser } from '../../actions/user.actions.js';
 
-export const Manage = ({
-  submitHandler,
-  loggedIn
-}) => (
-  <div>
-    <ManageNav />
-    {!loggedIn
-      ? <LogIn />
-      : <div className="manage" style={containerStyle}>
-        <p>CREATE A NEW BET EVENT</p>
-        <CreateBetEventForm onSubmit={submitHandler} />
+class Manage extends React.Component {
+  componentDidMount() {
+    const { loadUser } = this.props;
+    console.log('load', loadUser);
+    loadUser();
+  }
+
+  render() {
+    const {
+      superbetsState,
+      submitHandler
+    } =this.props;
+    return (
+      <div>
+        {console.log('loggedin', superbetsState.loggedIn)}
+        <ManageNav />
+        {!superbetsState.loggedIn
+          ? <LogIn />
+          : <div className="manage" style={containerStyle}>
+            <p>CREATE A NEW BET EVENT</p>
+            <CreateBetEventForm onSubmit={submitHandler} />
+          </div>
+        }
       </div>
-    }
-  </div>
-);
+    );
+  }
+}
 
 Manage.propTypes = {
   submitHandler: PropTypes.func,
@@ -38,7 +51,8 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  persistBetEvent
+  persistBetEvent,
+  loadUser
 }, dispatch);
 
 const submitHandler = ({ persistBetEvent }) => (values) => {
@@ -47,7 +61,6 @@ const submitHandler = ({ persistBetEvent }) => (values) => {
 
 export const recomposedFunction = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withState('loggedIn', 'setLoggedIn', false),
   withHandlers({submitHandler})
 );
 

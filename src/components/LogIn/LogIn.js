@@ -5,28 +5,22 @@ import { bindActionCreators } from 'redux';
 import {
   compose,
   withHandlers,
-  withState
 } from 'recompose';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
-import { registerUser } from '../../actions/user.actions';
+import { registerUser, logInUser } from '../../actions/user.actions';
 import './LogIn.css';
+import { LogInForm } from './LogInForm';
 
 export const LogIn = ({
-  submitHandler
+  submitHandler,
+  submitUserLoginInfo
 }) => (
   <div className='log-in-div'>
     <p className='access'>You must be logged in to access this area</p>
     <div className='box'>
       <div className='log-in-section'>
         <p>Log In</p>
-        <div className='log-in-input'>
-          <label>Username:</label>
-          <input></input>
-        </div>
-        <div className='log-in-input'>
-          <label>Password:</label>
-          <input></input>
-        </div>
+        <LogInForm onSubmit={submitUserLoginInfo} />
       </div>
       <div className='register-section'>
         <p>Register</p>
@@ -38,20 +32,26 @@ export const LogIn = ({
 
 LogIn.propTypes = {
   submitHandler: PropTypes.func,
+  submitUserLoginInfo: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  registerUser
+  registerUser,
+  logInUser
 }, dispatch);
 
-const submitHandler = ({ registerUser }) => (data) => {
-  registerUser(data);
+const handlers = {
+  submitHandler: ({ registerUser }) => (data) => {
+    registerUser(data);
+  },
+  submitUserLoginInfo: ({ logInUser }) => (data) => {
+    logInUser(data);
+  }
 };
 
 export const recomposedFunction = compose(
   connect(null, mapDispatchToProps),
-  withState('numberOfQuestions', 'setNumberOfQuestions', 1),
-  withHandlers({submitHandler})
+  withHandlers(handlers)
 );
 
 export default recomposedFunction(LogIn);
