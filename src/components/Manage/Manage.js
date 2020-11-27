@@ -14,7 +14,6 @@ import { loadUser } from '../../actions/user.actions.js';
 class Manage extends React.Component {
   componentDidMount() {
     const { loadUser } = this.props;
-    console.log('load', loadUser);
     loadUser();
   }
 
@@ -25,7 +24,6 @@ class Manage extends React.Component {
     } =this.props;
     return (
       <div>
-        {console.log('loggedin', superbetsState.loggedIn)}
         <ManageNav />
         {!superbetsState.loggedIn
           ? <LogIn />

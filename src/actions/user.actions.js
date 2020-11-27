@@ -47,7 +47,6 @@ export const authError = error => ({
 export const baseUrl = 'https://cors-anywhere.herokuapp.com/https://superbets-api.herokuapp.com';
 
 const storeAuthInfo = (authToken, username) => (dispatch) => {
-  console.log('authed', !!authToken);
   const decodedToken = jwtDecode(authToken);
   dispatch(setAuthToken(authToken));
   dispatch(authSuccess(decodedToken.user));
@@ -76,8 +75,6 @@ export const logInUser = (userData) => async (dispatch) => {
     body: JSON.stringify(userData)
   });
   const newResponse = await response.json(); // body
-  console.log('response', response);
-  console.log('newResponse', newResponse);
 
   if(!response || !response.status === 200) {
     // TODO: something with the error
@@ -91,7 +88,6 @@ export const logInUser = (userData) => async (dispatch) => {
 export const loadUser = () => (dispatch) => {
   const token = getAuthToken();
   const username = getUsername();
-  console.log('USER', username);
   if (token) {
     dispatch(storeAuthInfo(token));
     dispatch(setLogIn(true));
