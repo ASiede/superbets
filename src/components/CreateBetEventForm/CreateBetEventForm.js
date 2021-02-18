@@ -21,6 +21,7 @@ export let CreateBetEventForm = ({
   handleSubmit,
   numberOfQuestions,
   addQuestion,
+  superbetsState
 }) => {
   const questionsList = [];
   for (let i=0; numberOfQuestions > i; i++) {
@@ -34,23 +35,30 @@ export let CreateBetEventForm = ({
   return (
     <form onSubmit={handleSubmit}>{
       <div>
-        <div className='main-input'>
-          <label className='label' htmlFor="name">Name of Betting Event: </label>
-          <Field className='field' name="name" component="input" type="text" />
-        </div>
-        <div className='main-input'>
-          <label className='label' htmlFor="password">Password (optional): </label>
-          <Field className='field' name="password" component="input" type="password" />
-        </div>
         <div>
-          <p className='main-input'>Questions: </p>
-          {/* <FontAwesomeIcon
-            icon={faPlusCircle}
-            onClick={addQuestion}
-          /> */}
+          <div className='main-input'>
+            <label className='label' htmlFor="name">Name of Betting Event: </label>
+            <Field required className='field' name="name" component="input" type="text" />
+          </div>
+          <div className='main-input'>
+            <label className='label' htmlFor="password">Password (optional): </label>
+            <Field required className='field' name="password" component="input" type="password" />
+          </div>
+          <div className='main-input'>
+            <label className='label' htmlFor="createdBy">CreatedBy: </label>
+            <p>{superbetsState.username}</p>
+            {/* <Field value='hello' required className='field' name="createdBy" component="input" type="text" /> */}
+          </div>
+          <div>
+            <p className='main-input'>Questions: </p>
+            {/* <FontAwesomeIcon
+              icon={faPlusCircle}
+              onClick={addQuestion}
+            /> */}
+          </div>
+          {questionsList}
+          <button className='add-question-button' type='button' onClick={addQuestion}>Add A Question</button>
         </div>
-        {questionsList}
-        <button type='button' onClick={addQuestion}>Add A Question</button>
         <button type="submit">Submit</button>
       </div>
     }</form>
@@ -61,6 +69,12 @@ CreateBetEventForm.propTypes = {
   numberOfQuestions: PropTypes.number,
   addQuestion: PropTypes.func,
 };
+
+const mapStateToProps = ({
+  superbetsState
+}) => ({
+  superbetsState
+});
 
 const handlers = {
   addQuestion: ({ setNumberOfQuestions, numberOfQuestions }) => () => {
@@ -73,7 +87,7 @@ CreateBetEventForm = reduxForm({
 })(CreateBetEventForm);
 
 export const recomposedFunction = compose(
-  connect(null, null),
+  connect(mapStateToProps, null),
   withState('numberOfQuestions', 'setNumberOfQuestions', 1),
   withHandlers(handlers)
 );

@@ -5,15 +5,20 @@ import { bindActionCreators } from 'redux';
 import {
   compose,
   withHandlers,
+  withState
 } from 'recompose';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import { registerUser, logInUser } from '../../actions/user.actions';
 import './LogIn.css';
 import { LogInForm } from './LogInForm';
+import Modal from '../Modal/Modal';
 
 export const LogIn = ({
   submitHandler,
-  submitUserLoginInfo
+  submitUserLoginInfo,
+  modalText,
+  modalType,
+  closeModalHandler
 }) => (
   <div className='log-in-div'>
     <p className='access'>You must be logged in to access this area</p>
@@ -27,12 +32,16 @@ export const LogIn = ({
         <RegisterUserForm onSubmit={submitHandler} />
       </div>
     </div>
+    {modalType && <Modal type={modalType} text={modalText} closeModal={closeModalHandler} />}
   </div>
 );
 
 LogIn.propTypes = {
   submitHandler: PropTypes.func,
-  submitUserLoginInfo: PropTypes.func
+  submitUserLoginInfo: PropTypes.func,
+  modalType: PropTypes.string,
+  modalText: PropTypes.string,
+  closeModalHandler: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -41,16 +50,28 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 const handlers = {
-  submitHandler: ({ registerUser }) => (data) => {
-    registerUser(data);
+  submitHandler: ({ registerUser, setModalType, setModalText }) => async(data) => {
+    const {status, errorMessage } = await registerUser(data);
+    if (status === 201) {
+      setModalType('success');
+      setModalText('Successfully registered new user! You can now log in.');
+    } else {
+      setModalType('error');
+      setModalText(errorMessage);
+    }
   },
   submitUserLoginInfo: ({ logInUser }) => (data) => {
     logInUser(data);
+  },
+  closeModalHandler: ({ setModalType }) => () => {
+    setModalType('');
   }
 };
 
 export const recomposedFunction = compose(
   connect(null, mapDispatchToProps),
+  withState('modalType', 'setModalType', ''),
+  withState('modalText', 'setModalText', ''),
   withHandlers(handlers)
 );
 

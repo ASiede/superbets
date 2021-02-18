@@ -20,6 +20,7 @@ export const superbetsState = (state=initialState, { type, payload }) => {
       loggedIn: payload
     };
   case SET_USERNAME: 
+    console.log('payload', payload);
     return {
       ...state, 
       username: payload

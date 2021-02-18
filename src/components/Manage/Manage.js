@@ -9,12 +9,12 @@ import { persistBetEvent } from '../../actions/betEvent.actions.js';
 import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import './Manage.css';
-import { loadUser } from '../../actions/user.actions.js';
+import { loadUserWithValidJWT } from '../../actions/user.actions.js';
 
 class Manage extends React.Component {
   componentDidMount() {
-    const { loadUser } = this.props;
-    loadUser();
+    const { loadUserWithValidJWT } = this.props;
+    loadUserWithValidJWT();
   }
 
   render() {
@@ -50,7 +50,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   persistBetEvent,
-  loadUser
+  loadUserWithValidJWT
 }, dispatch);
 
 const submitHandler = ({ persistBetEvent }) => (values) => {

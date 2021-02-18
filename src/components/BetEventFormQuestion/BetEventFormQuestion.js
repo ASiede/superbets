@@ -24,11 +24,10 @@ export const BetEventFormQuestion = ({
   return (
     <div className='questionStyle'>
       <label className='question-label' htmlFor={`q${questionIndex}`}>#{questionIndex + 1} Question Text: </label>
-      <Field name={`q${questionIndex}`} component="input" type="text" />
+      <Field required name={`q${questionIndex}`} component="input" type="text" />
       <p>Answers: </p>
       {answersList}
       <button type='button' onClick={addAnswer}>Add An Answer</button>
-
     </div>
   );
 };
