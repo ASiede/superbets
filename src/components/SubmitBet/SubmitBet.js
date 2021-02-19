@@ -13,7 +13,6 @@ export const SubmitBet = ({
   <div>
     <p>THIS IS THE SUBMIT BET AREA</p>
     <p>Look at all the Bet Events below:</p>
-    {console.log('betevets', betEvents)}
     {betEvents.map((be) => {
       return <p key={be.name} >{be.name}</p>;
     })}

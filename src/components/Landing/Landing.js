@@ -13,7 +13,6 @@ export const Thing = ({
   superbetsState
 }) => (
   <div className="Thing">
-    {console.log('constant Prop', superbetsState)}
     <p>HERE IS THE LANDING PAGE</p>
     {/* <p>{test}</p> */}
     <p>{superbetsState.betEvents}</p>

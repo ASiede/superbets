@@ -1,0 +1,18 @@
+.nav-style {
+  border-bottom: 1px solid #61dafb;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.wrapper-style {
+  width: 100%;
+}
+
+.link-style {
+  color: #61dafb;
+  text-decoration: none;
+}
+
