@@ -1,5 +1,4 @@
-
-export const baseUrl = 'https://cors-anywhere.herokuapp.com/https://superbets-api.herokuapp.com/betevent/';
+import { SUPERBETS_API_BASE_URL } from "../config";
 
 export const persistBetEvent = (variables) => async(dispatch) => {
   const questionKeys = Object.keys(variables).reduce((acc, cur) => {
@@ -34,7 +33,7 @@ export const persistBetEvent = (variables) => async(dispatch) => {
     questions: questions
   };
   // return body;
-  const response = await fetch(`${baseUrl}`, {
+  const response = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)

@@ -6,6 +6,7 @@ import {
   clearAuthToken,
   getAuthToken
 } from '../local-storage';
+import { SUPERBETS_API_BASE_URL } from '../config';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
 export const SET_USERNAME = 'SET_USERNAME';
@@ -15,8 +16,6 @@ export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const setLogIn = createAction(SET_LOGGED_IN);
 export const setUsername = createAction(SET_USERNAME);
 export const setAuthToken = createAction(SET_AUTH_TOKEN);
-
-export const baseUrl = 'https://cors-anywhere.herokuapp.com/https://superbets-api.herokuapp.com';
 
 const storeAuthInfo = (authToken) => (dispatch) => {
   const decodedToken = jwtDecode(authToken);
@@ -29,7 +28,7 @@ const storeAuthInfo = (authToken) => (dispatch) => {
 
 export const registerUser = (userData) => async (dispatch) => {
   try {
-    const response = await fetch(`${baseUrl}/users`, {
+    const response = await fetch(`${SUPERBETS_API_BASE_URL}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
@@ -52,7 +51,7 @@ export const registerUser = (userData) => async (dispatch) => {
 };
 
 export const logInUser = (userData) => async (dispatch) => {
-  const response = await fetch(`${baseUrl}/auth/login`, {
+  const response = await fetch(`${SUPERBETS_API_BASE_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
