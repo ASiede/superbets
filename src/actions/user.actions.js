@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { Field, reduxForm, reset } from 'redux-form';
+import { reset } from 'redux-form';
 import jwtDecode from 'jwt-decode';
 import {
   saveAuthToken,

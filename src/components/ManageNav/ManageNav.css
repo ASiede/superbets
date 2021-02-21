@@ -1,5 +1,6 @@
 .nav-style {
-  border-bottom: 1px solid #61dafb;
+  /* border-bottom: 1px solid #61dafb; */
+  background-color: #304562;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -15,4 +16,3 @@
   color: #61dafb;
   text-decoration: none;
 }
-
