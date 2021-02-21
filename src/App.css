@@ -1,13 +1,22 @@
 .App {
   text-align: center;
+}
+
+.black-bg {
   background-color: #17222f;
 }
 
-/* // black background #17222f
-// dark blue #202e40
-// inputs blue #304563
-// something #1f2d40 */
-/* text color blue #64B5F6 */
+.darkblue-bg {
+  background-color: #202e40;
+}
+
+.mediumblue-bg {
+  background-color: #304563;
+}
+
+.blue-text {
+  color: #64b5f6;
+}
 
 .App-header {
   display: flex;

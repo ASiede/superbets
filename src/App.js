@@ -19,7 +19,7 @@ export const history = createBrowserHistory();
 
 export const App = () => (
   <Router history={history}>
-    <div className='App'>
+    <div className='App black-bg'>
       <header className='App-header'>
         <Nav />
       </header>
