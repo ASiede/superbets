@@ -1,57 +1,52 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import {
-  compose,
-  withHandlers,
-  withState
-} from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
+import LogInForm from './LogInForm';
 import { registerUser, logInUser } from '../../actions/user.actions';
 import './LogIn.css';
-import { LogInForm } from './LogInForm';
-import Modal from '../Modal/Modal';
+import { Messages } from 'primereact/messages';
 
-export const LogIn = ({
-  submitHandler,
-  submitUserLoginInfo,
-  modalText,
-  modalType,
-  closeModalHandler
-}) => (
-  <div className='log-in-div'>
-    <p className='access'>You must be logged in to access this area</p>
-    <div className='box'>
-      <div className='log-in-section'>
-        <p>Log In</p>
-        <LogInForm onSubmit={submitUserLoginInfo} />
-      </div>
-      <div className='register-section'>
-        <p>Register</p>
-        <RegisterUserForm onSubmit={submitHandler} />
+export const LogIn = ({ submitHandler }) => {
+  const loginSnackbarMessages = useRef(null);
+  return (
+    <div className='login-container'>
+      <Messages ref={loginSnackbarMessages} />
+      <div className='forms-container'>
+        <div className='login darkblue-bg'>
+          <h4 className='blue-text'>Log In</h4>
+          <LogInForm loginSnackbarMessages={loginSnackbarMessages} />
+        </div>
+        <div className='register darkblue-bg'>
+          <h4 className='blue-text'>Register</h4>
+          {/* <RegisterUserForm onSubmit={submitHandler} ref={loginSnackbarMessages}/> */}
+        </div>
       </div>
     </div>
-    {modalType && <Modal type={modalType} text={modalText} closeModal={closeModalHandler} />}
-  </div>
-);
-
-LogIn.propTypes = {
-  submitHandler: PropTypes.func,
-  submitUserLoginInfo: PropTypes.func,
-  modalType: PropTypes.string,
-  modalText: PropTypes.string,
-  closeModalHandler: PropTypes.func
+  );
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  registerUser,
-  logInUser
-}, dispatch);
+LogIn.propTypes = {
+  submitHandler: PropTypes.func
+};
 
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      registerUser,
+      logInUser
+    },
+    dispatch
+  );
+
+// TODO: replace this in register form component with new snackbars
 const handlers = {
-  submitHandler: ({ registerUser, setModalType, setModalText }) => async(data) => {
-    const {status, errorMessage } = await registerUser(data);
+  submitHandler: ({ registerUser, setModalType, setModalText }) => async (
+    data
+  ) => {
+    const { status, errorMessage } = await registerUser(data);
     if (status === 201) {
       setModalType('success');
       setModalText('Successfully registered new user! You can now log in.');
@@ -59,12 +54,6 @@ const handlers = {
       setModalType('error');
       setModalText(errorMessage);
     }
-  },
-  submitUserLoginInfo: ({ logInUser }) => (data) => {
-    logInUser(data);
-  },
-  closeModalHandler: ({ setModalType }) => () => {
-    setModalType('');
   }
 };
 
@@ -76,4 +65,3 @@ export const recomposedFunction = compose(
 );
 
 export default recomposedFunction(LogIn);
-

@@ -1,4 +1,4 @@
-input,
+/* input,
 input.field,
 input[type="text"],
 input[type="password"] {
@@ -8,17 +8,17 @@ input[type="password"] {
   color: white;
   outline: none;
   padding-left: 5px;
-}
+} */
 
-input {
+/* input {
   border: none;
   background-color: #00334e;
   height: 25px;
   width: 70%;
   border-bottom: 2px solid rgba(255, 255, 255, 0.75);
-}
+} */
 
-input[type="text"],
+/* input[type="text"],
 input[type="password"] {
   background-color: #00334e;
   outline: none;
@@ -26,9 +26,9 @@ input[type="password"] {
   border-radius: 2px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.75);
   color: white;
-}
+} */
 
-.main-input {
+/* .main-input {
   text-align: start;
   padding-bottom: 10px;
 }
@@ -43,4 +43,4 @@ input[type="password"] {
 
 .add-question-button {
   display: flex;
-}
+} */

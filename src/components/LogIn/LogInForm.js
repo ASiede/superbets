@@ -1,62 +1,79 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { compose } from 'recompose';
-// import { Button } from 'primereact/button';
-
+import { compose, withState, withHandlers } from 'recompose';
+import { logInUser } from '../../../src/actions/user.actions';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
-import PrimeReact from 'primereact/api';
-// import './LogIn.css';
-// import 'primereact/resources/themes/saga-blue/theme.css';
-// import 'primereact/resources/primereact.min.css';
-// import 'primeicons/primeicons.css';
-// import 'primeflex/primeflex.css';
+import { Password } from 'primereact/password';
 
-export let LogInForm = ({ handleSubmit }) => (
+export const LogInForm = ({
+  handleLoginSubmit,
+  setUsername,
+  setPassword,
+  password,
+  username
+}) => (
   <div>
-    <form onSubmit={handleSubmit}>
-      <div className='log-in-input'>
-        <label htmlFor='username'>Username:</label>
-        <Field
-          className='field'
-          name='username'
-          component='input'
-          type='text'
-          required
-        />
-      </div>
-      <div className='log-in-input'>
-        <label htmlFor='password'>Password:</label>
-        <Field
-          className='field'
-          name='password'
-          component='input'
-          type='password'
-          required
+    <div className='card login-card'>
+      <div>
+        <h5 className='login-label'>Username</h5>
+        <InputText
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div>
-        <Button label='Submit'>Log</Button>
-        <button type='submit' className='log-in-button'>
-          Log In
-        </button>
+        <h5 className='login-label'>Password</h5>
+        <Password
+          value={password}
+          feedback={false}
+          toggleMask={true}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </div>
-    </form>
+      <div className='login-submit'>
+        <Button
+          label='Submit'
+          onClick={handleLoginSubmit}
+          disabled={!password.length || !username.length}
+        />
+      </div>
+    </div>
   </div>
 );
 
 LogInForm.propTypes = {
-  submitHandler: PropTypes.func,
-  submitUserLoginInfo: PropTypes.func,
+  handleLoginSubmit: PropTypes.func,
+  setUsername: PropTypes.func,
+  setPassword: PropTypes.func,
+  username: PropTypes.string,
+  password: PropTypes.string
 };
 
-LogInForm = reduxForm({
-  form: 'login-user',
-})(LogInForm);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ logInUser }, dispatch);
 
-export const recomposedFunction = compose(connect(null, null));
+const handleLoginSubmit = ({ logInUser, username, password }) => () =>
+  logInUser({ username, password });
+// TODO: handle responses with new snackbar component
+//   onClick={() =>
+//     loginSnackbarMessages.current.show([
+//       {
+//         severity: 'error',
+//         summary: 'Error',
+//         detail: 'But this is a good thing',
+//         sticky: true
+//       }
+//     ])
+// }
+
+export const recomposedFunction = compose(
+  connect(null, mapDispatchToProps),
+  withState('username', 'setUsername', ''),
+  withState('password', 'setPassword', ''),
+  withHandlers({ handleLoginSubmit })
+);
 
 export default recomposedFunction(LogInForm);
