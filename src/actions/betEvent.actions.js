@@ -33,7 +33,7 @@ export const persistBetEvent = (variables) => async(dispatch) => {
     questions: questions
   };
   // return body;
-  const response = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
+  await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)

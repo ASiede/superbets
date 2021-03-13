@@ -1,18 +1,23 @@
-.nav-style {
-  border-bottom: 1px solid #61dafb;
+.manage-nav-container {
+  width: 100%;
+}
+
+.manage-nav {
+  background-color: #304562;
   width: 100%;
   display: flex;
   justify-content: space-around;
   padding-top: 10px;
   padding-bottom: 10px;
+  border-bottom: 1px solid #2b506e;
 }
 
-.wrapper-style {
-  width: 100%;
-}
-
-.link-style {
-  color: #61dafb;
+.manage-link {
+  color: white;
   text-decoration: none;
+  border-bottom: 1px solid transparent;
 }
 
+.manage-link:hover {
+  border-bottom: 1px solid white;
+}
