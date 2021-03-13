@@ -1,80 +1,128 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
+import { registerUser } from '../../../src/actions/user.actions';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { Password } from 'primereact/password';
 
-export let RegisterUserForm = ({
-  handleSubmit
+export const RegisterUserForm = ({
+  submitRegistrationDataHandler,
+  newUserData,
+  setNewUserData
 }) => (
-  <form onSubmit={handleSubmit}>{
-    <div>
-      <div className='main-input'>
-        <label className='label' htmlFor="first-name">First Name: </label>
-        <Field
-          className='field'
-          name="firstName"
-          component="input"
-          type="text" 
-          required
+  <div>
+    <div className='card login-card'>
+      <div>
+        <h5 className='login-label'>First Name</h5>
+        <InputText
+          className='p-inputtext-sm'
+          value={newUserData.firstName}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, firstName: e.target.value })
+          }
         />
       </div>
-      <div className='main-input'>
-        <label className='label' htmlFor="last-name">Last Name: </label>
-        <Field
-          className='field'
-          name="lastName"
-          component="input"
-          type="text"
-          required
+      <div>
+        <h5 className='login-label'>Last Name</h5>
+        <InputText
+          className='p-inputtext-sm'
+          value={newUserData.lastName}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, lastName: e.target.value })
+          }
         />
       </div>
-      <div className='main-input'>
-        <label className='label' htmlFor="email">Email: </label>
-        <Field
-          className='field'
-          name="email"
-          component="input"
-          type="email" 
-          required
+      <div>
+        <h5 className='login-label'>Email</h5>
+        <InputText
+          className='p-inputtext-sm'
+          value={newUserData.email}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, email: e.target.value })
+          }
         />
       </div>
-      <div className='main-input'>
-        <label className='label' htmlFor="username">Username: </label>
-        <Field
-          className='field'
-          name="username"
-          component="input"
-          type="text"
-          required
+      <div>
+        <h5 className='login-label'>Username</h5>
+        <InputText
+          className='p-inputtext-sm'
+          value={newUserData.username}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, username: e.target.value })
+          }
         />
       </div>
-      <div className='main-input'>
-        <label className='label' htmlFor="password">Password: </label>
-        <Field
-          className='field'
-          name="password"
-          component="input"
-          type="password"
-          required
+      <div>
+        <h5 className='login-label'>Password</h5>
+        <Password
+          className='p-inputtext-sm'
+          value={newUserData.password}
+          feedback={true}
+          toggleMask={true}
+          onChange={(e) =>
+            setNewUserData({ ...newUserData, password: e.target.value })
+          }
         />
       </div>
-      <button type="submit">Submit</button>
+      <div className='login-submit'>
+        <Button
+          label='Register User'
+          onClick={submitRegistrationDataHandler}
+          disabled={Object.values(newUserData).some((v) => v === '')}
+        />
+      </div>
     </div>
-  }</form>
+  </div>
 );
 
 RegisterUserForm.propTypes = {
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  newUserData: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    username: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string
+  }),
+  setNewUserData: PropTypes.func,
+  submitRegistrationDataHandler: PropTypes.func
 };
 
-RegisterUserForm = reduxForm({
-  form: 'register-user'
-})(RegisterUserForm);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ registerUser }, dispatch);
+
+export const submitRegistrationDataHandler = ({
+  registerUser,
+  newUserData
+}) => () => {
+  console.log('waaatupp');
+  registerUser(newUserData);
+  // TODO: handle responses with new snackbar component
+  //   onClick={() =>
+  //     loginSnackbarMessages.current.show([
+  //       {
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: 'But this is a good thing',
+  //         sticky: true
+  //       }
+  //     ])
+  // }
+};
 
 export const recomposedFunction = compose(
-  connect(null, null),
+  connect(null, mapDispatchToProps),
+  withState('newUserData', 'setNewUserData', {
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: ''
+  }),
+  withHandlers({ submitRegistrationDataHandler })
 );
 
 export default recomposedFunction(RegisterUserForm);
-

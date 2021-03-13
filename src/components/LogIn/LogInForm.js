@@ -9,7 +9,7 @@ import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 
 export const LogInForm = ({
-  handleLoginSubmit,
+  submitLoginHandler,
   setUsername,
   setPassword,
   password,
@@ -20,6 +20,7 @@ export const LogInForm = ({
       <div>
         <h5 className='login-label'>Username</h5>
         <InputText
+          className='p-inputtext-sm'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -27,6 +28,7 @@ export const LogInForm = ({
       <div>
         <h5 className='login-label'>Password</h5>
         <Password
+          className='p-inputtext-sm'
           value={password}
           feedback={false}
           toggleMask={true}
@@ -35,8 +37,8 @@ export const LogInForm = ({
       </div>
       <div className='login-submit'>
         <Button
-          label='Submit'
-          onClick={handleLoginSubmit}
+          label='Log In'
+          onClick={submitLoginHandler}
           disabled={!password.length || !username.length}
         />
       </div>
@@ -45,7 +47,7 @@ export const LogInForm = ({
 );
 
 LogInForm.propTypes = {
-  handleLoginSubmit: PropTypes.func,
+  submitLoginHandler: PropTypes.func,
   setUsername: PropTypes.func,
   setPassword: PropTypes.func,
   username: PropTypes.string,
@@ -55,7 +57,7 @@ LogInForm.propTypes = {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ logInUser }, dispatch);
 
-const handleLoginSubmit = ({ logInUser, username, password }) => () =>
+const submitLoginHandler = ({ logInUser, username, password }) => () =>
   logInUser({ username, password });
 // TODO: handle responses with new snackbar component
 //   onClick={() =>
@@ -73,7 +75,7 @@ export const recomposedFunction = compose(
   connect(null, mapDispatchToProps),
   withState('username', 'setUsername', ''),
   withState('password', 'setPassword', ''),
-  withHandlers({ handleLoginSubmit })
+  withHandlers({ submitLoginHandler })
 );
 
 export default recomposedFunction(LogInForm);

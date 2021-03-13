@@ -9,7 +9,7 @@ import { registerUser, logInUser } from '../../actions/user.actions';
 import './LogIn.css';
 import { Messages } from 'primereact/messages';
 
-export const LogIn = ({ submitHandler }) => {
+export const LogIn = () => {
   const loginSnackbarMessages = useRef(null);
   return (
     <div className='login-container'>
@@ -20,8 +20,8 @@ export const LogIn = ({ submitHandler }) => {
           <LogInForm loginSnackbarMessages={loginSnackbarMessages} />
         </div>
         <div className='register darkblue-bg'>
-          <h4 className='blue-text'>Register</h4>
-          {/* <RegisterUserForm onSubmit={submitHandler} ref={loginSnackbarMessages}/> */}
+          <h4 className='blue-text'>Register as New User</h4>
+          <RegisterUserForm loginSnackbarMessages={loginSnackbarMessages} />
         </div>
       </div>
     </div>
