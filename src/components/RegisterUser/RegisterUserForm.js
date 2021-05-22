@@ -7,6 +7,15 @@ import { registerUser } from '../../../src/actions/user.actions';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
+import { snackbar } from '../../utils/snackbar/Snackbar';
+
+const defaultUserData = {
+  firstName: '',
+  lastName: '',
+  username: '',
+  email: '',
+  password: ''
+};
 
 export const RegisterUserForm = ({
   submitRegistrationDataHandler,
@@ -96,32 +105,25 @@ const mapDispatchToProps = (dispatch) =>
 
 export const submitRegistrationDataHandler = ({
   registerUser,
-  newUserData
-}) => () => {
-  console.log('waaatupp');
-  registerUser(newUserData);
-  // TODO: handle responses with new snackbar component
-  //   onClick={() =>
-  //     loginSnackbarMessages.current.show([
-  //       {
-  //         severity: 'error',
-  //         summary: 'Error',
-  //         detail: 'But this is a good thing',
-  //         sticky: true
-  //       }
-  //     ])
-  // }
+  newUserData,
+  loginSnackbarMessages,
+  setNewUserData
+}) => async () => {
+  const { status, errorMessage } = await registerUser(newUserData);
+  if (status === 201) {
+    loginSnackbarMessages.current.show(
+      snackbar('success', 'Registration Successful!')
+    );
+    // TODO: passwork doesn't clear?
+    setNewUserData(defaultUserData);
+  } else {
+    loginSnackbarMessages.current.show(snackbar('error', errorMessage));
+  }
 };
 
 export const recomposedFunction = compose(
   connect(null, mapDispatchToProps),
-  withState('newUserData', 'setNewUserData', {
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    password: ''
-  }),
+  withState('newUserData', 'setNewUserData', defaultUserData),
   withHandlers({ submitRegistrationDataHandler })
 );
 

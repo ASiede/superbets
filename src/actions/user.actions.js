@@ -1,17 +1,15 @@
 import { createAction } from 'redux-actions';
-import { reset } from 'redux-form';
 import jwtDecode from 'jwt-decode';
 import {
   saveAuthToken,
   clearAuthToken,
   getAuthToken
-} from '../local-storage';
+} from '../utils/snackbar/localStorage/localStorage';
 import { SUPERBETS_API_BASE_URL } from '../config';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
 export const SET_USERNAME = 'SET_USERNAME';
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
-
 
 export const setLogIn = createAction(SET_LOGGED_IN);
 export const setUsername = createAction(SET_USERNAME);
@@ -26,28 +24,30 @@ const storeAuthInfo = (authToken) => (dispatch) => {
   }
 };
 
-export const registerUser = (userData) => async (dispatch) => {
+export const registerUser = (userData) => async () => {
   try {
     const response = await fetch(`${SUPERBETS_API_BASE_URL}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
     });
-    console.log('response', response);
+    const responseJson = await response.json();
     if (!response || response.status !== 201) {
-      const json = await response.json();
-      console.log('json', json);
       return {
-        status: response.status,
-        errorMessage: `Error with ${json.location}: ${json.message}`
+        status: responseJson.code,
+        errorMessage: responseJson.message
       };
     } else {
-      dispatch(reset('register-user'));
       return {
         status: response.status
       };
     }
-  } catch (e) { }
+  } catch (err) {
+    return {
+      status: 500,
+      errorMessage: err
+    };
+  }
 };
 
 export const logInUser = (userData) => async (dispatch) => {
@@ -56,18 +56,23 @@ export const logInUser = (userData) => async (dispatch) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
   });
-  console.log('response', response);
-  const responseJSON = await response.json();
-  console.log('JSON', responseJSON);
-  if (!response || !response.status === 200) {
+  if (!response || response.status !== 200) {
     return {
       status: response.status,
-      errorMessage: responseJSON.message
+      errorMessage: 'There was an issue with your username or password'
     };
   } else {
-    dispatch(storeAuthInfo(responseJSON.authToken, responseJSON.username));
-    dispatch(setLogIn(true));
-    dispatch(setUsername(responseJSON.username));
+    const responseJson = await response.json();
+    try {
+      dispatch(storeAuthInfo(responseJson.authToken, responseJson.username));
+      dispatch(setLogIn(true));
+      dispatch(setUsername(responseJson.username));
+    } catch (err) {
+      return {
+        status: 500,
+        errorMessage: 'There was an issue logging in'
+      };
+    }
     return {
       status: response.status
     };
@@ -79,7 +84,7 @@ export const loadUserWithValidJWT = () => (dispatch) => {
   if (token) {
     const decoded = jwtDecode(token);
     const currentTimeInSec = parseInt(Date.now().toString().slice(0, -3));
-    const valid = decoded.exp && (currentTimeInSec < decoded.exp);
+    const valid = decoded.exp && currentTimeInSec < decoded.exp;
     if (valid) {
       dispatch(storeAuthInfo(token));
     } else {
