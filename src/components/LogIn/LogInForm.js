@@ -7,6 +7,7 @@ import { logInUser } from '../../../src/actions/user.actions';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
+import { snackbar } from '../../utils/snackbar/Snackbar';
 
 export const LogInForm = ({
   submitLoginHandler,
@@ -57,19 +58,17 @@ LogInForm.propTypes = {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ logInUser }, dispatch);
 
-const submitLoginHandler = ({ logInUser, username, password }) => () =>
-  logInUser({ username, password });
-// TODO: handle responses with new snackbar component
-//   onClick={() =>
-//     loginSnackbarMessages.current.show([
-//       {
-//         severity: 'error',
-//         summary: 'Error',
-//         detail: 'But this is a good thing',
-//         sticky: true
-//       }
-//     ])
-// }
+const submitLoginHandler = ({
+  logInUser,
+  username,
+  password,
+  loginSnackbarMessages
+}) => async () => {
+  const { status, errorMessage } = await logInUser({ username, password });
+  if (status !== 200) {
+    loginSnackbarMessages.current.show(snackbar('error', errorMessage));
+  }
+};
 
 export const recomposedFunction = compose(
   connect(null, mapDispatchToProps),

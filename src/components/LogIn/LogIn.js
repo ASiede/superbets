@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { compose, withHandlers, withState } from 'recompose';
+import { compose, withState } from 'recompose';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogInForm from './LogInForm';
 import { registerUser, logInUser } from '../../actions/user.actions';
@@ -41,27 +41,10 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-// TODO: replace this in register form component with new snackbars
-const handlers = {
-  submitHandler: ({ registerUser, setModalType, setModalText }) => async (
-    data
-  ) => {
-    const { status, errorMessage } = await registerUser(data);
-    if (status === 201) {
-      setModalType('success');
-      setModalText('Successfully registered new user! You can now log in.');
-    } else {
-      setModalType('error');
-      setModalText(errorMessage);
-    }
-  }
-};
-
 export const recomposedFunction = compose(
   connect(null, mapDispatchToProps),
   withState('modalType', 'setModalType', ''),
-  withState('modalText', 'setModalText', ''),
-  withHandlers(handlers)
+  withState('modalText', 'setModalText', '')
 );
 
 export default recomposedFunction(LogIn);
