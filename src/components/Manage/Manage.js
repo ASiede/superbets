@@ -18,20 +18,18 @@ class Manage extends React.Component {
   }
 
   render() {
-    const {
-      superbetsState,
-      submitHandler
-    } =this.props;
+    const { loggedIn, submitHandler } = this.props;
     return (
       <div>
         <ManageNav />
-        {!superbetsState.loggedIn
-          ? <LogIn />
-          : <div className="manage" style={containerStyle}>
+        {!loggedIn ? (
+          <LogIn />
+        ) : (
+          <div className='manage' style={containerStyle}>
             <p>CREATE A NEW BET EVENT</p>
             <CreateBetEventForm onSubmit={submitHandler} />
           </div>
-        }
+        )}
       </div>
     );
   }
@@ -39,19 +37,21 @@ class Manage extends React.Component {
 
 Manage.propTypes = {
   submitHandler: PropTypes.func,
-  loggedIn: PropTypes.bool,
+  loggedIn: PropTypes.bool
 };
 
-const mapStateToProps = ({
-  superbetsState
-}) => ({
-  superbetsState
+const mapStateToProps = ({ loggedIn }) => ({
+  loggedIn
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  persistBetEvent,
-  loadUserWithValidJWT
-}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      persistBetEvent,
+      loadUserWithValidJWT
+    },
+    dispatch
+  );
 
 const submitHandler = ({ persistBetEvent }) => (values) => {
   persistBetEvent(values);
@@ -59,7 +59,7 @@ const submitHandler = ({ persistBetEvent }) => (values) => {
 
 export const recomposedFunction = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withHandlers({submitHandler})
+  withHandlers({ submitHandler })
 );
 
 export default recomposedFunction(Manage);

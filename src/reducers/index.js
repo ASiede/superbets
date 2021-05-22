@@ -1,37 +1,40 @@
-
 import * as actions from '../actions/index';
-import { SET_AUTH_TOKEN, SET_LOGGED_IN, SET_USERNAME } from '../actions/user.actions';
+import {
+  SET_AUTH_TOKEN,
+  SET_LOGGED_IN,
+  SET_USERNAME
+} from '../actions/user.actions';
 
 const initialState = {
   loggedIn: false,
-  betEvents: [],
+  betEvents: []
 };
 
-export const superbetsState = (state=initialState, { type, payload }) => {
+export const superbetsState = (state = initialState, { type, payload }) => {
   switch (type) {
-  case actions.SET_BET_EVENTS:
-    return {
-      ...state, 
-      betEvents: payload
-    };
-  case SET_LOGGED_IN: 
-    return {
-      ...state, 
-      loggedIn: payload
-    };
-  case SET_USERNAME: 
-    console.log('payload', payload);
-    return {
-      ...state, 
-      username: payload
-    }; 
-  case SET_AUTH_TOKEN: 
-    return {
-      ...state, 
-      authToken: payload
-    };   
-  default:
-    return state;
+    // TODO: fix imports from one index
+    case actions.SET_BET_EVENTS:
+      return {
+        ...state,
+        betEvents: payload
+      };
+    case SET_LOGGED_IN:
+      return {
+        ...state,
+        loggedIn: payload
+      };
+    case SET_USERNAME:
+      return {
+        ...state,
+        username: payload
+      };
+    case SET_AUTH_TOKEN:
+      return {
+        ...state,
+        authToken: payload
+      };
+    default:
+      return state;
   }
 };
 
