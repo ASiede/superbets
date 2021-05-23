@@ -1,11 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  compose,
-  withHandlers,
-  withState
-} from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
 import { Field, reduxForm } from 'redux-form';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import {
@@ -16,64 +12,82 @@ import { Field, reduxForm } from 'redux-form';
 import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
 import './CreateBetEventForm.css';
 
-
 export let CreateBetEventForm = ({
   handleSubmit,
   numberOfQuestions,
   addQuestion,
-  superbetsState
+  username
 }) => {
   const questionsList = [];
-  for (let i=0; numberOfQuestions > i; i++) {
-    questionsList.push(
-      <BetEventFormQuestion
-        key={i}
-        questionIndex={i}
-      />
-    );
+  for (let i = 0; numberOfQuestions > i; i++) {
+    questionsList.push(<BetEventFormQuestion key={i} questionIndex={i} />);
   }
   return (
-    <form onSubmit={handleSubmit}>{
-      <div>
+    <form onSubmit={handleSubmit}>
+      {
         <div>
-          <div className='main-input'>
-            <label className='label' htmlFor="name">Name of Betting Event: </label>
-            <Field required className='field' name="name" component="input" type="text" />
-          </div>
-          <div className='main-input'>
-            <label className='label' htmlFor="password">Password (optional): </label>
-            <Field required className='field' name="password" component="input" type="password" />
-          </div>
-          <div className='main-input'>
-            <label className='label' htmlFor="createdBy">CreatedBy: </label>
-            <p>{superbetsState.username}</p>
-            {/* <Field value='hello' required className='field' name="createdBy" component="input" type="text" /> */}
-          </div>
           <div>
-            <p className='main-input'>Questions: </p>
-            {/* <FontAwesomeIcon
+            <div className='main-input'>
+              <label className='label' htmlFor='name'>
+                Name of Betting Event:{' '}
+              </label>
+              <Field
+                required
+                className='field'
+                name='name'
+                component='input'
+                type='text'
+              />
+            </div>
+            <div className='main-input'>
+              <label className='label' htmlFor='password'>
+                Password (optional):{' '}
+              </label>
+              <Field
+                required
+                className='field'
+                name='password'
+                component='input'
+                type='password'
+              />
+            </div>
+            <div className='main-input'>
+              <label className='label' htmlFor='createdBy'>
+                CreatedBy:{' '}
+              </label>
+              <p>{username}</p>
+              {/* <Field value='hello' required className='field' name="createdBy" component="input" type="text" /> */}
+            </div>
+            <div>
+              <p className='main-input'>Questions: </p>
+              {/* <FontAwesomeIcon
               icon={faPlusCircle}
               onClick={addQuestion}
             /> */}
+            </div>
+            {questionsList}
+            <button
+              className='add-question-button'
+              type='button'
+              onClick={addQuestion}
+            >
+              Add A Question
+            </button>
           </div>
-          {questionsList}
-          <button className='add-question-button' type='button' onClick={addQuestion}>Add A Question</button>
+          <button type='submit'>Submit</button>
         </div>
-        <button type="submit">Submit</button>
-      </div>
-    }</form>
+      }
+    </form>
   );
 };
 
 CreateBetEventForm.propTypes = {
   numberOfQuestions: PropTypes.number,
-  addQuestion: PropTypes.func,
+  addQuestion: PropTypes.func
 };
 
-const mapStateToProps = ({
-  superbetsState
-}) => ({
-  superbetsState
+const mapStateToProps = ({ username }) => ({
+  username
 });
 
 const handlers = {

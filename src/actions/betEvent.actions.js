@@ -1,6 +1,6 @@
-import { SUPERBETS_API_BASE_URL } from "../config";
+import { SUPERBETS_API_BASE_URL } from '../config';
 
-export const persistBetEvent = (variables) => async(dispatch) => {
+export const persistBetEvent = (variables) => async (dispatch) => {
   const questionKeys = Object.keys(variables).reduce((acc, cur) => {
     if (cur.includes('q') && !cur.includes(':')) {
       acc.push(cur);
@@ -9,7 +9,7 @@ export const persistBetEvent = (variables) => async(dispatch) => {
   }, []);
   const numberOfQuestions = questionKeys.length;
   const questions = [];
-  for (let i=0; i < numberOfQuestions; i++) {
+  for (let i = 0; i < numberOfQuestions; i++) {
     const answers = Object.keys(variables).reduce((acc, cur) => {
       if (cur.includes(`q${i}:a`) && !cur.includes('odds')) {
         acc.push({

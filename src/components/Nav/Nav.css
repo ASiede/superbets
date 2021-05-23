@@ -5,6 +5,36 @@
 .nav-header {
   text-align: start;
   padding: 10px 10px 0px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logged-in-div,
+.sign-out {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.logged-in,
+.not-logged-in {
+  margin: 0px;
+  font-size: medium;
+  text-decoration: none;
+  color: white;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
+.sign-out:hover {
+  cursor: pointer;
+}
+
+.not-logged-in:hover {
+  margin: 0px;
+  font-size: medium;
+  text-decoration: none;
+  color: white;
 }
 
 .nav-header-link {
