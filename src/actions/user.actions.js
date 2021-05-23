@@ -79,6 +79,12 @@ export const logInUser = (userData) => async (dispatch) => {
   }
 };
 
+export const logOutUser = () => (dispatch) => {
+  clearAuthToken();
+  dispatch(setLogIn(false));
+  dispatch(setUsername(null));
+};
+
 export const loadUserWithValidJWT = () => (dispatch) => {
   const token = getAuthToken();
   if (token) {
