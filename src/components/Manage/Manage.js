@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
-import { containerStyle } from './Manage.styles';
 import { persistBetEvent } from '../../actions/betEvent.actions.js';
 import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
@@ -17,7 +16,7 @@ export const Manage = () => {
       {!loggedIn ? (
         <LogIn />
       ) : (
-        <div className='manage' style={containerStyle}>
+        <div className='manage'>
           <p>CREATE A NEW BET EVENT</p>
           <CreateBetEventForm
             onSubmit={(values) => dispatch(persistBetEvent(values))}

@@ -4,7 +4,7 @@ import {
   saveAuthToken,
   clearAuthToken,
   getAuthToken
-} from '../utils/snackbar/localStorage/localStorage';
+} from '../utils/snackbar/user/user';
 import { SUPERBETS_API_BASE_URL } from '../config';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
@@ -21,32 +21,6 @@ const storeAuthInfo = (authToken) => (dispatch) => {
     dispatch(setUsername(decodedToken.user.username));
     saveAuthToken(authToken);
     dispatch(setLogIn(true));
-  }
-};
-
-export const registerUser = (userData) => async () => {
-  try {
-    const response = await fetch(`${SUPERBETS_API_BASE_URL}/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
-    });
-    const responseJson = await response.json();
-    if (!response || response.status !== 201) {
-      return {
-        status: responseJson.code,
-        errorMessage: responseJson.message
-      };
-    } else {
-      return {
-        status: response.status
-      };
-    }
-  } catch (err) {
-    return {
-      status: 500,
-      errorMessage: err
-    };
   }
 };
 
