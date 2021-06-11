@@ -5,9 +5,10 @@ import { bindActionCreators } from 'redux';
 import { compose, withState } from 'recompose';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogInForm from './LogInForm';
-import { registerUser, logInUser } from '../../actions/user.actions';
-import './LogIn.css';
+import { logInUser } from '../../actions/user.actions';
 import { Messages } from 'primereact/messages';
+import { registerUser } from '../../utils/user/user';
+import './LogIn.css';
 
 export const LogIn = () => {
   const loginSnackbarMessages = useRef(null);
