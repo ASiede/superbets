@@ -7,7 +7,7 @@ import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogInForm from './LogInForm';
 import { logInUser } from '../../actions/user.actions';
 import { Messages } from 'primereact/messages';
-import { registerUser } from '../../utils/snackbar/user/user';
+import { registerUser } from '../../utils/user/user';
 import './LogIn.css';
 
 export const LogIn = () => {

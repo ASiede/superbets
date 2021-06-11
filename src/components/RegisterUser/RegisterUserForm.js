@@ -4,7 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { snackbar } from '../../utils/snackbar/Snackbar';
-import { registerUser } from '../../utils/snackbar/user/user';
+import { registerUser } from '../../utils/user/user';
 
 const defaultUserData = {
   firstName: '',
@@ -46,6 +46,7 @@ export const RegisterUserForm = ({ loginSnackbarMessages }) => {
           <InputText
             className='p-inputtext-sm'
             value={newUserData.email}
+            onBlur={() => validateEmail(newUserData.email, setValidEmail)}
             onChange={(e) =>
               setNewUserData({ ...newUserData, email: e.target.value })
             }
@@ -85,10 +86,10 @@ export const RegisterUserForm = ({ loginSnackbarMessages }) => {
               submitRegistration(
                 newUserData,
                 loginSnackbarMessages,
-                setNewUserData
+                setNewUserData,
               )
             }
-            disabled={Object.values(newUserData).some((v) => v === '')}
+            disabled={Object.values(newUserData).some((v) => v === '') || !validEmail}
           />
         </div>
       </div>
@@ -110,19 +111,24 @@ RegisterUserForm.propTypes = {
   loginSnackbarMessages: PropTypes.object
 };
 
+const validateEmail = (email, setValidEmail) => {
+  // eslint-disable-next-line
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const isValid = re.test(email);
+  setValidEmail(isValid)
+}
+
 const submitRegistration = async (
   newUserData,
   loginSnackbarMessages,
-  setNewUserData
+  setNewUserData,
 ) => {
-  const { email } = newUserData;
-  // TODO: check for valid email
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {
     loginSnackbarMessages.current.show(
       snackbar('success', 'Registration Successful!')
     );
-    // TODO: passwork doesn't clear?
+    // TODO: password doesn't clear
     setNewUserData(defaultUserData);
   } else {
     loginSnackbarMessages.current.show(snackbar('error', errorMessage));

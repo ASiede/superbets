@@ -4,7 +4,7 @@ import {
   saveAuthToken,
   clearAuthToken,
   getAuthToken
-} from '../utils/snackbar/user/user';
+} from '../utils/user/user';
 import { SUPERBETS_API_BASE_URL } from '../config';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';

@@ -20,13 +20,22 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "rules": {
     "react/prop-types": "warn",
     "no-unused-vars": "warn",
     "no-empty": "warn",
-    "quotes": ["warn", "single"],
-    "comma-dangle": ["warn", "never"],
+    "quotes": [
+      "warn",
+      "single"
+    ],
+    "comma-dangle": [
+      "warn",
+      "never"
+    ],
     "no-console": "warn"
   }
 }
