@@ -17,7 +17,6 @@ const defaultUserData = {
 export const RegisterUserForm = ({ loginSnackbarMessages }) => {
   const [newUserData, setNewUserData] = useState(defaultUserData);
   const [validEmail, setValidEmail] = useState(true);
-
   return (
     <div>
       <div className='card login-card'>
@@ -86,10 +85,12 @@ export const RegisterUserForm = ({ loginSnackbarMessages }) => {
               submitRegistration(
                 newUserData,
                 loginSnackbarMessages,
-                setNewUserData,
+                setNewUserData
               )
             }
-            disabled={Object.values(newUserData).some((v) => v === '') || !validEmail}
+            disabled={
+              Object.values(newUserData).some((v) => v === '') || !validEmail
+            }
           />
         </div>
       </div>
@@ -111,17 +112,17 @@ RegisterUserForm.propTypes = {
   loginSnackbarMessages: PropTypes.object
 };
 
-const validateEmail = (email, setValidEmail) => {
+export const validateEmail = (email, setValidEmail) => {
   // eslint-disable-next-line
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isValid = re.test(email);
-  setValidEmail(isValid)
-}
+  setValidEmail(isValid);
+};
 
-const submitRegistration = async (
+export const submitRegistration = async (
   newUserData,
   loginSnackbarMessages,
-  setNewUserData,
+  setNewUserData
 ) => {
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {

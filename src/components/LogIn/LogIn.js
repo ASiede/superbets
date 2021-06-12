@@ -1,13 +1,7 @@
 import React, { useRef } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { compose, withState } from 'recompose';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogInForm from './LogInForm';
-import { logInUser } from '../../actions/user.actions';
 import { Messages } from 'primereact/messages';
-import { registerUser } from '../../utils/user/user';
 import './LogIn.css';
 
 export const LogIn = () => {
@@ -29,23 +23,4 @@ export const LogIn = () => {
   );
 };
 
-LogIn.propTypes = {
-  submitHandler: PropTypes.func
-};
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      registerUser,
-      logInUser
-    },
-    dispatch
-  );
-
-export const recomposedFunction = compose(
-  connect(null, mapDispatchToProps),
-  withState('modalType', 'setModalType', ''),
-  withState('modalText', 'setModalText', '')
-);
-
-export default recomposedFunction(LogIn);
+export default LogIn;
