@@ -15,7 +15,7 @@ export const setLogIn = createAction(SET_LOGGED_IN);
 export const setUsername = createAction(SET_USERNAME);
 export const setAuthToken = createAction(SET_AUTH_TOKEN);
 
-const storeAuthInfo = (authToken) => (dispatch) => {
+export const storeAuthInfo = (authToken) => (dispatch) => {
   const decodedToken = jwtDecode(authToken);
   if (decodedToken.user && decodedToken.user.username) {
     dispatch(setUsername(decodedToken.user.username));
@@ -38,9 +38,7 @@ export const logInUser = (userData) => async (dispatch) => {
   } else {
     const responseJson = await response.json();
     try {
-      dispatch(storeAuthInfo(responseJson.authToken, responseJson.username));
-      dispatch(setLogIn(true));
-      dispatch(setUsername(responseJson.username));
+      dispatch(storeAuthInfo(responseJson.authToken));
     } catch (err) {
       return {
         status: 500,

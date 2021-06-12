@@ -1,4 +1,24 @@
 import { SUPERBETS_API_BASE_URL } from '../config';
+import { createAction } from 'redux-actions';
+
+export const SET_BET_EVENTS = 'SET_BET_EVENTS';
+export const setBetEvents = createAction(SET_BET_EVENTS);
+
+// TODO: clean up
+export const getOneBetEvent = () => async (dispatch) => {
+  const response = await fetch(
+    `${SUPERBETS_API_BASE_URL}/5e35eeeaf8dc2833c39c128b`
+  );
+  const newResponse = await response.json();
+  dispatch(setBetEvents(newResponse));
+};
+
+// TODO: put where it belongs
+export const getAllBetEvents = () => async (dispatch) => {
+  const response = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`);
+  const newResponse = await response.json();
+  dispatch(setBetEvents(newResponse.betEvents));
+};
 
 export const persistBetEvent = (variables) => async (dispatch) => {
   const questionKeys = Object.keys(variables).reduce((acc, cur) => {

@@ -43,7 +43,10 @@
       "src/**/*.{js,jsx,ts,tsx}"
     ],
     "coveragePathIgnorePatterns": [
-      "src/store.js"
+      "src/store.js",
+      "src/index.js",
+      "src/actions/index.js",
+      "src/components/constants.js"
     ],
     "coverageReporters": [
       "html",
