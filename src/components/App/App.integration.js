@@ -12,3 +12,4 @@ describe('App', () => {
     expect(header.length).toEqual(1);
     expect(nav.length).toEqual(1);
   });
+});
