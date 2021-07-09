@@ -4,13 +4,13 @@ import { Messages } from 'primereact/messages';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import LogInForm from './LogInForm';
+import LogInForm from '../LoginForm/LogInForm';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogIn from './LogIn';
 
 const mockStore = configureMockStore([thunk]);
 
-describe('LogIn', () => {
+describe('src/components/Login', () => {
   it('renders Messages, LogInForm, and RegistrationForm', () => {
     const store = mockStore({});
     const wrapper = mount(

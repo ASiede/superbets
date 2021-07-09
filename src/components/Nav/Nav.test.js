@@ -6,6 +6,17 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Nav from './Nav';
+import { logOutUser } from '../../actions/user.actions';
+
+jest.mock('../../actions/user.actions');
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => {
+  const original = jest.requireActual('react-redux');
+  return {
+    ...original,
+    useDispatch: () => mockDispatch
+  };
+});
 
 const mockStore = configureMockStore([thunk]);
 
@@ -60,5 +71,19 @@ describe('Nav', () => {
     );
     const logInLink = wrapper.find('i').at(1);
     expect(logInLink.props().className).toBe('pi pi-sign-out');
+  });
+  it('dispatches logoutUser on sign-out i click', () => {
+    const store = mockStore({
+      loggedIn: true
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <Nav />
+        </Router>
+      </Provider>
+    );
+    wrapper.find('i').at(1).simulate('click');
+    expect(logOutUser).toHaveBeenCalled();
   });
 });

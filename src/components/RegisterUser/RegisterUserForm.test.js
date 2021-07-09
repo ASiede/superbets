@@ -6,12 +6,13 @@ import configureMockStore from 'redux-mock-store';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { snackbar } from '../../utils/snackbar/Snackbar';
+import { createSnackbar } from '../../utils/snackbar/Snackbar';
 import { registerUser } from '../../utils/user/user';
 import RegisterUserForm, {
   submitRegistration,
   validateEmail
 } from './RegisterUserForm';
+import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../constants';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -32,6 +33,62 @@ describe('RegisterUserForm', () => {
     expect(passwordInput.length).toEqual(1);
     expect(button.length).toEqual(1);
   });
+  it('enables button with form complete and valid', () => {
+    const store = mockStore({ validEmail: true });
+    const wrapper = mount(
+      <Provider store={store}>
+        <RegisterUserForm />
+      </Provider>
+    );
+    wrapper
+      .find(InputText)
+      .at(0)
+      .simulate('change', { target: { value: 'Doctor' } });
+    wrapper
+      .find(InputText)
+      .at(1)
+      .simulate('change', { target: { value: 'Strange' } });
+    wrapper
+      .find(InputText)
+      .at(2)
+      .simulate('change', { target: { value: 'ds@gmail.com' } })
+      .simulate('blur');
+    wrapper
+      .find(InputText)
+      .at(3)
+      .simulate('change', { target: { value: 'drstrange' } });
+    wrapper
+      .find(InputText)
+      .at(4)
+      .simulate('change', { target: { value: 'password' } });
+    const button = wrapper.find(Button).at(0);
+    expect(button.props().disabled).toBe(false);
+  });
+  it('show warning message with invalid email', () => {
+    const store = mockStore({ validEmail: false });
+    const wrapper = mount(
+      <Provider store={store}>
+        <RegisterUserForm />
+      </Provider>
+    );
+    wrapper
+      .find(InputText)
+      .at(0)
+      .simulate('change', { target: { value: 'Doctor' } });
+    wrapper
+      .find(InputText)
+      .at(1)
+      .simulate('change', { target: { value: 'Strange' } });
+    wrapper
+      .find(InputText)
+      .at(2)
+      .simulate('change', { target: { value: 'ds@gmail' } })
+      .simulate('blur');
+    const small = wrapper.find('small');
+    expect(small.length).toBe(1);
+    expect(small.props().children).toBe('Must be a valid email');
+  });
+
   describe('validateEmail', () => {
     it('calls setValidEmail with true with a valid email', () => {
       const email = 'name@domain.com';
@@ -50,27 +107,26 @@ describe('RegisterUserForm', () => {
     it('shows a success snackbar and resets data on user registration', async () => {
       const mockShow = jest.fn();
       const newUserData = {};
-      const loginSnackbarMessages = {
+      const loginSnackbars = {
         current: {
           show: mockShow
         }
       };
       const setNewUserData = jest.fn();
       registerUser.mockResolvedValueOnce({ status: 201 });
-      await submitRegistration(
-        newUserData,
-        loginSnackbarMessages,
-        setNewUserData
-      );
+      await submitRegistration(newUserData, loginSnackbars, setNewUserData);
       expect(mockShow).toHaveBeenCalledWith(
-        snackbar('success', 'Registration Successful!')
+        createSnackbar(
+          SNACKBAR_TYPES.SUCCESS,
+          SNACKBAR_MESSAGES.REGISTRATION_SUCCESS
+        )
       );
       expect(setNewUserData).toHaveBeenCalled();
     });
     it('shows an error snackbar on user registration error', async () => {
       const mockShow = jest.fn();
       const newUserData = {};
-      const loginSnackbarMessages = {
+      const loginSnackbars = {
         current: {
           show: mockShow
         }
@@ -81,13 +137,9 @@ describe('RegisterUserForm', () => {
         status: 400,
         errorMessage: mockErrorMessage
       });
-      await submitRegistration(
-        newUserData,
-        loginSnackbarMessages,
-        setNewUserData
-      );
+      await submitRegistration(newUserData, loginSnackbars, setNewUserData);
       expect(mockShow).toHaveBeenCalledWith(
-        snackbar('error', mockErrorMessage)
+        createSnackbar(SNACKBAR_TYPES.ERROR, mockErrorMessage)
       );
       expect(setNewUserData).not.toHaveBeenCalled();
     });

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { snackbar } from '../../utils/snackbar/Snackbar';
+import { createSnackbar } from '../../utils/snackbar/Snackbar';
 import { registerUser } from '../../utils/user/user';
+import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../constants';
 
 const defaultUserData = {
   firstName: '',
@@ -14,7 +15,7 @@ const defaultUserData = {
   password: ''
 };
 
-export const RegisterUserForm = ({ loginSnackbarMessages }) => {
+export const RegisterUserForm = ({ loginSnackbars }) => {
   const [newUserData, setNewUserData] = useState(defaultUserData);
   const [validEmail, setValidEmail] = useState(true);
   return (
@@ -82,11 +83,7 @@ export const RegisterUserForm = ({ loginSnackbarMessages }) => {
           <Button
             label='Register User'
             onClick={() =>
-              submitRegistration(
-                newUserData,
-                loginSnackbarMessages,
-                setNewUserData
-              )
+              submitRegistration(newUserData, loginSnackbars, setNewUserData)
             }
             disabled={
               Object.values(newUserData).some((v) => v === '') || !validEmail
@@ -99,40 +96,36 @@ export const RegisterUserForm = ({ loginSnackbarMessages }) => {
 };
 
 RegisterUserForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  newUserData: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    username: PropTypes.string,
-    email: PropTypes.string,
-    password: PropTypes.string
-  }),
-  setNewUserData: PropTypes.func,
-  submitRegistrationDataHandler: PropTypes.func,
-  loginSnackbarMessages: PropTypes.object
+  loginSnackbars: PropTypes.object
 };
 
 export const validateEmail = (email, setValidEmail) => {
-  // eslint-disable-next-line
-  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    // eslint-disable-next-line
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isValid = re.test(email);
   setValidEmail(isValid);
 };
 
 export const submitRegistration = async (
   newUserData,
-  loginSnackbarMessages,
+  loginSnackbars,
   setNewUserData
 ) => {
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {
-    loginSnackbarMessages.current.show(
-      snackbar('success', 'Registration Successful!')
+    loginSnackbars.current.show(
+      createSnackbar(
+        SNACKBAR_TYPES.SUCCESS,
+        SNACKBAR_MESSAGES.REGISTRATION_SUCCESS
+      )
     );
     // TODO: password doesn't clear
     setNewUserData(defaultUserData);
   } else {
-    loginSnackbarMessages.current.show(snackbar('error', errorMessage));
+    loginSnackbars.current.show(
+      createSnackbar(SNACKBAR_TYPES.ERROR, errorMessage)
+    );
   }
 };
 

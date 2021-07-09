@@ -12,6 +12,8 @@ import {
   clearAuthToken,
   getAuthToken
 } from '../utils/user/user';
+import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../components/constants';
+import { createSnackbar } from '../utils/snackbar/Snackbar';
 
 global.fetch = jest.fn();
 jest.mock('jwt-decode');
@@ -36,8 +38,15 @@ describe('src/actions/user.actions', () => {
     });
   });
   describe('logInUser', () => {
+    const username = 'pete';
+    const password = 'password';
+    const mockShow = jest.fn();
+    const loginSnackbars = {
+      current: {
+        show: mockShow
+      }
+    };
     it('dispatches storeAuthInfo when there is a successful login', async () => {
-      const mockUserData = {};
       const dispatch = jest.fn();
       fetch.mockResolvedValueOnce({
         status: 200,
@@ -45,50 +54,64 @@ describe('src/actions/user.actions', () => {
           authToken: '1a'
         })
       });
-      const actual = await logInUser(mockUserData)(dispatch);
+      await logInUser(username, password, loginSnackbars)(dispatch);
       expect(dispatch).toHaveBeenCalledTimes(1);
-      expect(actual).toEqual({ status: 200 });
     });
     it('returns an error object when there is not a successful login', async () => {
-      const mockUserData = {};
       const mockStatus = 400;
       const dispatch = jest.fn();
       fetch.mockResolvedValueOnce({
         status: mockStatus
       });
-      const actual = await logInUser(mockUserData)(dispatch);
-      expect(actual).toEqual({
-        status: mockStatus,
-        errorMessage: 'There was an issue with your username or password'
-      });
+      await logInUser(username, password, loginSnackbars)(dispatch);
+      expect(mockShow).toHaveBeenCalled();
+      expect(mockShow).toHaveBeenCalledWith(
+        createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
+      );
     });
-    describe('logOutUser', () => {
-      it('calls clearAuthToken and dispatches setLogIn and setLogIn and setUsername', () => {
-        const dispatch = jest.fn();
-        logOutUser()(dispatch);
-        expect(dispatch).toHaveBeenCalledTimes(2);
-        expect(clearAuthToken).toHaveBeenCalled();
-        expect(dispatch).toHaveBeenCalledWith(setLogIn(false));
-        expect(dispatch).toHaveBeenCalledWith(setUsername(null));
+    it('returns an error object when there is an error storing auth info', async () => {
+      const dispatch = jest.fn();
+      fetch.mockResolvedValueOnce({
+        status: 200,
+        json: jest.fn().mockResolvedValueOnce({
+          authToken: '1a'
+        })
       });
+      dispatch.mockImplementationOnce(() => {
+        throw new Error();
+      });
+      await logInUser(username, password, loginSnackbars)(dispatch);
+      expect(mockShow).toHaveBeenCalledWith(
+        createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
+      );
     });
-    describe('loadUserWithValidJWT', () => {
-      it('dispatches storeAuthInfo when token is valid', () => {
-        const dispatch = jest.fn();
-        const mockToken = '1a';
-        getAuthToken.mockReturnValueOnce(mockToken);
-        jwtDecode.mockReturnValueOnce({ exp: Date.now() });
-        loadUserWithValidJWT()(dispatch);
-        expect(dispatch).toHaveBeenCalledTimes(1);
-      });
-      it('dispatches clearAuthToken when token is invalid', () => {
-        const dispatch = jest.fn();
-        const mockToken = '1a';
-        getAuthToken.mockReturnValueOnce(mockToken);
-        jwtDecode.mockReturnValueOnce({ exp: 1 });
-        loadUserWithValidJWT()(dispatch);
-        expect(dispatch).toHaveBeenCalledTimes(1);
-      });
+  });
+  describe('logOutUser', () => {
+    it('calls clearAuthToken and dispatches setLogIn and setLogIn and setUsername', () => {
+      const dispatch = jest.fn();
+      logOutUser()(dispatch);
+      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(clearAuthToken).toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith(setLogIn(false));
+      expect(dispatch).toHaveBeenCalledWith(setUsername(null));
+    });
+  });
+  describe('loadUserWithValidJWT', () => {
+    it('dispatches storeAuthInfo when token is valid', () => {
+      const dispatch = jest.fn();
+      const mockToken = '1a';
+      getAuthToken.mockReturnValueOnce(mockToken);
+      jwtDecode.mockReturnValueOnce({ exp: Date.now() });
+      loadUserWithValidJWT()(dispatch);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+    });
+    it('dispatches clearAuthToken when token is invalid', () => {
+      const dispatch = jest.fn();
+      const mockToken = '1a';
+      getAuthToken.mockReturnValueOnce(mockToken);
+      jwtDecode.mockReturnValueOnce({ exp: 1 });
+      loadUserWithValidJWT()(dispatch);
+      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });
