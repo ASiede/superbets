@@ -1,5 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import superbetsState from './reducers';
+import rootReducer from './reducers/index';
 
-export default createStore(superbetsState, applyMiddleware(thunk));
+export default createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk),
+    window.devToolsExtension ? window.devToolsExtension() : (f) => f // enables reduxDevToolsExtension
+  )
+);

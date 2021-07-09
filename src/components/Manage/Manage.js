@@ -8,7 +8,7 @@ import LogIn from '../LogIn/LogIn';
 import './Manage.css';
 
 export const Manage = () => {
-  const loggedIn = useSelector((state) => state.loggedIn);
+  const loggedIn = useSelector((state) => state.user.loggedIn);
   const dispatch = useDispatch();
   return (
     <div>

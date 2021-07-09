@@ -5,8 +5,8 @@ import { loadUserWithValidJWT, logOutUser } from '../../actions/user.actions';
 import './Nav.css';
 
 export const Nav = () => {
-  const loggedIn = useSelector((state) => state.loggedIn);
-  const username = useSelector((state) => state.username);
+  const loggedIn = useSelector((state) => state.user.loggedIn);
+  const username = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUserWithValidJWT());
