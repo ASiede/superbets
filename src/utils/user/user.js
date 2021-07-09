@@ -1,7 +1,6 @@
 import { SUPERBETS_API_BASE_URL } from '../../config';
 
 export const registerUser = async (userData) => {
-  // validateNewUserData(userData)
   try {
     const response = await fetch(`${SUPERBETS_API_BASE_URL}/users`, {
       method: 'POST',
@@ -34,11 +33,11 @@ export const getAuthToken = () => {
 export const saveAuthToken = (authToken) => {
   try {
     localStorage.setItem('authToken', authToken);
-  } catch (e) { }
+  } catch (e) {}
 };
 
 export const clearAuthToken = () => {
   try {
     localStorage.removeItem('authToken');
-  } catch (e) { }
+  } catch (e) {}
 };

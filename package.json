@@ -13,7 +13,6 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "history": "^4.0.0",
     "jwt-decode": "^3.1.2",
-    "prettier": "^2.2.1",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primereact": "^6.0.2",
@@ -28,6 +27,7 @@
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-form": "^8.3.0",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "typescript": "^4.1.5"
   },
@@ -36,7 +36,30 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "jest --coverage"
+    "coverage": "npm test -- --coverage --watchAll=false"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "src/store.js",
+      "src/index.js",
+      "src/actions/index.js",
+      "src/components/constants.js"
+    ],
+    "coverageReporters": [
+      "html",
+      "text"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 10,
+        "functions": 10,
+        "lines": 10,
+        "statements": 10
+      }
+    }
   },
   "browserslist": {
     "production": [
@@ -53,6 +76,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
-    "eslint-plugin-react": "^7.22.0"
+    "eslint-plugin-react": "^7.22.0",
+    "prettier": "^2.3.1"
   }
 }
