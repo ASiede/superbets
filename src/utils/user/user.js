@@ -26,9 +26,7 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const getAuthToken = () => {
-  return localStorage.getItem('authToken');
-};
+export const getAuthToken = () => localStorage.getItem('authToken');
 
 export const saveAuthToken = (authToken) => {
   try {

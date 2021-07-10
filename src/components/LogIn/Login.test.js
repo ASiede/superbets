@@ -7,12 +7,13 @@ import configureMockStore from 'redux-mock-store';
 import LogInForm from '../LoginForm/LogInForm';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogIn from './LogIn';
+import mockedStore from '../../__mocks__/mockedStore';
 
 const mockStore = configureMockStore([thunk]);
 
 describe('src/components/Login', () => {
   it('renders Messages, LogInForm, and RegistrationForm', () => {
-    const store = mockStore({});
+    const store = mockStore(mockedStore);
     const wrapper = mount(
       <Provider store={store}>
         <LogIn />

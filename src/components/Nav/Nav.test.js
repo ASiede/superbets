@@ -23,7 +23,7 @@ const mockStore = configureMockStore([thunk]);
 describe('Nav', () => {
   it('renders main links', () => {
     const store = mockStore({
-      loggedIn: true
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -46,7 +46,7 @@ describe('Nav', () => {
 
   it('renders log in Link when not logged in', () => {
     const store = mockStore({
-      loggedIn: false
+      user: { loggedIn: false }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -60,7 +60,7 @@ describe('Nav', () => {
   });
   it('renders log out icon when logged in', () => {
     const store = mockStore({
-      loggedIn: true
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -74,7 +74,7 @@ describe('Nav', () => {
   });
   it('dispatches logoutUser on sign-out i click', () => {
     const store = mockStore({
-      loggedIn: true
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>

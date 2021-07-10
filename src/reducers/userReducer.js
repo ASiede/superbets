@@ -1,7 +1,7 @@
 import {
-  // SET_AUTH_TOKEN,
   SET_LOGGED_IN,
-  SET_USERNAME
+  SET_USERNAME,
+  SET_LOG_IN_IN_PROGRESS
 } from '../actions';
 
 export const initialState = {
@@ -16,17 +16,16 @@ export const user = (state = initialState, action) => {
         ...state,
         loggedIn: payload
       };
+    case SET_LOG_IN_IN_PROGRESS:
+      return {
+        ...state,
+        logInInProgress: payload
+      };
     case SET_USERNAME:
       return {
         ...state,
         username: payload
       };
-    // TODO: need this?
-    // case SET_AUTH_TOKEN:
-    //   return {
-    //     ...state,
-    //     authToken: payload
-    //   };
     default:
       return state;
   }

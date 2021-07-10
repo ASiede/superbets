@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { createSnackbar } from '../../utils/snackbar/Snackbar';
 import { registerUser } from '../../utils/user/user';
 import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../constants';
@@ -18,6 +19,7 @@ const defaultUserData = {
 export const RegisterUserForm = ({ loginSnackbars }) => {
   const [newUserData, setNewUserData] = useState(defaultUserData);
   const [validEmail, setValidEmail] = useState(true);
+  const [inProgress, setInProgress] = useState(false);
   return (
     <div>
       <div className='card login-card'>
@@ -80,15 +82,24 @@ export const RegisterUserForm = ({ loginSnackbars }) => {
           />
         </div>
         <div className='login-submit'>
-          <Button
-            label='Register User'
-            onClick={() =>
-              submitRegistration(newUserData, loginSnackbars, setNewUserData)
-            }
-            disabled={
-              Object.values(newUserData).some((v) => v === '') || !validEmail
-            }
-          />
+          {inProgress ? (
+            <ProgressSpinner />
+          ) : (
+            <Button
+              label='Register User'
+              onClick={() =>
+                submitRegistration(
+                  newUserData,
+                  loginSnackbars,
+                  setNewUserData,
+                  setInProgress
+                )
+              }
+              disabled={
+                Object.values(newUserData).some((v) => v === '') || !validEmail
+              }
+            />
+          )}
         </div>
       </div>
     </div>
@@ -110,8 +121,10 @@ export const validateEmail = (email, setValidEmail) => {
 export const submitRegistration = async (
   newUserData,
   loginSnackbars,
-  setNewUserData
+  setNewUserData,
+  setInProgress
 ) => {
+  setInProgress(true);
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {
     loginSnackbars.current.show(
@@ -127,6 +140,7 @@ export const submitRegistration = async (
       createSnackbar(SNACKBAR_TYPES.ERROR, errorMessage)
     );
   }
+  setInProgress(false);
 };
 
 export default RegisterUserForm;
