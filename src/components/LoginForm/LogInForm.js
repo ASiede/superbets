@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { logInUser } from '../../actions/user.actions';
 
 export const LogInForm = ({ loginSnackbars }) => {
+  const inProgress = useSelector((state) => state.user.logInInProgress);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -33,13 +35,17 @@ export const LogInForm = ({ loginSnackbars }) => {
           />
         </div>
         <div className='login-submit'>
-          <Button
-            label='Log In'
-            onClick={() =>
-              dispatch(logInUser(username, password, loginSnackbars))
-            }
-            disabled={!(password.length && username.length)}
-          />
+          {inProgress ? (
+            <ProgressSpinner />
+          ) : (
+            <Button
+              label='Log In'
+              onClick={() =>
+                dispatch(logInUser(username, password, loginSnackbars))
+              }
+              disabled={!(password.length && username.length)}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -11,11 +11,11 @@ import { SUPERBETS_API_BASE_URL } from '../config';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
 export const SET_USERNAME = 'SET_USERNAME';
-export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
+export const SET_LOG_IN_IN_PROGRESS = 'SET_LOG_IN_IN_PROGRESS';
 
 export const setLogIn = createAction(SET_LOGGED_IN);
 export const setUsername = createAction(SET_USERNAME);
-export const setAuthToken = createAction(SET_AUTH_TOKEN);
+export const setLogInInProgress = createAction(SET_LOG_IN_IN_PROGRESS);
 
 export const storeAuthInfo = (authToken) => (dispatch) => {
   const decodedToken = jwtDecode(authToken);
@@ -28,6 +28,7 @@ export const storeAuthInfo = (authToken) => (dispatch) => {
 
 export const logInUser =
   (username, password, loginSnackbars) => async (dispatch) => {
+    dispatch(setLogInInProgress(true));
     const response = await fetch(`${SUPERBETS_API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -37,6 +38,7 @@ export const logInUser =
       loginSnackbars.current.show(
         createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
       );
+      dispatch(setLogInInProgress(false));
     } else {
       const responseJson = await response.json();
       try {
@@ -45,6 +47,8 @@ export const logInUser =
         loginSnackbars.current.show(
           createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
         );
+      } finally {
+        dispatch(setLogInInProgress(false));
       }
     }
   };

@@ -1,4 +1,9 @@
-import { registerUser } from './user';
+import {
+  registerUser,
+  getAuthToken,
+  saveAuthToken,
+  clearAuthToken
+} from './user';
 
 global.fetch = jest.fn();
 
@@ -46,6 +51,26 @@ describe('src/utils/user/user', () => {
     });
   });
   describe('getAuthToken', () => {
-    it('', () => {});
+    it('calls getItem on localStorage', () => {
+      const spy = jest.spyOn(window.localStorage.__proto__, 'getItem');
+      spy.mockImplementation(() => 'mockAuthToken');
+      const actual = getAuthToken();
+      expect(spy).toHaveBeenCalledWith('authToken');
+      expect(actual).toEqual('mockAuthToken');
+    });
+  });
+  describe('saveAuthToken', () => {
+    it('calls setItem on localStorage', () => {
+      const spy = jest.spyOn(window.localStorage.__proto__, 'setItem');
+      saveAuthToken('mockAuthToken');
+      expect(spy).toHaveBeenCalledWith('authToken', 'mockAuthToken');
+    });
+  });
+  describe('clearAuthToken', () => {
+    it('calls getItem on localStorage', () => {
+      const spy = jest.spyOn(window.localStorage.__proto__, 'removeItem');
+      clearAuthToken();
+      expect(spy).toHaveBeenCalledWith('authToken');
+    });
   });
 });

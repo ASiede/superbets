@@ -19,7 +19,21 @@ const mockStore = configureMockStore([thunk]);
 jest.mock('../../utils/user/user');
 
 describe('RegisterUserForm', () => {
-  it('renders elements of the RegistrationForm', () => {
+  it('renders elements of the RegistrationForm when inProgress false', () => {
+    const store = mockStore({ validEmail: false });
+    const wrapper = mount(
+      <Provider store={store}>
+        <RegisterUserForm />
+      </Provider>
+    );
+    const inputs = wrapper.find(InputText);
+    const passwordInput = wrapper.find(Password);
+    const button = wrapper.find(Button);
+    expect(inputs.length).toEqual(5);
+    expect(passwordInput.length).toEqual(1);
+    expect(button.length).toEqual(1);
+  });
+  it('renders elements of the RegistrationForm and spinner when inProgress true', () => {
     const store = mockStore({ validEmail: false });
     const wrapper = mount(
       <Provider store={store}>
@@ -113,8 +127,14 @@ describe('RegisterUserForm', () => {
         }
       };
       const setNewUserData = jest.fn();
+      const setInProgress = jest.fn();
       registerUser.mockResolvedValueOnce({ status: 201 });
-      await submitRegistration(newUserData, loginSnackbars, setNewUserData);
+      await submitRegistration(
+        newUserData,
+        loginSnackbars,
+        setNewUserData,
+        setInProgress
+      );
       expect(mockShow).toHaveBeenCalledWith(
         createSnackbar(
           SNACKBAR_TYPES.SUCCESS,
@@ -122,8 +142,11 @@ describe('RegisterUserForm', () => {
         )
       );
       expect(setNewUserData).toHaveBeenCalled();
+      expect(setInProgress).toHaveBeenCalledWith(true);
+      expect(setInProgress).toHaveBeenCalledWith(false);
     });
     it('shows an error snackbar on user registration error', async () => {
+      const setInProgress = jest.fn();
       const mockShow = jest.fn();
       const newUserData = {};
       const loginSnackbars = {
@@ -137,11 +160,18 @@ describe('RegisterUserForm', () => {
         status: 400,
         errorMessage: mockErrorMessage
       });
-      await submitRegistration(newUserData, loginSnackbars, setNewUserData);
+      await submitRegistration(
+        newUserData,
+        loginSnackbars,
+        setNewUserData,
+        setInProgress
+      );
       expect(mockShow).toHaveBeenCalledWith(
         createSnackbar(SNACKBAR_TYPES.ERROR, mockErrorMessage)
       );
       expect(setNewUserData).not.toHaveBeenCalled();
+      expect(setInProgress).toHaveBeenCalledWith(true);
+      expect(setInProgress).toHaveBeenCalledWith(false);
     });
   });
 });

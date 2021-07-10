@@ -55,7 +55,11 @@ describe('src/actions/user.actions', () => {
         })
       });
       await logInUser(username, password, loginSnackbars)(dispatch);
-      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledTimes(3);
+      expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
+      expect(dispatch.mock.calls[0][0].payload).toEqual(true);
+      expect(dispatch.mock.calls[2][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
+      expect(dispatch.mock.calls[2][0].payload).toEqual(false);
     });
     it('returns an error object when there is not a successful login', async () => {
       const mockStatus = 400;
@@ -68,6 +72,10 @@ describe('src/actions/user.actions', () => {
       expect(mockShow).toHaveBeenCalledWith(
         createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
       );
+      expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
+      expect(dispatch.mock.calls[0][0].payload).toEqual(true);
+      expect(dispatch.mock.calls[1][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
+      expect(dispatch.mock.calls[1][0].payload).toEqual(false);
     });
     it('returns an error object when there is an error storing auth info', async () => {
       const dispatch = jest.fn();
@@ -77,6 +85,7 @@ describe('src/actions/user.actions', () => {
           authToken: '1a'
         })
       });
+      dispatch.mockImplementationOnce();
       dispatch.mockImplementationOnce(() => {
         throw new Error();
       });
@@ -84,6 +93,10 @@ describe('src/actions/user.actions', () => {
       expect(mockShow).toHaveBeenCalledWith(
         createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
       );
+      expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
+      expect(dispatch.mock.calls[0][0].payload).toEqual(true);
+      expect(dispatch.mock.calls[2][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
+      expect(dispatch.mock.calls[2][0].payload).toEqual(false);
     });
   });
   describe('logOutUser', () => {
