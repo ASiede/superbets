@@ -1,20 +1,70 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
-import { shallow } from 'enzyme';
-import { Field } from 'redux-form';
+import { mount } from 'enzyme';
+import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import BetEventFormAnswer from './BetEventFormAnswer';
+import { addAnswer, updateAnswer } from '../../actions';
+
+const mockStore = configureMockStore([thunk]);
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => {
+  const original = jest.requireActual('react-redux');
+  return {
+    ...original,
+    useDispatch: () => mockDispatch
+  };
+});
 
 describe('BetEventFormAnswer', () => {
-  it('renders 2 Fields', () => {
-    // TODO: write tests
-
-    // const betEventFormAnswer = shallow(<BetEventFormAnswer />);
-    // const router = app.find(Router);
-    // const nav = app.find(Nav);
-    // const route = app.find(Route);
-    // expect(router.length).toEqual(1);
-    // expect(nav.length).toEqual(1);
-    // expect(route.length).toEqual(4);
-    expect(1).toBe(1);
+  const questionId = 1;
+  const answerId = 1;
+  const store = mockStore({});
+  const wrapper = mount(
+    <Provider store={store}>
+      <BetEventFormAnswer answerId={answerId} questionId={questionId} />
+    </Provider>
+  );
+  it('renders 1 Button and 2 InputTexts when it is the first answer', () => {
+    const button = wrapper.find(Button);
+    const inputText = wrapper.find(InputText);
+    expect(button.length).toEqual(1);
+    expect(inputText.length).toEqual(2);
+  });
+  it('dispatches addAnswer on button click', () => {
+    wrapper.find(Button).at(0).simulate('click');
+    expect(mockDispatch).toHaveBeenCalledWith(addAnswer(questionId));
+  });
+  it('dispatches updateAnswer on answer input change', () => {
+    const mockValue = 'Who wins?';
+    wrapper
+      .find(InputText)
+      .at(0)
+      .simulate('change', { target: { value: mockValue } });
+    expect(mockDispatch).toHaveBeenCalledWith(
+      updateAnswer({
+        questionId,
+        answerId,
+        key: 'text',
+        value: mockValue
+      })
+    );
+  });
+  it('dispatches updateAnswer on odds input change', () => {
+    const mockValue = 0.5;
+    wrapper
+      .find(InputText)
+      .at(1)
+      .simulate('change', { target: { value: mockValue } });
+    expect(mockDispatch).toHaveBeenCalledWith(
+      updateAnswer({
+        questionId,
+        answerId,
+        key: 'odds',
+        value: mockValue
+      })
+    );
   });
 });

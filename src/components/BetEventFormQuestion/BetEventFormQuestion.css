@@ -1,9 +1,19 @@
 .questionStyle {
-  border: white 2px solid;
-  padding: 5px;
-  text-align: left;
+  padding: 10px;
 }
 
-.question-label {
-  font-weight: normal;
+.question {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+}
+
+.extra-wide-input {
+  width: 75%;
+}
+
+.plus {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
 }

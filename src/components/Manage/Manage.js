@@ -1,15 +1,12 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
-import { persistBetEvent } from '../../actions/betEvent.actions.js';
 import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import './Manage.css';
 
 export const Manage = () => {
   const loggedIn = useSelector((state) => state.user.loggedIn);
-  const dispatch = useDispatch();
   return (
     <div>
       <ManageNav />
@@ -17,18 +14,12 @@ export const Manage = () => {
         <LogIn />
       ) : (
         <div className='manage'>
-          <p>CREATE A NEW BET EVENT</p>
-          <CreateBetEventForm
-            onSubmit={(values) => dispatch(persistBetEvent(values))}
-          />
+          <h2 className='blue-text'>Create New Bet Event</h2>
+          <CreateBetEventForm />
         </div>
       )}
     </div>
   );
-};
-
-Manage.propTypes = {
-  loggedIn: PropTypes.bool
 };
 
 export default Manage;

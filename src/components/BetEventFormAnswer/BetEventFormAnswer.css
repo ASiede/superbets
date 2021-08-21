@@ -1,7 +1,29 @@
-.answer-label {
-  font-weight: normal;
+.answer-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.odds-div {
-  padding-bottom: 30px;
+.answer-inputs {
+  display: flex;
+  flex-direction: row;
+}
+
+.answer {
+  display: flex;
+  margin-bottom: 15px;
+  width: 75%;
+}
+
+.odds {
+  display: flex;
+  margin-bottom: 15px;
+  width: 25%;
+}
+
+.wide-input {
+  width: 75%;
+}
+
+.small-input {
+  width: 30%;
 }
