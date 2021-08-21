@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       // getOneBetEvent,
-      // setBetEvents
     },
     dispatch
   );
@@ -35,7 +34,6 @@ export const recomposedFunction = compose(
   lifecycle({
     componentDidMount() {
       // this.props.getOneBetEvent();
-      // this.props.setBetEvents({name: 'pains'})
     }
   })
 );

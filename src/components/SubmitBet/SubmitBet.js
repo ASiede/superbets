@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { compose, lifecycle } from 'recompose';
-import { getAllBetEvents, setBetEvents } from '../../actions';
 
 export const SubmitBet = ({ betEvents }) => (
   <div>
@@ -18,14 +17,7 @@ const mapStateToProps = ({ betEvents }) => ({
   betEvents
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      getAllBetEvents,
-      setBetEvents
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export const recomposedFunction = compose(
   connect(mapStateToProps, mapDispatchToProps),

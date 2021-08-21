@@ -1,54 +1,69 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
-import { connect } from 'react-redux';
-import { compose, withHandlers, withState } from 'recompose';
+import { useSelector, useDispatch } from 'react-redux';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 import BetEventFormAnswer from '../BetEventFormAnswer/BetEventFormAnswer';
+import { addQuestion, updateQuestionText } from '../../actions';
 import './BetEventFormQuestion.css';
 
-export const BetEventFormQuestion = ({
-  numberOfAnswers,
-  addAnswer,
-  questionIndex,
-}) => {
-  const answersList = [];
-  for (let i=0; numberOfAnswers > i; i++) {
-    answersList.push(
-      <BetEventFormAnswer
-        key={i}
-        questionIndex={questionIndex}
-        answerIndex={i}
-      />);
-  }
-  
+export const BetEventFormQuestion = ({ questionId }) => {
+  const answers = useSelector(
+    (state) =>
+      state.betEvents.newBetEvent.questions.find(
+        (question) => question.questionId === questionId
+      ).answers
+  );
+  const questionLength = useSelector(
+    (state) => state.betEvents.newBetEvent.questions.length
+  );
+  const dispatch = useDispatch();
+
+  const answersList =
+    answers &&
+    answers.reduce((answersList, answer) => {
+      answersList.push(
+        <BetEventFormAnswer
+          key={answer.answerId}
+          questionId={questionId}
+          answerId={answer.answerId}
+        />
+      );
+      return answersList;
+    }, []);
+
   return (
     <div className='questionStyle'>
-      <label className='question-label' htmlFor={`q${questionIndex}`}>#{questionIndex + 1} Question Text: </label>
-      <Field required name={`q${questionIndex}`} component="input" type="text" />
-      <p>Answers: </p>
+      {questionId === questionLength && (
+        <div className='plus'>
+          <Button
+            icon='pi pi-plus'
+            className='p-button-rounded p-button-success'
+            tooltip='Add Question'
+            tooltipOptions={{ position: 'right' }}
+            style={{ width: '1.5em', height: '1.5em' }}
+            onClick={() => dispatch(addQuestion())}
+          />
+        </div>
+      )}
+      <div className='question'>
+        <h4 className='login-label'>Question {questionId}: </h4>
+        <InputText
+          className='p-inputtext-sm extra-wide-input'
+          onChange={(event) =>
+            dispatch(
+              updateQuestionText({ questionId, text: event.target.value })
+            )
+          }
+        />
+      </div>
       {answersList}
-      <button type='button' onClick={addAnswer}>Add An Answer</button>
     </div>
   );
 };
 
 BetEventFormQuestion.propTypes = {
-  numberOfAnswers: PropTypes.number,
-  addAnswer: PropTypes.func,
+  questionId: PropTypes.number
 };
 
-const handlers = {
-  addAnswer: ({ setNumberOfAnswers, numberOfAnswers }) => () => {
-    setNumberOfAnswers(numberOfAnswers + 1);
-  }
-};
-
-
-
-export const recomposedFunction = compose(
-  connect(null, null),
-  withState('numberOfAnswers', 'setNumberOfAnswers', 1),
-  withHandlers(handlers)
-);
-
-export default recomposedFunction(BetEventFormQuestion);
+export default BetEventFormQuestion;

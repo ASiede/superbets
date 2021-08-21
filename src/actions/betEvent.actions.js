@@ -1,64 +1,60 @@
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createAction } from 'redux-actions';
 
+export const ADD_ANSWER = 'ADD_ANSWER';
+export const ADD_QUESTION = 'ADD_QUESTION';
+export const RESET_NEW_BET_EVENT = 'RESET_NEW_BET_EVENT';
 export const SET_BET_EVENTS = 'SET_BET_EVENTS';
-export const setBetEvents = createAction(SET_BET_EVENTS);
+export const SET_NEW_BET_EVENT_NAME = 'SET_NEW_BET_EVENT_NAME';
+export const SET_PERSISTING_BET_EVENT = 'SET_PERSISTING_BET_EVENT';
+export const UPDATE_ANSWER = 'UPDATE_ANSWER';
+export const UPDATE_ODDS = 'UPDATE_ODDS';
+export const UPDATE_QUESTION_TEXT = 'UPDATE_QUESTION_TEXT';
+export const addAnswer = createAction(ADD_ANSWER);
+export const addQuestion = createAction(ADD_QUESTION);
+export const resetNewBetEvent = createAction(RESET_NEW_BET_EVENT);
+export const setNewBetEventName = createAction(SET_NEW_BET_EVENT_NAME);
+export const setPersistingBetEvent = createAction(SET_PERSISTING_BET_EVENT);
+export const updateAnswer = createAction(UPDATE_ANSWER);
+export const updateOdds = createAction(UPDATE_ODDS);
+export const updateQuestionText = createAction(UPDATE_QUESTION_TEXT);
 
 // TODO: clean up
-export const getOneBetEvent = () => async (dispatch) => {
-  const response = await fetch(
-    `${SUPERBETS_API_BASE_URL}/5e35eeeaf8dc2833c39c128b`
-  );
-  const newResponse = await response.json();
-  dispatch(setBetEvents(newResponse));
-};
+// export const getOneBetEvent = () => async (dispatch) => {
+//   const response = await fetch(
+//     `${SUPERBETS_API_BASE_URL}/5e35eeeaf8dc2833c39c128b`
+//   );
+//   const newResponse = await response.json();
+//   dispatch(setBetEvents(newResponse));
+// };
 
 // TODO: put where it belongs
-export const getAllBetEvents = () => async (dispatch) => {
-  const response = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`);
-  const newResponse = await response.json();
-  dispatch(setBetEvents(newResponse.betEvents));
-};
+// export const getAllBetEvents = () => async (dispatch) => {
+//   const response = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`);
+//   const newResponse = await response.json();
+//   dispatch(setBetEvents(newResponse.betEvents));
+// };
 
-export const persistBetEvent = (variables) => async (dispatch) => {
-  const questionKeys = Object.keys(variables).reduce((acc, cur) => {
-    if (cur.includes('q') && !cur.includes(':')) {
-      acc.push(cur);
-    }
-    return acc;
-  }, []);
-  const numberOfQuestions = questionKeys.length;
-  const questions = [];
-  for (let i = 0; i < numberOfQuestions; i++) {
-    const answers = Object.keys(variables).reduce((acc, cur) => {
-      if (cur.includes(`q${i}:a`) && !cur.includes('odds')) {
-        acc.push({
-          answerId: parseInt(cur.split(':')[1].substring(1)) + 1,
-          text: variables[cur],
-          odds: variables[`${cur}:odds`],
-          confirmed: false
-        });
-      }
-      return acc;
-    }, []);
-    questions.push({
-      questionId: i + 1,
-      text: variables[`q${i}`],
-      answers
+export const persistBetEvent = () => async (dispatch, getState) => {
+  // FIXME: IT DOES NOT PERSIST
+  const state = getState();
+  const { newBetEvent } = state.betEvents;
+  dispatch(setPersistingBetEvent(true));
+  try {
+    const result = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...newBetEvent,
+        createdBy: state.user.username,
+        password: 'password' // FIXME: this needs to be removed with api update
+      })
     });
+    await result.json();
+  } catch (error) {
+    // TODO: on failure
   }
-  const body = {
-    name: variables.name,
-    password: variables.password,
-    questions: questions
-  };
-  // return body;
-  await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  // const newResponse = await response.json();
-  // console.log('POSTING BET EVENT', newResponse);
-  // TODO: on success and on failter
+  dispatch(setPersistingBetEvent(false));
+  dispatch(resetNewBetEvent());
+  // TODO: movie to user bet events
 };
