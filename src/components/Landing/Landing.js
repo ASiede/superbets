@@ -1,32 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withState, lifecycle } from 'recompose';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
-export const Thing = ({ betEvents }) => (
+export const Thing = () => (
   <div className='Thing'>
     <p>HERE IS THE LANDING PAGE</p>
-    {/* <p>{test}</p> */}
-    <p>{betEvents}</p>
   </div>
 );
-
-Thing.propTypes = {
-  betEvents: PropTypes.array
-};
 
 const mapStateToProps = ({ betEvents }) => ({
   betEvents
 });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      // getOneBetEvent,
-    },
-    dispatch
-  );
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export const recomposedFunction = compose(
   connect(mapStateToProps, mapDispatchToProps),
