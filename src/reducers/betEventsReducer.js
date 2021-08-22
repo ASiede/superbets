@@ -51,7 +51,7 @@ export const betEvents = (state = initialState, { type, payload }) => {
         ...state,
         newBetEvent: { ...state.newBetEvent, name: payload }
       };
-    case UPDATE_QUESTION_TEXT:
+    case UPDATE_QUESTION_TEXT: {
       const { questionId, text } = payload;
       const questionsWithUpdatedText = state.newBetEvent.questions.map(
         (question) => {
@@ -70,7 +70,8 @@ export const betEvents = (state = initialState, { type, payload }) => {
           questions: questionsWithUpdatedText
         }
       };
-    case UPDATE_ANSWER:
+    }
+    case UPDATE_ANSWER: {
       const questionsWithUpdatedAnswer = state.newBetEvent.questions.map(
         (question) => {
           if (question.questionId === payload.questionId) {
@@ -96,7 +97,8 @@ export const betEvents = (state = initialState, { type, payload }) => {
           questions: questionsWithUpdatedAnswer
         }
       };
-    case ADD_QUESTION:
+    }
+    case ADD_QUESTION: {
       const questionsLength = state.newBetEvent.questions.length;
       const updatedQuestions = [
         ...state.newBetEvent.questions,
@@ -113,7 +115,8 @@ export const betEvents = (state = initialState, { type, payload }) => {
           questions: updatedQuestions
         }
       };
-    case ADD_ANSWER:
+    }
+    case ADD_ANSWER: {
       const answersLength = state.newBetEvent.questions.find(
         (question) => question.questionId === payload
       ).answers.length;
@@ -139,6 +142,7 @@ export const betEvents = (state = initialState, { type, payload }) => {
           })
         }
       };
+    }
     default:
       return state;
   }
