@@ -23,10 +23,10 @@ export const App = () => (
       <header className='App-header'>
         <Nav />
       </header>
-      <Route exact path='/' component={Landing} />
-      <Route exact path='/manage' component={Manage} />
-      <Route exact path='/submit' component={SubmitBet} />
-      <Route exact path='/leaderboard' component={Leaderboard} />
+      <Route exact path="/" component={Landing} />
+      <Route exact path="/manage" component={Manage} />
+      <Route exact path="/submit" component={SubmitBet} />
+      <Route exact path="/leaderboard" component={Leaderboard} />
     </div>
   </Router>
 );

@@ -15,7 +15,7 @@ export const Nav = () => {
   return (
     <div className='nav-container'>
       <header className='nav-header'>
-        <Link className='nav-header-link' to='/'>
+        <Link className='nav-header-link' to="/">
           SUPERBETS
         </Link>
         <div>
