@@ -18,7 +18,7 @@ PrimeReact.ripple = true;
 export const history = createBrowserHistory();
 
 export const App = () => (
-  <Router history={history}>
+  // <Router history={history}>
     <div className='App black-bg'>
       <p style={{color:'white'}}>This works</p>
       {/* <header className='App-header'>
@@ -29,7 +29,7 @@ export const App = () => (
       {/* <Route exact path="/submit" component={SubmitBet} /> */}
       {/* <Route exact path="/leaderboard" component={Leaderboard} /> */}
     </div>
-  </Router>
+  // </Router>
 );
 
 export default App;
