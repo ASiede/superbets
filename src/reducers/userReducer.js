@@ -1,6 +1,7 @@
 import {
   SET_LOGGED_IN,
-  SET_USERNAME,
+  SET_USER,
+  RESET_USER,
   SET_LOG_IN_IN_PROGRESS
 } from '../actions';
 
@@ -21,11 +22,14 @@ export const user = (state = initialState, action) => {
         ...state,
         logInInProgress: payload
       };
-    case SET_USERNAME:
+    case SET_USER:
       return {
         ...state,
-        username: payload
+        username: payload.username,
+        id: payload.id
       };
+    case RESET_USER:
+      return initialState;
     default:
       return state;
   }

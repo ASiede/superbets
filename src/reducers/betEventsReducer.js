@@ -12,7 +12,6 @@ export const initialState = {
   betEvents: [],
   persistingBetEvent: false,
   newBetEvent: {
-    password: 'password',
     name: '',
     questions: [
       {
@@ -30,7 +29,6 @@ export const betEvents = (state = initialState, { type, payload }) => {
       return {
         ...state,
         newBetEvent: {
-          password: 'password',
           name: '',
           questions: [
             {

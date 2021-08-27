@@ -1,11 +1,12 @@
 import jwtDecode from 'jwt-decode';
 import {
   setLogIn,
-  setUsername,
   storeAuthInfo,
   logInUser,
   logOutUser,
-  loadUserWithValidJWT
+  loadUserWithValidJWT,
+  setUser,
+  resetUser
 } from './user.actions';
 import {
   saveAuthToken,
@@ -26,13 +27,13 @@ beforeEach(() => {
 describe('src/actions/user.actions', () => {
   describe('storeAuthInfo', () => {
     it('dispatches setUsername and setLogIn and calls saveAuthToken when there is a username', () => {
-      const mockUserName = 'Peyton';
-      jwtDecode.mockReturnValue({ user: { username: mockUserName } });
+      const mockUser = { username: 'Peyton', id: '123' };
+      jwtDecode.mockReturnValue({ user: mockUser });
       const authToken = '1a';
       const dispatch = jest.fn();
       storeAuthInfo(authToken)(dispatch);
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenCalledWith(setUsername(mockUserName));
+      expect(dispatch).toHaveBeenCalledWith(setUser(mockUser));
       expect(saveAuthToken).toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(setLogIn(true));
     });
@@ -103,10 +104,9 @@ describe('src/actions/user.actions', () => {
     it('calls clearAuthToken and dispatches setLogIn and setLogIn and setUsername', () => {
       const dispatch = jest.fn();
       logOutUser()(dispatch);
-      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(dispatch).toHaveBeenCalledTimes(1);
       expect(clearAuthToken).toHaveBeenCalled();
-      expect(dispatch).toHaveBeenCalledWith(setLogIn(false));
-      expect(dispatch).toHaveBeenCalledWith(setUsername(null));
+      expect(dispatch).toHaveBeenCalledWith(resetUser());
     });
   });
   describe('loadUserWithValidJWT', () => {

@@ -1,5 +1,7 @@
-import { SUPERBETS_API_BASE_URL } from '../config';
 import { createAction } from 'redux-actions';
+import { SNACKBAR_TYPES } from '../components/constants';
+import { SUPERBETS_API_BASE_URL } from '../config';
+import { createSnackbar } from '../utils/snackbar/Snackbar';
 
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const ADD_QUESTION = 'ADD_QUESTION';
@@ -35,26 +37,37 @@ export const updateQuestionText = createAction(UPDATE_QUESTION_TEXT);
 //   dispatch(setBetEvents(newResponse.betEvents));
 // };
 
-export const persistBetEvent = () => async (dispatch, getState) => {
-  // FIXME: IT DOES NOT PERSIST
-  const state = getState();
-  const { newBetEvent } = state.betEvents;
-  dispatch(setPersistingBetEvent(true));
-  try {
-    const result = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...newBetEvent,
-        createdBy: state.user.username,
-        password: 'password' // FIXME: this needs to be removed with api update
-      })
-    });
-    await result.json();
-  } catch (error) {
-    // TODO: on failure
-  }
-  dispatch(setPersistingBetEvent(false));
-  dispatch(resetNewBetEvent());
-  // TODO: movie to user bet events
-};
+export const persistBetEvent =
+  (loginSnackbars) => async (dispatch, getState) => {
+    const state = getState();
+    const { newBetEvent } = state.betEvents;
+    dispatch(setPersistingBetEvent(true));
+    try {
+      const result = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...newBetEvent,
+          createdBy: state.user.id
+        })
+      });
+      const response = await result.json();
+      if (!response || result.status !== 201) {
+        loginSnackbars.current.show(
+          createSnackbar(SNACKBAR_TYPES.ERROR, response.message)
+        );
+        dispatch(setPersistingBetEvent(false));
+        return;
+      }
+    } catch (error) {
+      error;
+      loginSnackbars.current.show(
+        createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
+      );
+      dispatch(setPersistingBetEvent(false));
+      return;
+    }
+    dispatch(setPersistingBetEvent(false));
+    dispatch(resetNewBetEvent());
+    // TODO: movie to user bet events
+  };

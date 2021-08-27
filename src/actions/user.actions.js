@@ -10,17 +10,19 @@ import { SNACKBAR_TYPES, SNACKBAR_MESSAGES } from '../components/constants';
 import { SUPERBETS_API_BASE_URL } from '../config';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
-export const SET_USERNAME = 'SET_USERNAME';
+export const SET_USER = 'SET_USER';
+export const RESET_USER = 'RESET_USER';
 export const SET_LOG_IN_IN_PROGRESS = 'SET_LOG_IN_IN_PROGRESS';
 
 export const setLogIn = createAction(SET_LOGGED_IN);
-export const setUsername = createAction(SET_USERNAME);
+export const setUser = createAction(SET_USER);
+export const resetUser = createAction(RESET_USER);
 export const setLogInInProgress = createAction(SET_LOG_IN_IN_PROGRESS);
 
 export const storeAuthInfo = (authToken) => (dispatch) => {
   const decodedToken = jwtDecode(authToken);
   if (decodedToken.user && decodedToken.user.username) {
-    dispatch(setUsername(decodedToken.user.username));
+    dispatch(setUser(decodedToken.user));
     saveAuthToken(authToken);
     dispatch(setLogIn(true));
   }
@@ -55,8 +57,7 @@ export const logInUser =
 
 export const logOutUser = () => (dispatch) => {
   clearAuthToken();
-  dispatch(setLogIn(false));
-  dispatch(setUsername(null));
+  dispatch(resetUser());
 };
 
 export const loadUserWithValidJWT = () => (dispatch) => {

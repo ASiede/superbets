@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
+import { Messages } from 'primereact/messages';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
 import { setNewBetEventName } from '../../actions';
 import { persistBetEvent } from '../../actions/betEvent.actions.js';
 import './CreateBetEventForm.css';
 
 export const CreateBetEventForm = () => {
+  const loginSnackbars = useRef(null);
   const questions = useSelector(
     (state) => state.betEvents.newBetEvent.questions
   );
@@ -29,6 +31,7 @@ export const CreateBetEventForm = () => {
     }, []);
   return (
     <div>
+      <Messages ref={loginSnackbars} />
       <div>
         <div className='name'>
           <h5 className='login-label'>Name of Betting Event</h5>
@@ -49,7 +52,7 @@ export const CreateBetEventForm = () => {
         ) : (
           <Button
             label='Create Bet Event'
-            onClick={() => dispatch(persistBetEvent())}
+            onClick={() => dispatch(persistBetEvent(loginSnackbars))}
           />
         )}
       </div>
