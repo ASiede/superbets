@@ -1,4 +1,4 @@
-import { setLogIn, setLogInInProgress, setUsername } from '../actions';
+import { resetUser, setLogIn, setLogInInProgress, setUser } from '../actions';
 import user, { initialState } from './userReducer';
 
 describe('src/reducers/userReducer.js', () => {
@@ -21,11 +21,18 @@ describe('src/reducers/userReducer.js', () => {
       const updatedState = user(state, action);
       expect(updatedState.logInInProgress).toEqual(true);
     });
-    it('updates the state with a SET_USERNAME action', () => {
+    it('updates the state with a SET_USER action', () => {
       const state = {};
-      const action = setUsername('rosa');
+      const mockUser = { username: 'rosa', id: '1' };
+      const action = setUser(mockUser);
       const updatedState = user(state, action);
-      expect(updatedState.username).toEqual('rosa');
+      expect(updatedState).toEqual(mockUser);
+    });
+    it('resets to initial state with a RESET_USER action', () => {
+      const state = { username: 'rosa', id: '4' };
+      const action = resetUser('rosa');
+      const updatedState = user(state, action);
+      expect(updatedState).toEqual(initialState);
     });
   });
 });

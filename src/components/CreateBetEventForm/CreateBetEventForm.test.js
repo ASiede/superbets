@@ -9,6 +9,7 @@ import CreateBetEventForm from './CreateBetEventForm';
 import { setNewBetEventName } from '../../actions';
 import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Messages } from 'primereact/messages';
 
 const mockStore = configureMockStore([thunk]);
 const mockDispatch = jest.fn();
@@ -37,7 +38,7 @@ describe('CreateBetEventForm', () => {
       }
     ]
   };
-  it('renders 1 Button, 1 InputText, and 2 BetEventFormQuestion', () => {
+  it('renders 1 Button, 1 InputText, 1 Messages, and 2 BetEventFormQuestion', () => {
     const store = mockStore({
       betEvents: {
         newBetEvent: mockNewBetEvent
@@ -50,10 +51,12 @@ describe('CreateBetEventForm', () => {
     );
     const button = wrapper.find(Button);
     const inputText = wrapper.find(InputText);
+    const messages = wrapper.find(Messages);
     const betEventFormQuestion = wrapper.find(BetEventFormQuestion);
     expect(button.length).toBeGreaterThan(1);
     expect(inputText.length).toBeGreaterThan(0);
     expect(betEventFormQuestion.length).toEqual(2);
+    expect(messages.length).toEqual(1);
   });
   it('renders 1 Spinner when persistingBetEvent is true', () => {
     const store = mockStore({

@@ -1,4 +1,6 @@
+import { SNACKBAR_TYPES } from '../components/constants';
 import { SUPERBETS_API_BASE_URL } from '../config';
+import { createSnackbar } from '../utils/snackbar/Snackbar';
 import {
   persistBetEvent,
   setPersistingBetEvent,
@@ -15,8 +17,9 @@ afterEach(() => {
 });
 
 describe('persistBetEvent', () => {
-  it('returns and empty array', async () => {
-    const mockUsername = 'pizzadilla';
+  it('POSTs a bet event', async () => {
+    const loginSnackbars = { current: { show: jest.fn() } };
+    const mockId = '123';
     const mockName = 'SuperBowl 2020';
     const mockQuestions = [
       {
@@ -65,20 +68,68 @@ describe('persistBetEvent', () => {
       betEvents: {
         newBetEvent: mockNewBetEvent
       },
-      user: { username: mockUsername }
+      user: { id: mockId }
     });
-    await persistBetEvent()(dispatch, getState);
+    fetch.mockResolvedValueOnce({
+      status: 201,
+      json: () => ({})
+    });
+    await persistBetEvent(loginSnackbars)(dispatch, getState);
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(true));
     expect(fetch).toHaveBeenCalledWith(`${SUPERBETS_API_BASE_URL}/betevent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...mockNewBetEvent,
-        createdBy: mockUsername,
-        password: 'password'
+        createdBy: mockId
       })
     });
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
     expect(dispatch).toHaveBeenCalledWith(resetNewBetEvent());
+  });
+  it('calls createSnackbar with an error message from the POST', async () => {
+    const mockShow = jest.fn();
+    const loginSnackbars = { current: { show: mockShow } };
+    const mockId = '123';
+    const dispatch = jest.fn();
+    const mockMessage = 'Name already used';
+    const getState = () => ({
+      betEvents: {
+        newBetEvent: {}
+      },
+      user: { id: mockId }
+    });
+    fetch.mockResolvedValueOnce({
+      status: 400,
+      json: () => ({
+        message: mockMessage
+      })
+    });
+    await persistBetEvent(loginSnackbars)(dispatch, getState);
+    expect(mockShow).toHaveBeenCalledWith(
+      createSnackbar(SNACKBAR_TYPES.ERROR, mockMessage)
+    );
+    expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(true));
+    expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
+  });
+  it('calls createSnackbar with an error from the POST', async () => {
+    const mockShow = jest.fn();
+    const loginSnackbars = { current: { show: mockShow } };
+    const mockId = '123';
+    const dispatch = jest.fn();
+    const mockErrorMessage = 'Uh Oh';
+    const getState = () => ({
+      betEvents: {
+        newBetEvent: {}
+      },
+      user: { id: mockId }
+    });
+    fetch.mockRejectedValueOnce(new Error(mockErrorMessage));
+    await persistBetEvent(loginSnackbars)(dispatch, getState);
+    expect(mockShow).toHaveBeenCalledWith(
+      createSnackbar(SNACKBAR_TYPES.ERROR, mockErrorMessage)
+    );
+    expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(true));
+    expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
   });
 });
