@@ -17,7 +17,7 @@ export const initialState = {
       {
         questionId: 1,
         text: '',
-        answers: [{ answerId: 1, text: '', odds: '', confirmed: false }]
+        answers: [{ answerId: 1, text: '', odds: undefined, confirmed: false }]
       }
     ]
   }
@@ -34,7 +34,9 @@ export const betEvents = (state = initialState, { type, payload }) => {
             {
               questionId: 1,
               text: '',
-              answers: [{ answerId: 1, text: '', odds: '', confirmed: false }]
+              answers: [
+                { answerId: 1, text: '', odds: undefined, confirmed: false }
+              ]
             }
           ]
         }
@@ -103,7 +105,9 @@ export const betEvents = (state = initialState, { type, payload }) => {
         {
           questionId: questionsLength + 1,
           text: '',
-          answers: [{ answerId: 1, text: '', odds: '', confirmed: false }]
+          answers: [
+            { answerId: 1, text: '', odds: undefined, confirmed: false }
+          ]
         }
       ];
       return {
@@ -131,7 +135,7 @@ export const betEvents = (state = initialState, { type, payload }) => {
                   {
                     answerId: answersLength + 1,
                     text: '',
-                    odds: '',
+                    odds: undefined,
                     confirmed: false
                   }
                 ]

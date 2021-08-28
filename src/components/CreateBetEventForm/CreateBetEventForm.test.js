@@ -5,7 +5,10 @@ import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import CreateBetEventForm from './CreateBetEventForm';
+import CreateBetEventForm, {
+  betEventFormCompleted,
+  constructQuestionsList
+} from './CreateBetEventForm';
 import { setNewBetEventName } from '../../actions';
 import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
 import { ProgressSpinner } from 'primereact/progressspinner';
@@ -27,14 +30,17 @@ beforeEach(() => {
 
 describe('CreateBetEventForm', () => {
   const mockNewBetEvent = {
+    name: 'world cup',
     questions: [
       {
         questionId: 1,
-        answers: [{ answerId: 1 }]
+        text: 'who wins',
+        answers: [{ answerId: 1, text: 'france', odds: 1 }]
       },
       {
         questionId: 2,
-        answers: [{ answerId: 1 }]
+        text: 'who loses',
+        answers: [{ answerId: 1, text: 'spain', odds: 0.5 }]
       }
     ]
   };
@@ -106,5 +112,67 @@ describe('CreateBetEventForm', () => {
     );
     wrapper.find(Button).at(3).simulate('click');
     expect(mockDispatch).toHaveBeenCalledTimes(1);
+  });
+  describe('betEventFormCompleted', () => {
+    it('returns true when all the elements of the form are filled in', () => {
+      const newBetEvent = {
+        name: 'world cup',
+        questions: [
+          {
+            questionId: 1,
+            text: 'who wins',
+            answers: [{ answerId: 1, text: 'france', odds: 1 }]
+          },
+          {
+            questionId: 2,
+            text: 'who loses',
+            answers: [{ answerId: 1, text: 'spain', odds: 0.5 }]
+          }
+        ]
+      };
+      const actual = betEventFormCompleted(newBetEvent);
+      expect(actual).toBe(true);
+    });
+    it('returns false when all the elements of the form are not filled in', () => {
+      const newBetEvent = {
+        name: 'world cup',
+        questions: [
+          {
+            questionId: 1,
+            text: 'who wins',
+            answers: [{ answerId: 1, text: 'france', odds: 1 }]
+          },
+          {
+            questionId: 2,
+            text: 'who loses',
+            answers: [{ answerId: 1, text: 'spain', odds: undefined }]
+          }
+        ]
+      };
+      const actual = betEventFormCompleted(newBetEvent);
+      expect(actual).toBe(false);
+    });
+  });
+  describe('constructQuestionsList', () => {
+    it('returns a list of BetEventFormQuestions based on questions', () => {
+      const newBetEvent = {
+        name: 'world cup',
+        questions: [
+          {
+            questionId: 1,
+            text: 'who wins',
+            answers: [{ answerId: 1, text: 'france', odds: 1 }]
+          },
+          {
+            questionId: 2,
+            text: 'who loses',
+            answers: [{ answerId: 1, text: 'spain', odds: 0.5 }]
+          }
+        ]
+      };
+      const actual = constructQuestionsList(newBetEvent);
+      expect(actual.length).toEqual(newBetEvent.questions.length);
+      expect(actual).toEqual(expect.any(Array));
+    });
   });
 });
