@@ -4,7 +4,18 @@ export const mockedStore = {
     logInInProgress: false
   },
   betEvents: {
-    newBetEvent: {}
+    newBetEvent: {
+      name: '',
+      questions: [
+        {
+          questionId: 1,
+          text: '',
+          answers: [
+            { answerId: 1, text: '', odds: undefined, confirmed: false }
+          ]
+        }
+      ]
+    }
   }
 };
 

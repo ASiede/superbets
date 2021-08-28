@@ -10,25 +10,10 @@ import { persistBetEvent } from '../../actions/betEvent.actions.js';
 import './CreateBetEventForm.css';
 
 export const CreateBetEventForm = () => {
-  const loginSnackbars = useRef(null);
-  const questions = useSelector(
-    (state) => state.betEvents.newBetEvent.questions
-  );
-  const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
   const dispatch = useDispatch();
-  const questionsList =
-    questions &&
-    questions.reduce((questionsList, question) => {
-      questionsList.push(
-        <div
-          key={question.questionId}
-          className='question-container darkblue-bg'
-        >
-          <BetEventFormQuestion questionId={question.questionId} />
-        </div>
-      );
-      return questionsList;
-    }, []);
+  const loginSnackbars = useRef(null);
+  const newBetEvent = useSelector((state) => state.betEvents.newBetEvent);
+  const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
   return (
     <div>
       <Messages ref={loginSnackbars} />
@@ -43,7 +28,9 @@ export const CreateBetEventForm = () => {
           />
         </div>
         <div className='bet-event-form '>
-          <div className='card login-card'>{questionsList}</div>
+          <div className='card login-card'>
+            {constructQuestionsList(newBetEvent)}
+          </div>
         </div>
       </div>
       <div>
@@ -51,6 +38,7 @@ export const CreateBetEventForm = () => {
           <ProgressSpinner />
         ) : (
           <Button
+            disabled={!betEventFormCompleted(newBetEvent)}
             label='Create Bet Event'
             onClick={() => dispatch(persistBetEvent(loginSnackbars))}
           />
@@ -58,6 +46,27 @@ export const CreateBetEventForm = () => {
       </div>
     </div>
   );
+};
+
+export const betEventFormCompleted = (newBetEvent) => {
+  const { name, questions } = newBetEvent;
+  const questionsComplete = questions.every(
+    (question) =>
+      question.text.length &&
+      question.answers.every((answer) => answer.text.length && answer.odds)
+  );
+  return name && questionsComplete;
+};
+
+export const constructQuestionsList = (newBetEvent) => {
+  return newBetEvent.questions.reduce((questionsList, question) => {
+    questionsList.push(
+      <div key={question.questionId} className='question-container darkblue-bg'>
+        <BetEventFormQuestion questionId={question.questionId} />
+      </div>
+    );
+    return questionsList;
+  }, []);
 };
 
 export default CreateBetEventForm;
