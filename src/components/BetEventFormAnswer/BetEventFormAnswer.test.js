@@ -5,6 +5,7 @@ import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { InputNumber } from 'primereact/inputnumber';
 import BetEventFormAnswer from './BetEventFormAnswer';
 import { addAnswer, updateAnswer } from '../../actions';
 
@@ -30,8 +31,10 @@ describe('BetEventFormAnswer', () => {
   it('renders 1 Button and 2 InputTexts when it is the first answer', () => {
     const button = wrapper.find(Button);
     const inputText = wrapper.find(InputText);
+    const inputNumber = wrapper.find(InputNumber);
     expect(button.length).toEqual(1);
     expect(inputText.length).toEqual(2);
+    expect(inputNumber.length).toEqual(1);
   });
   it('dispatches addAnswer on button click', () => {
     wrapper.find(Button).at(0).simulate('click');
@@ -48,21 +51,6 @@ describe('BetEventFormAnswer', () => {
         questionId,
         answerId,
         key: 'text',
-        value: mockValue
-      })
-    );
-  });
-  it('dispatches updateAnswer on odds input change', () => {
-    const mockValue = 0.5;
-    wrapper
-      .find(InputText)
-      .at(1)
-      .simulate('change', { target: { value: mockValue } });
-    expect(mockDispatch).toHaveBeenCalledWith(
-      updateAnswer({
-        questionId,
-        answerId,
-        key: 'odds',
         value: mockValue
       })
     );

@@ -60,7 +60,6 @@ export const persistBetEvent =
         return;
       }
     } catch (error) {
-      error;
       loginSnackbars.current.show(
         createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
       );

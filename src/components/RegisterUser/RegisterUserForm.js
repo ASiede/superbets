@@ -54,7 +54,7 @@ export const RegisterUserForm = ({ loginSnackbars }) => {
             }
           />
           {!validEmail && (
-            <small id='username2-help' className='p-error p-d-block'>
+            <small id='email-help' className='p-error p-d-block'>
               Must be a valid email
             </small>
           )}

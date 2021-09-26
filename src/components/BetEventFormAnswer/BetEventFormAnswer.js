@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
+import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { addAnswer, updateAnswer } from '../../actions';
 import './BetEventFormAnswer.css';
@@ -41,18 +42,20 @@ export const BetEventFormAnswer = ({ answerId, questionId }) => {
         </div>
         <div className='odds'>
           <h5 className='login-label'>Odds</h5>
-          <InputText
-            className='p-inputtext-sm small-input'
-            onChange={(event) =>
+          <InputNumber
+            size={5}
+            mode='decimal'
+            minFractionDigits={2}
+            onChange={(event) => {
               dispatch(
                 updateAnswer({
                   questionId,
                   answerId,
                   key: 'odds',
-                  value: event.target.value
+                  value: 2
                 })
-              )
-            }
+              );
+            }}
           />
         </div>
       </div>
