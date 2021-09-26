@@ -5,8 +5,10 @@ import {
   setNewBetEventName,
   setPersistingBetEvent,
   updateAnswer,
+  updateManageTab,
   updateQuestionText
 } from '../actions';
+import { MANAGE_TABS } from '../components/constants';
 import betEvents, { initialState } from './betEventsReducer';
 
 describe('src/reducers/betEventsReducer.js', () => {
@@ -118,6 +120,12 @@ describe('src/reducers/betEventsReducer.js', () => {
         (question) => question.questionId === questionId
       );
       expect(updatedQuestion.answers.length).toEqual(2);
+    });
+    it('updates manageTab with an UPDATE_MANAGE_TAB action', () => {
+      const tab = MANAGE_TABS.CONFIRM;
+      const action = updateManageTab(tab);
+      const updatedState = betEvents(initialState, action);
+      expect(updatedState.manageTab).toEqual(tab);
     });
   });
 });

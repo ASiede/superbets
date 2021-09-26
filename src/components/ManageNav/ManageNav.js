@@ -1,21 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateManageTab } from '../../actions';
+import { MANAGE_TABS } from '../constants';
 import './ManageNav.css';
 
-export const ManageNav = () => (
-  <div className='manage-nav-container'>
-    <nav className='manage-nav'>
-      <Link className='manage-link' to='/createNew'>
-        CREATE NEW BET EVENT
-      </Link>
-      <Link className='manage-link' to='/confirmAnswers'>
-        CONFIRM ANSWERS
-      </Link>
-      <Link className='manage-link' to='/editBetEvent'>
-        EDIT BET EVENT
-      </Link>
-    </nav>
-  </div>
-);
+export const ManageNav = () => {
+  const dispatch = useDispatch();
+
+  return (
+    <div className='manage-nav-container'>
+      <nav className='manage-nav'>
+        <p
+          onClick={() => dispatch(updateManageTab(MANAGE_TABS.CREATE))}
+          className='manage-link'
+        >
+          CREATE NEW BET EVENT
+        </p>
+        <p
+          onClick={() => dispatch(updateManageTab(MANAGE_TABS.CONFIRM))}
+          className='manage-link'
+        >
+          CONFIRM ANSWERS
+        </p>
+        <p
+          onClick={() => dispatch(updateManageTab(MANAGE_TABS.EDIT))}
+          className='manage-link'
+        >
+          EDIT BET EVENT
+        </p>
+      </nav>
+    </div>
+  );
+};
 
 export default ManageNav;

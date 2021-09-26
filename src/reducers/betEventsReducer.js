@@ -5,12 +5,15 @@ import {
   UPDATE_QUESTION_TEXT,
   UPDATE_ANSWER,
   SET_PERSISTING_BET_EVENT,
-  RESET_NEW_BET_EVENT
+  RESET_NEW_BET_EVENT,
+  UPDATE_MANAGE_TAB
 } from '../actions/index';
+import { MANAGE_TABS } from '../components/constants';
 
 export const initialState = {
   betEvents: [],
   persistingBetEvent: false,
+  manageTab: MANAGE_TABS.CONFIRM,
   newBetEvent: {
     name: '',
     questions: [
@@ -143,6 +146,12 @@ export const betEvents = (state = initialState, { type, payload }) => {
             } else return question;
           })
         }
+      };
+    }
+    case UPDATE_MANAGE_TAB: {
+      return {
+        ...state,
+        manageTab: payload
       };
     }
     default:

@@ -1,22 +1,18 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Messages } from 'primereact/messages';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
-import { setNewBetEventName } from '../../actions';
-import { persistBetEvent } from '../../actions/betEvent.actions.js';
+import { setNewBetEventName, persistBetEvent } from '../../actions';
 import './CreateBetEventForm.css';
 
-export const CreateBetEventForm = () => {
+export const CreateBetEventForm = ({ loginSnackbars }) => {
   const dispatch = useDispatch();
-  const loginSnackbars = useRef(null);
   const newBetEvent = useSelector((state) => state.betEvents.newBetEvent);
   const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
   return (
     <div>
-      <Messages ref={loginSnackbars} />
       <div>
         <div className='name'>
           <h5 className='login-label'>Name of Betting Event</h5>
