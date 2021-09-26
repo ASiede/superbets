@@ -16,8 +16,10 @@
   color: white;
   text-decoration: none;
   border-bottom: 1px solid transparent;
+  margin: 0px;
 }
 
 .manage-link:hover {
   border-bottom: 1px solid white;
+  cursor: pointer;
 }

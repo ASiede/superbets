@@ -1,4 +1,5 @@
-import { SNACKBAR_TYPES } from '../components/constants';
+import { updateManageTab } from '.';
+import { MANAGE_TABS, SNACKBAR_TYPES } from '../components/constants';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 import {
@@ -18,7 +19,8 @@ afterEach(() => {
 
 describe('persistBetEvent', () => {
   it('POSTs a bet event', async () => {
-    const loginSnackbars = { current: { show: jest.fn() } };
+    const mockShow = jest.fn();
+    const loginSnackbars = { current: { show: mockShow } };
     const mockId = '123';
     const mockName = 'SuperBowl 2020';
     const mockQuestions = [
@@ -72,7 +74,7 @@ describe('persistBetEvent', () => {
     });
     fetch.mockResolvedValueOnce({
       status: 201,
-      json: () => ({})
+      json: () => ({ name: mockName })
     });
     await persistBetEvent(loginSnackbars)(dispatch, getState);
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(true));
@@ -86,6 +88,10 @@ describe('persistBetEvent', () => {
     });
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
     expect(dispatch).toHaveBeenCalledWith(resetNewBetEvent());
+    expect(dispatch).toHaveBeenCalledWith(updateManageTab(MANAGE_TABS.CONFIRM));
+    expect(mockShow).toHaveBeenCalledWith(
+      createSnackbar(SNACKBAR_TYPES.SUCCESS, `${mockName} has been created`)
+    );
   });
   it('calls createSnackbar with an error message from the POST', async () => {
     const mockShow = jest.fn();

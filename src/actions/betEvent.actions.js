@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import { SNACKBAR_TYPES } from '../components/constants';
+import { MANAGE_TABS, SNACKBAR_TYPES } from '../components/constants';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 
@@ -10,6 +10,7 @@ export const SET_BET_EVENTS = 'SET_BET_EVENTS';
 export const SET_NEW_BET_EVENT_NAME = 'SET_NEW_BET_EVENT_NAME';
 export const SET_PERSISTING_BET_EVENT = 'SET_PERSISTING_BET_EVENT';
 export const UPDATE_ANSWER = 'UPDATE_ANSWER';
+export const UPDATE_MANAGE_TAB = 'UPDATE_MANAGE_TAB';
 export const UPDATE_ODDS = 'UPDATE_ODDS';
 export const UPDATE_QUESTION_TEXT = 'UPDATE_QUESTION_TEXT';
 export const addAnswer = createAction(ADD_ANSWER);
@@ -18,6 +19,7 @@ export const resetNewBetEvent = createAction(RESET_NEW_BET_EVENT);
 export const setNewBetEventName = createAction(SET_NEW_BET_EVENT_NAME);
 export const setPersistingBetEvent = createAction(SET_PERSISTING_BET_EVENT);
 export const updateAnswer = createAction(UPDATE_ANSWER);
+export const updateManageTab = createAction(UPDATE_MANAGE_TAB);
 export const updateOdds = createAction(UPDATE_ODDS);
 export const updateQuestionText = createAction(UPDATE_QUESTION_TEXT);
 
@@ -58,6 +60,17 @@ export const persistBetEvent =
         );
         dispatch(setPersistingBetEvent(false));
         return;
+      } else {
+        dispatch(setPersistingBetEvent(false));
+        dispatch(resetNewBetEvent());
+        dispatch(updateManageTab(MANAGE_TABS.CONFIRM));
+        loginSnackbars.current.show(
+          createSnackbar(
+            SNACKBAR_TYPES.SUCCESS,
+            `${response.name} has been created`
+          )
+        );
+        return;
       }
     } catch (error) {
       loginSnackbars.current.show(
@@ -66,7 +79,4 @@ export const persistBetEvent =
       dispatch(setPersistingBetEvent(false));
       return;
     }
-    dispatch(setPersistingBetEvent(false));
-    dispatch(resetNewBetEvent());
-    // TODO: movie to user bet events
   };
