@@ -77,6 +77,5 @@ export const persistBetEvent =
         createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
       );
       dispatch(setPersistingBetEvent(false));
-      return;
     }
   };
