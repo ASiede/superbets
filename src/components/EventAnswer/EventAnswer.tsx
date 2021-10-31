@@ -1,6 +1,6 @@
 import { EventAnswerType } from '../Types/StateTypes';
 
-export const EventFormAnswer = ({ answer }: { answer: EventAnswerType }) => {
+export const EventAnswer = ({ answer }: { answer: EventAnswerType }) => {
   return (
     <div className='answer-container' key={answer.answerId}>
       <div className='answer-inputs'>
@@ -15,4 +15,4 @@ export const EventFormAnswer = ({ answer }: { answer: EventAnswerType }) => {
   );
 };
 
-export default EventFormAnswer;
+export default EventAnswer;

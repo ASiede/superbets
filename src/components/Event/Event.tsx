@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 import { Button } from 'primereact/button';
-import EventFormQuestion from '../EventFormQuestion/EventFormQuestion';
+import EventQuestion from '../EventQuestion/EventQuestion';
 import { EventType } from '../Types/StateTypes';
 
-export const EventForm = ({ event }: { event: EventType }) => {
+export const Event = ({ event }: { event: EventType }) => {
   return (
     <div>
       <div>
@@ -37,7 +37,7 @@ export const constructQuestionsList = (event: EventType) => {
           key={question.questionId}
           className='question-container darkblue-bg'
         >
-          <EventFormQuestion question={question} />
+          <EventQuestion question={question} />
         </div>
       );
       return questionsList;
@@ -46,4 +46,4 @@ export const constructQuestionsList = (event: EventType) => {
   );
 };
 
-export default EventForm;
+export default Event;

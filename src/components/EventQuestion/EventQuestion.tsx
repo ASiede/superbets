@@ -1,17 +1,15 @@
 import { ReactElement } from 'react';
-import EventFormAnswer from '../EventFormAnswer/EventFormAnswer';
+import EventAnswer from '../EventAnswer/EventAnswer';
 import { EventQuestionType } from '../Types/StateTypes';
 
-export const EventFormQuestion = ({
+export const EventQuestion = ({
   question
 }: {
   question: EventQuestionType;
 }) => {
   const answersList = question.answers.reduce<Array<ReactElement>>(
     (answersList, answer) => {
-      answersList.push(
-        <EventFormAnswer answer={answer} key={answer.answerId} />
-      );
+      answersList.push(<EventAnswer answer={answer} key={answer.answerId} />);
       return answersList;
     },
     []
@@ -29,4 +27,4 @@ export const EventFormQuestion = ({
   );
 };
 
-export default EventFormQuestion;
+export default EventQuestion;

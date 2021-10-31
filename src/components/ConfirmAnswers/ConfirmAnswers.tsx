@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { getEventsByUser } from '../../utils/events/events';
-import EventForm from '../EventForm/EventForm';
+import EventForm from '../Event/Event';
 import { StateType } from '../Types/StateTypes';
 import { getUserIdFromState } from '../../utils/state/getState';
 
