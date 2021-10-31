@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -7,7 +8,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import LoginForm from './LoginForm';
+import LoginForm from './SignInForm';
 import { logInUser } from '../../actions/user.actions';
 
 const mockDispatch = jest.fn();
