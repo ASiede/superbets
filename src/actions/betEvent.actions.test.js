@@ -1,5 +1,6 @@
 import { updateManageTab } from '.';
-import { MANAGE_TABS, SNACKBAR_TYPES } from '../components/constants';
+import { SNACKBAR_TYPES } from '../components/constants';
+import { ManageTab } from '../components/Types/StateTypes';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 import {
@@ -88,7 +89,7 @@ describe('persistBetEvent', () => {
     });
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
     expect(dispatch).toHaveBeenCalledWith(resetNewBetEvent());
-    expect(dispatch).toHaveBeenCalledWith(updateManageTab(MANAGE_TABS.CONFIRM));
+    expect(dispatch).toHaveBeenCalledWith(updateManageTab(ManageTab.CONFIRM));
     expect(mockShow).toHaveBeenCalledWith(
       createSnackbar(SNACKBAR_TYPES.SUCCESS, `${mockName} has been created`)
     );

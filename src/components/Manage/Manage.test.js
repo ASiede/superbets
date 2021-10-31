@@ -10,8 +10,8 @@ import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
 import mockedStore from '../../__mocks__/mockedStore';
-import { MANAGE_TABS } from '../constants';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
+import { ManageTab } from '../Types/StateTypes';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -36,7 +36,7 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      betEvents: { ...mockedStore.betEvents, manageTab: MANAGE_TABS.CREATE }
+      betEvents: { ...mockedStore.betEvents, manageTab: ManageTab.CREATE }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -56,7 +56,7 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      betEvents: { ...mockedStore.betEvents, manageTab: MANAGE_TABS.CONFIRM }
+      betEvents: { ...mockedStore.betEvents, manageTab: ManageTab.CONFIRM }
     });
     const wrapper = mount(
       <Provider store={store}>

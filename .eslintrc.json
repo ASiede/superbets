@@ -20,6 +20,7 @@
   "rules": {
     "strict": 0,
     "react/prop-types": 1,
+    "react/react-in-jsx-scope": 0,
     // "no-unused-vars": "warn",
     // "no-empty": "warn",
     // "quotes": ["warn", "single"],

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { updateManageTab } from '../../actions';
 import mockedStore from '../../__mocks__/mockedStore';
 import ManageNav from './ManageNav';
-import { MANAGE_TABS } from '../constants';
+import { ManageTab } from '../Types/StateTypes';
 
 const mockStore = configureMockStore([thunk]);
 const mockDispatch = jest.fn();
@@ -44,7 +44,7 @@ describe('ManageNav', () => {
     );
     wrapper.find('p').at(0).simulate('click');
     expect(mockDispatch).toHaveBeenCalledWith(
-      updateManageTab(MANAGE_TABS.CREATE)
+      updateManageTab(ManageTab.CREATE)
     );
   });
   it('dispatches updateManageTab with confirm tab', () => {
@@ -56,7 +56,7 @@ describe('ManageNav', () => {
     );
     wrapper.find('p').at(1).simulate('click');
     expect(mockDispatch).toHaveBeenCalledWith(
-      updateManageTab(MANAGE_TABS.CONFIRM)
+      updateManageTab(ManageTab.CONFIRM)
     );
   });
   it('dispatches updateManageTab with edit tab', () => {
@@ -67,8 +67,6 @@ describe('ManageNav', () => {
       </Provider>
     );
     wrapper.find('p').at(2).simulate('click');
-    expect(mockDispatch).toHaveBeenCalledWith(
-      updateManageTab(MANAGE_TABS.EDIT)
-    );
+    expect(mockDispatch).toHaveBeenCalledWith(updateManageTab(ManageTab.EDIT));
   });
 });

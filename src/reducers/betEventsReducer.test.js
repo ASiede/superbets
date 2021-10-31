@@ -8,7 +8,7 @@ import {
   updateManageTab,
   updateQuestionText
 } from '../actions';
-import { MANAGE_TABS } from '../components/constants';
+import { ManageTab } from '../components/Types/StateTypes';
 import betEvents, { initialState } from './betEventsReducer';
 
 describe('src/reducers/betEventsReducer.js', () => {
@@ -122,7 +122,7 @@ describe('src/reducers/betEventsReducer.js', () => {
       expect(updatedQuestion.answers.length).toEqual(2);
     });
     it('updates manageTab with an UPDATE_MANAGE_TAB action', () => {
-      const tab = MANAGE_TABS.CONFIRM;
+      const tab = ManageTab.CONFIRM;
       const action = updateManageTab(tab);
       const updatedState = betEvents(initialState, action);
       expect(updatedState.manageTab).toEqual(tab);

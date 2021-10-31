@@ -5,8 +5,8 @@ import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
 import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { MANAGE_TABS } from '../constants';
 import './Manage.css';
+import { ManageTab } from '../Types/StateTypes';
 
 export const Manage = () => {
   const loginSnackbars = useRef(null);
@@ -15,21 +15,21 @@ export const Manage = () => {
 
   const renderCurrentTab = (tab) => {
     switch (tab) {
-      case MANAGE_TABS.CREATE:
+      case ManageTab.CREATE:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Create New Bet Event</h2>
             <CreateBetEventForm loginSnackbars={loginSnackbars} />
           </div>
         );
-      case MANAGE_TABS.CONFIRM:
+      case ManageTab.CONFIRM:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
             <ConfirmAnswers />
           </div>
         );
-      case MANAGE_TABS.EDIT:
+      case ManageTab.EDIT:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Edit Bet Event</h2>

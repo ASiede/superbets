@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
-import LogInForm from '../LogInForm/SignInForm';
+import LogInForm from '../LogInForm/LogInForm';
 import { Messages } from 'primereact/messages';
 import './LogIn.css';
 

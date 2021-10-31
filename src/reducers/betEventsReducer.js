@@ -8,12 +8,12 @@ import {
   RESET_NEW_BET_EVENT,
   UPDATE_MANAGE_TAB
 } from '../actions/index';
-import { MANAGE_TABS } from '../components/constants';
+import { ManageTab } from '../components/Types/StateTypes';
 
 export const initialState = {
   betEvents: [],
   persistingBetEvent: false,
-  manageTab: MANAGE_TABS.CONFIRM,
+  manageTab: ManageTab.CONFIRM,
   newBetEvent: {
     name: '',
     questions: [
