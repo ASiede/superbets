@@ -9,6 +9,7 @@ import {
 } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { getEventsByUser } from '../../utils/events/events';
+import EventForm from '../EventForm/EventForm';
 // import { Messages } from 'primereact/messages';
 
 export const ConfirmAnswers = () => {
@@ -39,6 +40,7 @@ export const ConfirmAnswers = () => {
         filterBy='name'
         placeholder='Select a Country'
       />
+      <EventForm event={selectedEvent} />
     </div>
   );
 };
