@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { mount } from 'enzyme';
 import { Messages } from 'primereact/messages';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import LogInForm from '../LoginForm/LogInForm';
+import LogInForm from '../LogInForm/SignInForm';
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogIn from './LogIn';
 import mockedStore from '../../__mocks__/mockedStore';
