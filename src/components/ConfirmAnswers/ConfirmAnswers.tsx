@@ -1,25 +1,17 @@
-import React, {
-  // useRef,
-  useEffect,
-  useState
-} from 'react';
-import {
-  useSelector
-  // useDispatch
-} from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { getEventsByUser } from '../../utils/events/events';
 import EventForm from '../EventForm/EventForm';
-// import { Messages } from 'primereact/messages';
+import { StateType } from '../Types/StateTypes';
+import { getUserIdFromState } from '../../utils/state/getState';
 
 export const ConfirmAnswers = () => {
-  // const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.id);
-  // const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
+  const userId = useSelector((state: StateType) => getUserIdFromState(state));
   const [betEvents, setBetEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState();
   useEffect(
-    () =>
+    (): any =>
       (async () => {
         const events = await getEventsByUser(userId);
         setBetEvents(events);
@@ -40,7 +32,7 @@ export const ConfirmAnswers = () => {
         filterBy='name'
         placeholder='Select a Country'
       />
-      <EventForm event={selectedEvent} />
+      {selectedEvent && <EventForm event={selectedEvent} />}
     </div>
   );
 };

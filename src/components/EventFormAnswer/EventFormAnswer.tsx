@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { EventAnswerType } from '../Types/StateTypes';
 
-export const EventFormAnswer = ({ answer }) => {
+export const EventFormAnswer = ({ answer }: { answer: EventAnswerType }) => {
   return (
     <div className='answer-container' key={answer.answerId}>
       <div className='answer-inputs'>
@@ -14,10 +13,6 @@ export const EventFormAnswer = ({ answer }) => {
       </div>
     </div>
   );
-};
-
-EventFormAnswer.propTypes = {
-  answer: PropTypes.object
 };
 
 export default EventFormAnswer;

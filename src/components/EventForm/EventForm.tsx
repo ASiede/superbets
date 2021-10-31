@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { ReactElement } from 'react';
 import { Button } from 'primereact/button';
 import EventFormQuestion from '../EventFormQuestion/EventFormQuestion';
+import { EventType } from '../Types/StateTypes';
 
-export const EventForm = ({ event }) => {
+export const EventForm = ({ event }: { event: EventType }) => {
   return (
     <div>
       <div>
         <div className='name'>
-          <h5 className='login-label'>{event && event.name}</h5>
+          <h5 className='login-label'>{event.name}</h5>
         </div>
         <div className='bet-event-form '>
           <div className='card login-card'>{constructQuestionsList(event)}</div>
@@ -29,14 +29,9 @@ export const EventForm = ({ event }) => {
   );
 };
 
-EventForm.propTypes = {
-  event: PropTypes.object
-};
-
-export const constructQuestionsList = (event) => {
-  return (
-    event &&
-    event.questions.reduce((questionsList, question) => {
+export const constructQuestionsList = (event: EventType) => {
+  return event.questions.reduce<Array<ReactElement>>(
+    (questionsList, question) => {
       questionsList.push(
         <div
           key={question.questionId}
@@ -46,7 +41,8 @@ export const constructQuestionsList = (event) => {
         </div>
       );
       return questionsList;
-    }, [])
+    },
+    []
   );
 };
 
