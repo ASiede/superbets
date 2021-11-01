@@ -11,7 +11,7 @@ import LogIn from '../LogIn/LogIn';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
 import mockedStore from '../../__mocks__/mockedStore';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { ManageTab } from '../Types/StateTypes';
+import { ManageTab } from '../../Types/StateTypes';
 
 const mockStore = configureMockStore([thunk]);
 

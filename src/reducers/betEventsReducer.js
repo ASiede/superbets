@@ -8,7 +8,7 @@ import {
   RESET_NEW_BET_EVENT,
   UPDATE_MANAGE_TAB
 } from '../actions/index';
-import { ManageTab } from '../components/Types/StateTypes';
+import { ManageTab } from '../Types/StateTypes';
 
 export const initialState = {
   betEvents: [],

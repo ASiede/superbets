@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import { SNACKBAR_TYPES } from '../components/constants';
-import { ManageTab } from '../components/Types/StateTypes';
+import { ManageTab } from '../Types/StateTypes';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 

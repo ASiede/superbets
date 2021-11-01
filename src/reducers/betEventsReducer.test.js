@@ -8,7 +8,7 @@ import {
   updateManageTab,
   updateQuestionText
 } from '../actions';
-import { ManageTab } from '../components/Types/StateTypes';
+import { ManageTab } from '../Types/StateTypes';
 import betEvents, { initialState } from './betEventsReducer';
 
 describe('src/reducers/betEventsReducer.js', () => {

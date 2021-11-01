@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { updateManageTab } from '../../actions';
-import { ManageTab } from '../Types/StateTypes';
+import { ManageTab } from '../../Types/StateTypes';
 import './ManageNav.css';
 
 export const ManageNav = () => {

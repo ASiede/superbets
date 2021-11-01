@@ -6,7 +6,7 @@ import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
 import './Manage.css';
-import { ManageTab } from '../Types/StateTypes';
+import { ManageTab } from '../../Types/StateTypes';
 
 export const Manage = () => {
   const loginSnackbars = useRef(null);

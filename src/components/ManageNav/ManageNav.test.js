@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { updateManageTab } from '../../actions';
 import mockedStore from '../../__mocks__/mockedStore';
 import ManageNav from './ManageNav';
-import { ManageTab } from '../Types/StateTypes';
+import { ManageTab } from '../../Types/StateTypes';
 
 const mockStore = configureMockStore([thunk]);
 const mockDispatch = jest.fn();
