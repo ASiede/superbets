@@ -33,7 +33,7 @@ export const BetEventFormQuestion = ({ questionId }) => {
     }, []);
 
   return (
-    <div className='questionStyle'>
+    <div className='form-question-container'>
       {questionId === questionLength && (
         <div className='plus'>
           <Button
@@ -46,7 +46,7 @@ export const BetEventFormQuestion = ({ questionId }) => {
           />
         </div>
       )}
-      <div className='question'>
+      <div className='form-question'>
         <h4 className='login-label'>Question {questionId}: </h4>
         <InputText
           className='p-inputtext-sm extra-wide-input'

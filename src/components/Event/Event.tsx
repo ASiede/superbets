@@ -1,16 +1,14 @@
 import { ReactElement } from 'react';
 import { Button } from 'primereact/button';
 import EventQuestion from '../EventQuestion/EventQuestion';
-import { EventType } from '../Types/StateTypes';
+import { EventType } from '../../Types/StateTypes';
+import './Event.css';
 
 export const Event = ({ event }: { event: EventType }) => {
   return (
     <div>
       <div>
-        <div className='name'>
-          <h5 className='login-label'>{event.name}</h5>
-        </div>
-        <div className='bet-event-form '>
+        <div className='event-container'>
           <div className='card login-card'>{constructQuestionsList(event)}</div>
         </div>
       </div>
@@ -20,7 +18,7 @@ export const Event = ({ event }: { event: EventType }) => {
         ) : ( */}
         <Button
           // disabled={!betEventFormCompleted(newBetEvent)}
-          label='Save'
+          label='Confirm'
           // onClick={() => dispatch(persistBetEvent(loginSnackbars))}
         />
         {/* )} */}

@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import EventAnswer from '../EventAnswer/EventAnswer';
-import { EventQuestionType } from '../Types/StateTypes';
+import { EventQuestionType } from '../../Types/StateTypes';
+import './EventQuestion.css';
 
 export const EventQuestion = ({
   question

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { getEventsByUser } from '../../utils/events/events';
 import EventForm from '../Event/Event';
-import { StateType } from '../Types/StateTypes';
+import { StateType } from '../../Types/StateTypes';
 import { getUserIdFromState } from '../../utils/state/getState';
 
 export const ConfirmAnswers = () => {
@@ -21,7 +21,6 @@ export const ConfirmAnswers = () => {
 
   return (
     <div>
-      <p>CONFIRMING ANSWERS</p>
       <Dropdown
         value={selectedEvent}
         options={betEvents}

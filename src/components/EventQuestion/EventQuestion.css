@@ -1,0 +1,9 @@
+.question-container {
+  padding: 10px;
+}
+
+.question {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+}
