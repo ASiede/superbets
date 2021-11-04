@@ -10,7 +10,7 @@ import './BetEventFormAnswer.css';
 export const BetEventFormAnswer = ({ answerId, questionId }) => {
   const dispatch = useDispatch();
   return (
-    <div className='answer-container' key={answerId}>
+    <div className='form-answer-container' key={answerId}>
       {answerId === 1 && (
         <div className='plus'>
           <Button
@@ -23,8 +23,8 @@ export const BetEventFormAnswer = ({ answerId, questionId }) => {
           />
         </div>
       )}
-      <div className='answer-inputs'>
-        <div className='answer'>
+      <div className='form-answer-inputs'>
+        <div className='form-answer'>
           <h5 className='login-label'>Answer {answerId}</h5>
           <InputText
             className='p-inputtext-sm wide-input'
@@ -40,7 +40,7 @@ export const BetEventFormAnswer = ({ answerId, questionId }) => {
             }
           />
         </div>
-        <div className='odds'>
+        <div className='form-odds'>
           <h5 className='login-label'>Odds</h5>
           <InputNumber
             size={5}

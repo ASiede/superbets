@@ -8,7 +8,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import LoginForm from './SignInForm';
+import LoginForm from './LogInForm';
 import { logInUser } from '../../actions/user.actions';
 
 const mockDispatch = jest.fn();

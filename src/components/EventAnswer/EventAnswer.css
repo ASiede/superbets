@@ -1,20 +1,26 @@
-.form-answer-container {
+.answer-container {
   display: flex;
   flex-direction: column;
 }
 
-.form-answer-inputs {
+.answer-inputs {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
-.form-answer {
+.answer {
   display: flex;
   margin-bottom: 15px;
-  width: 75%;
+  width: 100%;
 }
 
-.form-odds {
+.answer:hover {
+  border: #d5a326 1px solid;
+  cursor: pointer;
+}
+
+.odds {
   display: flex;
   margin-bottom: 15px;
   width: 25%;

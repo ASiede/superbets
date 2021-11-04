@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
-import { MANAGE_TABS, SNACKBAR_TYPES } from '../components/constants';
+import { SNACKBAR_TYPES } from '../components/constants';
+import { ManageTab } from '../Types/StateTypes';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 
@@ -63,7 +64,7 @@ export const persistBetEvent =
       } else {
         dispatch(setPersistingBetEvent(false));
         dispatch(resetNewBetEvent());
-        dispatch(updateManageTab(MANAGE_TABS.CONFIRM));
+        dispatch(updateManageTab(ManageTab.CONFIRM));
         loginSnackbars.current.show(
           createSnackbar(
             SNACKBAR_TYPES.SUCCESS,
@@ -77,6 +78,5 @@ export const persistBetEvent =
         createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
       );
       dispatch(setPersistingBetEvent(false));
-      return;
     }
   };

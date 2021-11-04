@@ -1,8 +1,8 @@
-.questionStyle {
+.form-question-container {
   padding: 10px;
 }
 
-.question {
+.form-question {
   display: flex;
   flex-direction: row;
   margin-bottom: 30px;

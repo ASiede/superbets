@@ -3,15 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/eslint-recommended"
-  ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "extends": ["standard-react", "standard", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -20,13 +12,28 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["standard", "react", "@typescript-eslint"],
   "rules": {
-    "react/prop-types": "warn",
-    "no-unused-vars": "warn",
-    "no-empty": "warn",
-    "quotes": ["warn", "single"],
-    "comma-dangle": ["warn", "never"],
-    "no-console": "warn"
+    "strict": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    // "no-unused-vars": "warn",
+    // "no-empty": "warn",
+    // "quotes": ["warn", "single"],
+    // "comma-dangle": ["warn", "never"],
+    // "no-console": "warn"
+
+    // "semi": [0],
+    "no-use-before-define": 0
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "jest": true,
+    "beforeEach": true,
+    "afterEach": true
   }
 }
