@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import user from './userReducer';
-import betEvents from './betEventsReducer';
+import newBetEvent from './newBetEventReducer';
+import navigation from './navigationReducer';
 
 export const rootReducer = combineReducers({
-  betEvents,
+  navigation,
+  newBetEvent,
   user
 });
 

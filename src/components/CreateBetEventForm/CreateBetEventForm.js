@@ -9,8 +9,10 @@ import './CreateBetEventForm.css';
 
 export const CreateBetEventForm = ({ loginSnackbars }) => {
   const dispatch = useDispatch();
-  const newBetEvent = useSelector((state) => state.betEvents.newBetEvent);
-  const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
+  const newBetEvent = useSelector((state) => state.newBetEvent.event);
+  const persistingBetEvent = useSelector(
+    (state) => state.newBetEvent.persistingBetEvent
+  );
   return (
     <div>
       <div>

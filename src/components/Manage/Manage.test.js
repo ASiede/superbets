@@ -11,7 +11,7 @@ import LogIn from '../LogIn/LogIn';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
 import mockedStore from '../../__mocks__/mockedStore';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { ManageTab } from '../../Types/StateTypes';
+import { ManageTabType } from '../../Types/StateTypes';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -36,7 +36,7 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      betEvents: { ...mockedStore.betEvents, manageTab: ManageTab.CREATE }
+      navigation: { manageTab: ManageTabType.CREATE }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -56,7 +56,7 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      betEvents: { ...mockedStore.betEvents, manageTab: ManageTab.CONFIRM }
+      navigation: { manageTab: ManageTabType.CONFIRM }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -77,7 +77,7 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      betEvents: { ...mockedStore.betEvents, manageTab: undefined }
+      navigation: { manageTab: undefined }
     });
     const wrapper = mount(
       <Provider store={store}>

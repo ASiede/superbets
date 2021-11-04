@@ -5,16 +5,12 @@ import {
   UPDATE_QUESTION_TEXT,
   UPDATE_ANSWER,
   SET_PERSISTING_BET_EVENT,
-  RESET_NEW_BET_EVENT,
-  UPDATE_MANAGE_TAB
+  RESET_NEW_BET_EVENT
 } from '../actions/index';
-import { ManageTab } from '../Types/StateTypes';
 
 export const initialState = {
-  betEvents: [],
   persistingBetEvent: false,
-  manageTab: ManageTab.CONFIRM,
-  newBetEvent: {
+  event: {
     name: '',
     questions: [
       {
@@ -26,12 +22,12 @@ export const initialState = {
   }
 };
 
-export const betEvents = (state = initialState, { type, payload }) => {
+export const newBetEvent = (state = initialState, { type, payload }) => {
   switch (type) {
     case RESET_NEW_BET_EVENT:
       return {
         ...state,
-        newBetEvent: {
+        event: {
           name: '',
           questions: [
             {
@@ -52,30 +48,28 @@ export const betEvents = (state = initialState, { type, payload }) => {
     case SET_NEW_BET_EVENT_NAME:
       return {
         ...state,
-        newBetEvent: { ...state.newBetEvent, name: payload }
+        event: { ...state.event, name: payload }
       };
     case UPDATE_QUESTION_TEXT: {
       const { questionId, text } = payload;
-      const questionsWithUpdatedText = state.newBetEvent.questions.map(
-        (question) => {
-          if (question.questionId === questionId) {
-            return {
-              ...question,
-              text: text
-            };
-          } else return question;
-        }
-      );
+      const questionsWithUpdatedText = state.event.questions.map((question) => {
+        if (question.questionId === questionId) {
+          return {
+            ...question,
+            text: text
+          };
+        } else return question;
+      });
       return {
         ...state,
-        newBetEvent: {
-          ...state.newBetEvent,
+        event: {
+          ...state.event,
           questions: questionsWithUpdatedText
         }
       };
     }
     case UPDATE_ANSWER: {
-      const questionsWithUpdatedAnswer = state.newBetEvent.questions.map(
+      const questionsWithUpdatedAnswer = state.event.questions.map(
         (question) => {
           if (question.questionId === payload.questionId) {
             const updatedAnswers = question.answers.map((answer) => {
@@ -95,16 +89,16 @@ export const betEvents = (state = initialState, { type, payload }) => {
       );
       return {
         ...state,
-        newBetEvent: {
-          ...state.newBetEvent,
+        event: {
+          ...state.event,
           questions: questionsWithUpdatedAnswer
         }
       };
     }
     case ADD_QUESTION: {
-      const questionsLength = state.newBetEvent.questions.length;
+      const questionsLength = state.event.questions.length;
       const updatedQuestions = [
-        ...state.newBetEvent.questions,
+        ...state.event.questions,
         {
           questionId: questionsLength + 1,
           text: '',
@@ -115,21 +109,21 @@ export const betEvents = (state = initialState, { type, payload }) => {
       ];
       return {
         ...state,
-        newBetEvent: {
-          ...state.newBetEvent,
+        event: {
+          ...state.event,
           questions: updatedQuestions
         }
       };
     }
     case ADD_ANSWER: {
-      const answersLength = state.newBetEvent.questions.find(
+      const answersLength = state.event.questions.find(
         (question) => question.questionId === payload
       ).answers.length;
       return {
         ...state,
-        newBetEvent: {
-          ...state.newBetEvent,
-          questions: state.newBetEvent.questions.map((question) => {
+        event: {
+          ...state.event,
+          questions: state.event.questions.map((question) => {
             if (question.questionId === payload) {
               return {
                 ...question,
@@ -148,15 +142,9 @@ export const betEvents = (state = initialState, { type, payload }) => {
         }
       };
     }
-    case UPDATE_MANAGE_TAB: {
-      return {
-        ...state,
-        manageTab: payload
-      };
-    }
     default:
       return state;
   }
 };
 
-export default betEvents;
+export default newBetEvent;

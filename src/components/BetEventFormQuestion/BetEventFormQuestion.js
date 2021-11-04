@@ -10,12 +10,12 @@ import './BetEventFormQuestion.css';
 export const BetEventFormQuestion = ({ questionId }) => {
   const answers = useSelector(
     (state) =>
-      state.betEvents.newBetEvent.questions.find(
+      state.newBetEvent.event.questions.find(
         (question) => question.questionId === questionId
       ).answers
   );
   const questionLength = useSelector(
-    (state) => state.betEvents.newBetEvent.questions.length
+    (state) => state.newBetEvent.event.questions.length
   );
   const dispatch = useDispatch();
 

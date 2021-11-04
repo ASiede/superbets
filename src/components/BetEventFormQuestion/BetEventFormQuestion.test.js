@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import BetEventFormQuestion from './BetEventFormQuestion';
 import BetEventFormAnswer from '../BetEventFormAnswer/BetEventFormAnswer';
-import { addQuestion, updateAnswer, updateQuestionText } from '../../actions';
+import { addQuestion, updateQuestionText } from '../../actions';
 
 const mockStore = configureMockStore([thunk]);
 const mockDispatch = jest.fn();
@@ -22,8 +22,8 @@ jest.mock('react-redux', () => {
 describe('BetEventFormQuestion', () => {
   const questionId = 1;
   const store = mockStore({
-    betEvents: {
-      newBetEvent: {
+    newBetEvent: {
+      event: {
         questions: [
           {
             questionId: 1,

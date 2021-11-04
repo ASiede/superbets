@@ -45,8 +45,8 @@ describe('CreateBetEventForm', () => {
   };
   it('renders 1 Button, 1 InputText, and 2 BetEventFormQuestion', () => {
     const store = mockStore({
-      betEvents: {
-        newBetEvent: mockNewBetEvent
+      newBetEvent: {
+        event: mockNewBetEvent
       }
     });
     const wrapper = mount(
@@ -63,11 +63,9 @@ describe('CreateBetEventForm', () => {
   });
   it('renders 1 Spinner when persistingBetEvent is true', () => {
     const store = mockStore({
-      persistingBetEvent: true,
-      betEvents: {
-        newBetEvent: {
-          questions: []
-        }
+      newBetEvent: {
+        persistingBetEvent: true,
+        event: { questions: [] }
       }
     });
     const wrapper = mount(
@@ -81,8 +79,8 @@ describe('CreateBetEventForm', () => {
   it('dispatches setNewBetEventName on question input change', () => {
     const mockValue = 'The Best';
     const store = mockStore({
-      betEvents: {
-        newBetEvent: mockNewBetEvent
+      newBetEvent: {
+        event: mockNewBetEvent
       }
     });
     const wrapper = mount(
@@ -98,8 +96,8 @@ describe('CreateBetEventForm', () => {
   });
   it('dispatches persistBetEvent on button click', () => {
     const store = mockStore({
-      betEvents: {
-        newBetEvent: mockNewBetEvent
+      newBetEvent: {
+        event: mockNewBetEvent
       }
     });
     const wrapper = mount(

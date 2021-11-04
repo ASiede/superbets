@@ -6,30 +6,30 @@ import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
 import './Manage.css';
-import { ManageTab } from '../../Types/StateTypes';
+import { ManageTabType } from '../../Types/StateTypes';
 
 export const Manage = () => {
   const loginSnackbars = useRef(null);
   const loggedIn = useSelector((state) => state.user.loggedIn);
-  const manageTab = useSelector((state) => state.betEvents.manageTab);
+  const manageTab = useSelector((state) => state.navigation.manageTab);
 
   const renderCurrentTab = (tab) => {
     switch (tab) {
-      case ManageTab.CREATE:
+      case ManageTabType.CREATE:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Create New Bet Event</h2>
             <CreateBetEventForm loginSnackbars={loginSnackbars} />
           </div>
         );
-      case ManageTab.CONFIRM:
+      case ManageTabType.CONFIRM:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
             <ConfirmAnswers />
           </div>
         );
-      case ManageTab.EDIT:
+      case ManageTabType.EDIT:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Edit Bet Event</h2>
