@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loadUserWithValidJWT, logOutUser } from '../../actions/user.actions';
@@ -13,7 +13,7 @@ export const Nav = () => {
   }, [loggedIn, dispatch]);
   const handleLogOut = () => dispatch(logOutUser());
   return (
-    <div className='nav-container'>
+    <div id='top-header' className='nav-container'>
       <header className='nav-header'>
         <Link className='nav-header-link' to='/'>
           SUPERBETS

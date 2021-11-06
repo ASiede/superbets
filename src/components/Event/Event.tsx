@@ -22,8 +22,11 @@ export const Event = ({ manageSnackbars }) => {
         ) : ( */}
         <Button
           // disabled={!betEventFormCompleted(newBetEvent)}
-          label='Confirm'
-          onClick={() => dispatch(persistUpdatedEvent(manageSnackbars))}
+          label='Confirm Answers'
+          onClick={() => {
+            document.getElementById('top-header').scrollIntoView();
+            dispatch(persistUpdatedEvent(manageSnackbars));
+          }}
         />
         {/* )} */}
       </div>

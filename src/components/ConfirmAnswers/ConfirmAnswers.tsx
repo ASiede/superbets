@@ -23,7 +23,7 @@ export const ConfirmAnswers = ({ manageSnackbars }) => {
   );
 
   return (
-    <div>
+    <div id='confirm'>
       <Dropdown
         value={selectedEvent}
         options={betEvents}
