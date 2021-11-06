@@ -42,7 +42,7 @@ describe('src/actions/user.actions', () => {
     const username = 'pete';
     const password = 'password';
     const mockShow = jest.fn();
-    const loginSnackbars = {
+    const manageSnackbars = {
       current: {
         show: mockShow
       }
@@ -55,7 +55,7 @@ describe('src/actions/user.actions', () => {
           authToken: '1a'
         })
       });
-      await logInUser(username, password, loginSnackbars)(dispatch);
+      await logInUser(username, password, manageSnackbars)(dispatch);
       expect(dispatch).toHaveBeenCalledTimes(3);
       expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
       expect(dispatch.mock.calls[0][0].payload).toEqual(true);
@@ -68,7 +68,7 @@ describe('src/actions/user.actions', () => {
       fetch.mockResolvedValueOnce({
         status: mockStatus
       });
-      await logInUser(username, password, loginSnackbars)(dispatch);
+      await logInUser(username, password, manageSnackbars)(dispatch);
       expect(mockShow).toHaveBeenCalled();
       expect(mockShow).toHaveBeenCalledWith(
         createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
@@ -90,7 +90,7 @@ describe('src/actions/user.actions', () => {
       dispatch.mockImplementationOnce(() => {
         throw new Error();
       });
-      await logInUser(username, password, loginSnackbars)(dispatch);
+      await logInUser(username, password, manageSnackbars)(dispatch);
       expect(mockShow).toHaveBeenCalledWith(
         createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
       );

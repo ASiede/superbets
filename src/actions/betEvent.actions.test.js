@@ -4,7 +4,7 @@ import { ManageTabType } from '../Types/StateTypes';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 import {
-  persistBetEvent,
+  persistNewEvent,
   setPersistingBetEvent,
   resetNewBetEvent
 } from './betEvent.actions';
@@ -18,10 +18,10 @@ afterEach(() => {
   delete global.fetch;
 });
 
-describe('persistBetEvent', () => {
+describe('persistNewEvent', () => {
   it('POSTs a bet event', async () => {
     const mockShow = jest.fn();
-    const loginSnackbars = { current: { show: mockShow } };
+    const manageSnackbars = { current: { show: mockShow } };
     const mockId = '123';
     const mockName = 'SuperBowl 2020';
     const mockQuestions = [
@@ -75,7 +75,7 @@ describe('persistBetEvent', () => {
       status: 201,
       json: () => ({ name: mockName })
     });
-    await persistBetEvent(loginSnackbars)(dispatch, getState);
+    await persistNewEvent(manageSnackbars)(dispatch, getState);
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(true));
     expect(fetch).toHaveBeenCalledWith(`${SUPERBETS_API_BASE_URL}/betevent`, {
       method: 'POST',
@@ -96,7 +96,7 @@ describe('persistBetEvent', () => {
   });
   it('calls createSnackbar with an error message from the POST', async () => {
     const mockShow = jest.fn();
-    const loginSnackbars = { current: { show: mockShow } };
+    const manageSnackbars = { current: { show: mockShow } };
     const mockId = '123';
     const dispatch = jest.fn();
     const mockMessage = 'Name already used';
@@ -110,7 +110,7 @@ describe('persistBetEvent', () => {
         message: mockMessage
       })
     });
-    await persistBetEvent(loginSnackbars)(dispatch, getState);
+    await persistNewEvent(manageSnackbars)(dispatch, getState);
     expect(mockShow).toHaveBeenCalledWith(
       createSnackbar(SNACKBAR_TYPES.ERROR, mockMessage)
     );
@@ -119,7 +119,7 @@ describe('persistBetEvent', () => {
   });
   it('calls createSnackbar with an error from the POST', async () => {
     const mockShow = jest.fn();
-    const loginSnackbars = { current: { show: mockShow } };
+    const manageSnackbars = { current: { show: mockShow } };
     const mockId = '123';
     const dispatch = jest.fn();
     const mockErrorMessage = 'Uh Oh';
@@ -128,7 +128,7 @@ describe('persistBetEvent', () => {
       user: { id: mockId }
     });
     fetch.mockRejectedValueOnce(new Error(mockErrorMessage));
-    await persistBetEvent(loginSnackbars)(dispatch, getState);
+    await persistNewEvent(manageSnackbars)(dispatch, getState);
     expect(mockShow).toHaveBeenCalledWith(
       createSnackbar(SNACKBAR_TYPES.ERROR, mockErrorMessage)
     );

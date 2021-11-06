@@ -121,7 +121,7 @@ describe('RegisterUserForm', () => {
     it('shows a success snackbar and resets data on user registration', async () => {
       const mockShow = jest.fn();
       const newUserData = {};
-      const loginSnackbars = {
+      const manageSnackbars = {
         current: {
           show: mockShow
         }
@@ -131,7 +131,7 @@ describe('RegisterUserForm', () => {
       registerUser.mockResolvedValueOnce({ status: 201 });
       await submitRegistration(
         newUserData,
-        loginSnackbars,
+        manageSnackbars,
         setNewUserData,
         setInProgress
       );
@@ -149,7 +149,7 @@ describe('RegisterUserForm', () => {
       const setInProgress = jest.fn();
       const mockShow = jest.fn();
       const newUserData = {};
-      const loginSnackbars = {
+      const manageSnackbars = {
         current: {
           show: mockShow
         }
@@ -162,7 +162,7 @@ describe('RegisterUserForm', () => {
       });
       await submitRegistration(
         newUserData,
-        loginSnackbars,
+        manageSnackbars,
         setNewUserData,
         setInProgress
       );

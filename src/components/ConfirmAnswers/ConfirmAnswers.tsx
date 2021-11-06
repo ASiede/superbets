@@ -7,7 +7,7 @@ import { StateType } from '../../Types/StateTypes';
 import { getUserIdFromState } from '../../utils/state/getState';
 import { setEvent } from '../../actions';
 
-export const ConfirmAnswers = () => {
+export const ConfirmAnswers = ({ manageSnackbars }) => {
   const userId = useSelector((state: StateType) => getUserIdFromState(state));
   const event = useSelector((state: StateType) => state.selectedEvent);
   const [betEvents, setBetEvents] = useState([]);
@@ -37,7 +37,7 @@ export const ConfirmAnswers = () => {
         filterBy='name'
         placeholder='Select a Country'
       />
-      {event.name && <Event />}
+      {event.name && <Event manageSnackbars={manageSnackbars} />}
     </div>
   );
 };

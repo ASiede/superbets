@@ -7,7 +7,7 @@ import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { logInUser } from '../../actions/user.actions';
 
-export const LogInForm = ({ loginSnackbars }) => {
+export const LogInForm = ({ manageSnackbars }) => {
   const inProgress = useSelector((state) => state.user.logInInProgress);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -40,7 +40,7 @@ export const LogInForm = ({ loginSnackbars }) => {
           <Button
             label='Log In'
             onClick={() =>
-              dispatch(logInUser(username, password, loginSnackbars))
+              dispatch(logInUser(username, password, manageSnackbars))
             }
             disabled={!(password.length && username.length)}
           />
@@ -51,7 +51,7 @@ export const LogInForm = ({ loginSnackbars }) => {
 };
 
 LogInForm.propTypes = {
-  loginSnackbars: PropTypes.object
+  manageSnackbars: PropTypes.object
 };
 
 export default LogInForm;

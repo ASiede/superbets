@@ -88,7 +88,7 @@ describe('CreateBetEventForm', () => {
       .simulate('change', { target: { value: mockValue } });
     expect(mockDispatch).toHaveBeenCalledWith(setNewBetEventName(mockValue));
   });
-  it('dispatches persistBetEvent on button click', () => {
+  it('dispatches persistNewEvent on button click', () => {
     const store = mockStore({
       selectedEvent: mockNewBetEvent
     });

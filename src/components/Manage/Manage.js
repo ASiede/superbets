@@ -9,7 +9,7 @@ import './Manage.css';
 import { ManageTabType } from '../../Types/StateTypes';
 
 export const Manage = () => {
-  const loginSnackbars = useRef(null);
+  const manageSnackbars = useRef(null);
   const loggedIn = useSelector((state) => state.user.loggedIn);
   const manageTab = useSelector((state) => state.navigation.manageTab);
 
@@ -19,14 +19,14 @@ export const Manage = () => {
         return (
           <div className='manage'>
             <h2 className='blue-text'>Create New Bet Event</h2>
-            <CreateBetEventForm loginSnackbars={loginSnackbars} />
+            <CreateBetEventForm manageSnackbars={manageSnackbars} />
           </div>
         );
       case ManageTabType.CONFIRM:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
-            <ConfirmAnswers />
+            <ConfirmAnswers manageSnackbars={manageSnackbars} />
           </div>
         );
       case ManageTabType.EDIT:
@@ -49,8 +49,12 @@ export const Manage = () => {
   return (
     <div>
       <ManageNav />
-      <Messages ref={loginSnackbars} />
-      {!loggedIn ? <LogIn /> : renderCurrentTab(manageTab)}
+      <Messages ref={manageSnackbars} />
+      {!loggedIn ? (
+        <LogIn manageSnackbars={manageSnackbars} />
+      ) : (
+        renderCurrentTab(manageTab)
+      )}
     </div>
   );
 };
