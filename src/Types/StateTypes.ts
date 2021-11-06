@@ -7,20 +7,20 @@ export enum ManageTabType {
 
 export interface EventAnswerType {
   answerId: number;
-  text: string;
-  odds: number;
-  confirmed: boolean;
+  text?: string;
+  odds?: number;
+  confirmed?: boolean;
 }
 
 export interface EventQuestionType {
   questionId: number;
-  text: string;
-  answers: Array<EventAnswerType>;
+  text?: string;
+  answers?: Array<EventAnswerType>;
 }
 
 export interface EventType {
-  name: string;
-  questions: Array<EventQuestionType>;
+  name?: string;
+  questions?: Array<EventQuestionType>;
 }
 
 export interface UserStateType {
@@ -36,6 +36,6 @@ export interface NavigationType {
 export interface StateType {
   navigation: NavigationType;
   persistingBetEvent: boolean;
-  selectedEvent: EventType;
+  selectedEvent?: EventType;
   user: UserStateType;
 }

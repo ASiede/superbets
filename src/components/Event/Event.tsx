@@ -5,9 +5,14 @@ import EventQuestion from '../EventQuestion/EventQuestion';
 import { EventType, StateType } from '../../Types/StateTypes';
 import './Event.css';
 import { persistUpdatedEvent } from '../../actions';
+import { SnackbarType } from '../../Types/MiscTypes';
 
-export const Event = ({ manageSnackbars }) => {
-  const event = useSelector((state: StateType) => state.selectedEvent);
+export const Event = ({
+  manageSnackbars
+}: {
+  manageSnackbars: SnackbarType[];
+}) => {
+  const event = useSelector((state: StateType) => state.selectedEvent || {});
   const dispatch = useDispatch();
   return (
     <div>
@@ -24,7 +29,7 @@ export const Event = ({ manageSnackbars }) => {
           // disabled={!betEventFormCompleted(newBetEvent)}
           label='Confirm Answers'
           onClick={() => {
-            document.getElementById('top-header').scrollIntoView();
+            document?.getElementById('top-header')?.scrollIntoView();
             dispatch(persistUpdatedEvent(manageSnackbars));
           }}
         />
@@ -35,7 +40,7 @@ export const Event = ({ manageSnackbars }) => {
 };
 
 export const constructQuestionsList = (event: EventType) => {
-  return event.questions.reduce<Array<ReactElement>>(
+  return event?.questions?.reduce<Array<ReactElement>>(
     (questionsList, question) => {
       questionsList.push(
         <div

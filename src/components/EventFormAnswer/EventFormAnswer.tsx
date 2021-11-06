@@ -1,13 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
 import { addAnswer, updateAnswer } from '../../actions';
-import './BetEventFormAnswer.css';
+import './EventFormAnswer.css';
 
-export const BetEventFormAnswer = ({ answerId, questionId }) => {
+export const EventFormAnswer = ({
+  answerId,
+  questionId
+}: {
+  answerId: number;
+  questionId: number;
+}) => {
   const dispatch = useDispatch();
   return (
     <div className='form-answer-container' key={answerId}>
@@ -63,9 +67,4 @@ export const BetEventFormAnswer = ({ answerId, questionId }) => {
   );
 };
 
-BetEventFormAnswer.propTypes = {
-  questionId: PropTypes.number,
-  answerId: PropTypes.number
-};
-
-export default BetEventFormAnswer;
+export default EventFormAnswer;

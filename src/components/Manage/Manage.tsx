@@ -1,32 +1,34 @@
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Messages } from 'primereact/messages';
-import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
+import EventForm from '../EventForm/EventForm';
 import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
+import { ManageTabType, StateType } from '../../Types/StateTypes';
 import './Manage.css';
-import { ManageTabType } from '../../Types/StateTypes';
 
 export const Manage = () => {
   const manageSnackbars = useRef(null);
-  const loggedIn = useSelector((state) => state.user.loggedIn);
-  const manageTab = useSelector((state) => state.navigation.manageTab);
+  const loggedIn = useSelector((state: StateType) => state.user.loggedIn);
+  const manageTab = useSelector(
+    (state: StateType) => state.navigation.manageTab
+  );
 
-  const renderCurrentTab = (tab) => {
+  const renderCurrentTab = (tab: ManageTabType) => {
     switch (tab) {
       case ManageTabType.CREATE:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Create New Bet Event</h2>
-            <CreateBetEventForm manageSnackbars={manageSnackbars} />
+            <EventForm manageSnackbars={manageSnackbars as any} />
           </div>
         );
       case ManageTabType.CONFIRM:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
-            <ConfirmAnswers manageSnackbars={manageSnackbars} />
+            <ConfirmAnswers manageSnackbars={manageSnackbars as any} />
           </div>
         );
       case ManageTabType.EDIT:
@@ -40,7 +42,7 @@ export const Manage = () => {
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
-            <ConfirmAnswers />
+            <ConfirmAnswers manageSnackbars={manageSnackbars as any} />
           </div>
         );
     }

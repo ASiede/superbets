@@ -6,10 +6,15 @@ import Event from '../Event/Event';
 import { StateType } from '../../Types/StateTypes';
 import { getUserIdFromState } from '../../utils/state/getState';
 import { setEvent } from '../../actions';
+import { SnackbarType } from '../../Types/MiscTypes';
 
-export const ConfirmAnswers = ({ manageSnackbars }) => {
+export const ConfirmAnswers = ({
+  manageSnackbars
+}: {
+  manageSnackbars: SnackbarType[];
+}) => {
   const userId = useSelector((state: StateType) => getUserIdFromState(state));
-  const event = useSelector((state: StateType) => state.selectedEvent);
+  const event = useSelector((state: StateType) => state.selectedEvent || {});
   const [betEvents, setBetEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState();
   const dispatch = useDispatch();
@@ -37,7 +42,7 @@ export const ConfirmAnswers = ({ manageSnackbars }) => {
         filterBy='name'
         placeholder='Select a Country'
       />
-      {event.name && <Event manageSnackbars={manageSnackbars} />}
+      {event.name && <Event manageSnackbars={manageSnackbars as any} />}
     </div>
   );
 };

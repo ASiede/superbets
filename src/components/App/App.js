@@ -1,4 +1,3 @@
-import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import PrimeReact from 'primereact/api';
 import { createBrowserHistory } from 'history';

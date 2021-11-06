@@ -48,7 +48,9 @@
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.10.10",
     "@types/react-redux": "^7.1.20",
+    "@types/redux-mock-store": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3"

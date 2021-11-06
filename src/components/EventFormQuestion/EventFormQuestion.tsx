@@ -1,35 +1,35 @@
-import PropTypes from 'prop-types';
+import { ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import BetEventFormAnswer from '../BetEventFormAnswer/BetEventFormAnswer';
+import EventFormAnswer from '../EventFormAnswer/EventFormAnswer';
 import { addQuestion, updateQuestionText } from '../../actions';
-import './BetEventFormQuestion.css';
+import { StateType } from '../../Types/StateTypes';
+import { getAnswer } from '../../utils/state/getState';
+import './EventFormQuestion.css';
 
-export const BetEventFormQuestion = ({ questionId }) => {
-  const answers = useSelector(
-    (state) =>
-      state.selectedEvent.questions.find(
-        (question) => question.questionId === questionId
-      ).answers
+export const EventFormQuestion = ({ questionId }: { questionId: number }) => {
+  const answers = useSelector((state: StateType) =>
+    getAnswer(state, questionId)
   );
   const questionLength = useSelector(
-    (state) => state.selectedEvent.questions.length
+    (state: StateType) => state.selectedEvent?.questions?.length
   );
   const dispatch = useDispatch();
 
-  const answersList =
-    answers &&
-    answers.reduce((answersList, answer) => {
+  const answersList = answers?.reduce<Array<ReactElement>>(
+    (answersList, answer) => {
       answersList.push(
-        <BetEventFormAnswer
+        <EventFormAnswer
           key={answer.answerId}
           questionId={questionId}
           answerId={answer.answerId}
         />
       );
       return answersList;
-    }, []);
+    },
+    []
+  );
 
   return (
     <div className='form-question-container'>
@@ -61,8 +61,4 @@ export const BetEventFormQuestion = ({ questionId }) => {
   );
 };
 
-BetEventFormQuestion.propTypes = {
-  questionId: PropTypes.number
-};
-
-export default BetEventFormQuestion;
+export default EventFormQuestion;
