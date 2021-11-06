@@ -23,11 +23,6 @@ export interface EventType {
   questions: Array<EventQuestionType>;
 }
 
-export interface NewBetEventType {
-  persistingBetEvent: boolean;
-  event: EventType;
-}
-
 export interface UserStateType {
   loggedIn: boolean;
   username: string;
@@ -40,6 +35,7 @@ export interface NavigationType {
 
 export interface StateType {
   navigation: NavigationType;
-  newBetEvent: NewBetEventType;
+  persistingBetEvent: boolean;
+  selectedEvent: EventType;
   user: UserStateType;
 }

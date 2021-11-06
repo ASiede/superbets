@@ -1,10 +1,13 @@
 import { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import EventQuestion from '../EventQuestion/EventQuestion';
-import { EventType } from '../../Types/StateTypes';
+import { EventType, StateType } from '../../Types/StateTypes';
 import './Event.css';
 
-export const Event = ({ event }: { event: EventType }) => {
+export const Event = () => {
+  const event = useSelector((state: StateType) => state.selectedEvent);
+
   return (
     <div>
       <div>

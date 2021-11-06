@@ -32,7 +32,7 @@ describe('src/components/Mangage', () => {
     expect(logIn.length).toEqual(1);
     expect(createBetEventForm.length).toEqual(0);
   });
-  it('renders a ManageNav and CreateBetEventForm when logged in and tab selected', () => {
+  it.skip('renders a ManageNav and CreateBetEventForm when logged in and tab selected', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },

@@ -9,10 +9,8 @@ import './CreateBetEventForm.css';
 
 export const CreateBetEventForm = ({ loginSnackbars }) => {
   const dispatch = useDispatch();
-  const newBetEvent = useSelector((state) => state.newBetEvent.event);
-  const persistingBetEvent = useSelector(
-    (state) => state.newBetEvent.persistingBetEvent
-  );
+  const newBetEvent = useSelector((state) => state.selectedEvent);
+  const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
   return (
     <div>
       <div>
@@ -20,8 +18,8 @@ export const CreateBetEventForm = ({ loginSnackbars }) => {
           <h5 className='login-label'>Name of Betting Event</h5>
           <InputText
             className='p-inputtext-sm'
-            onChange={(event) =>
-              dispatch(setNewBetEventName(event.target.value))
+            onChange={(changeEvent) =>
+              dispatch(setNewBetEventName(changeEvent.target.value))
             }
           />
         </div>

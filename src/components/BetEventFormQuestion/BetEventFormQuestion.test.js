@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -22,15 +21,13 @@ jest.mock('react-redux', () => {
 describe('BetEventFormQuestion', () => {
   const questionId = 1;
   const store = mockStore({
-    newBetEvent: {
-      event: {
-        questions: [
-          {
-            questionId: 1,
-            answers: [{ answerId: 1 }, { answerId: 2 }]
-          }
-        ]
-      }
+    selectedEvent: {
+      questions: [
+        {
+          questionId: 1,
+          answers: [{ answerId: 1 }, { answerId: 2 }]
+        }
+      ]
     }
   });
   const wrapper = mount(

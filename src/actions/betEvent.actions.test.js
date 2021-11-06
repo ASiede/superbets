@@ -68,9 +68,7 @@ describe('persistBetEvent', () => {
     };
     const dispatch = jest.fn();
     const getState = () => ({
-      betEvents: {
-        newBetEvent: mockNewBetEvent
-      },
+      selectedEvent: mockNewBetEvent,
       user: { id: mockId }
     });
     fetch.mockResolvedValueOnce({
@@ -103,9 +101,7 @@ describe('persistBetEvent', () => {
     const dispatch = jest.fn();
     const mockMessage = 'Name already used';
     const getState = () => ({
-      betEvents: {
-        newBetEvent: {}
-      },
+      selectedEvent: {},
       user: { id: mockId }
     });
     fetch.mockResolvedValueOnce({
@@ -128,9 +124,7 @@ describe('persistBetEvent', () => {
     const dispatch = jest.fn();
     const mockErrorMessage = 'Uh Oh';
     const getState = () => ({
-      betEvents: {
-        newBetEvent: {}
-      },
+      selectedEvent: {},
       user: { id: mockId }
     });
     fetch.mockRejectedValueOnce(new Error(mockErrorMessage));

@@ -10,7 +10,13 @@ export const EventQuestion = ({
 }) => {
   const answersList = question.answers.reduce<Array<ReactElement>>(
     (answersList, answer) => {
-      answersList.push(<EventAnswer answer={answer} key={answer.answerId} />);
+      answersList.push(
+        <EventAnswer
+          answer={answer}
+          question={question}
+          key={answer.answerId}
+        />
+      );
       return answersList;
     },
     []

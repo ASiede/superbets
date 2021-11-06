@@ -3,16 +3,15 @@ import {
   addQuestion,
   resetNewBetEvent,
   setNewBetEventName,
-  setPersistingBetEvent,
   updateAnswer,
   updateQuestionText
 } from '../actions';
-import newBetEvent, { initialState } from './newBetEventReducer';
+import selectedEvent, { initialState } from './eventReducer';
 
 describe('src/reducers/newBetEventReducer', () => {
   describe('user', () => {
     it('returns initial state', () => {
-      const state = newBetEvent(undefined, {});
+      const state = selectedEvent(undefined, {});
       expect(state).toEqual(initialState);
     });
     it('resets the newBetEvent with a RESET_NEW_BET_EVENT action', () => {
@@ -29,36 +28,25 @@ describe('src/reducers/newBetEventReducer', () => {
         }
       };
       const action = resetNewBetEvent(true);
-      const updatedState = newBetEvent(state, action);
+      const updatedState = selectedEvent(state, action);
       expect(updatedState.event).toEqual(initialState.event);
-    });
-    it('sets persistingBetEvent with a SET_PERSISTING_BET_EVENT action', () => {
-      const state = {
-        persistingBetEvent: false
-      };
-      const action = setPersistingBetEvent(true);
-      const updatedState = newBetEvent(state, action);
-      expect(updatedState.persistingBetEvent).toEqual(true);
     });
     it('updates newBetEvent name with a SET_NEW_BET_EVENT_NAME action', () => {
       const name = 'World Cup';
       const action = setNewBetEventName(name);
-      const updatedState = newBetEvent(initialState, action);
-      expect(updatedState.event.name).toEqual(name);
+      const updatedState = selectedEvent(initialState, action);
+      expect(updatedState.name).toEqual(name);
     });
     it('updates question text with an UPDATE_QUESTION_TEXT action', () => {
       const questionId = 2;
       const text = 'Who loses?';
       const state = {
         ...initialState,
-        event: {
-          ...initialState.event,
-          questions: [...initialState.event.questions, { questionId: 2 }]
-        }
+        questions: [...initialState.questions, { questionId: 2 }]
       };
       const action = updateQuestionText({ questionId, text });
-      const updatedState = newBetEvent(state, action);
-      const updatedQuestion = updatedState.event.questions.find(
+      const updatedState = selectedEvent(state, action);
+      const updatedQuestion = updatedState.questions.find(
         (question) => question.questionId === questionId
       );
       expect(updatedQuestion.text).toEqual(text);
@@ -69,20 +57,18 @@ describe('src/reducers/newBetEventReducer', () => {
       const key = 'text';
       const value = 'Spain';
       const state = {
-        event: {
-          name: 'World Cup',
-          questions: [
-            {
-              questionId: 1,
-              text: 'Who wins?',
-              answers: [
-                { answerId: 1, text: 'France' },
-                { answerId: 2, text: 'England' }
-              ]
-            },
-            { questionId: 2 }
-          ]
-        }
+        name: 'World Cup',
+        questions: [
+          {
+            questionId: 1,
+            text: 'Who wins?',
+            answers: [
+              { answerId: 1, text: 'France' },
+              { answerId: 2, text: 'England' }
+            ]
+          },
+          { questionId: 2 }
+        ]
       };
       const action = updateAnswer({
         questionId,
@@ -90,17 +76,17 @@ describe('src/reducers/newBetEventReducer', () => {
         key,
         value
       });
-      const updatedState = newBetEvent(state, action);
-      const updatedAnswer = updatedState.event.questions
+      const updatedState = selectedEvent(state, action);
+      const updatedAnswer = updatedState.questions
         .find((question) => question.questionId === questionId)
         .answers.find((answer) => answer.answerId === answerId);
       expect(updatedAnswer.text).toEqual(value);
     });
     it('adds a question with an ADD_QUESTION action', () => {
       const action = addQuestion();
-      const updatedState = newBetEvent(initialState, action);
-      expect(updatedState.event.questions.length).toEqual(
-        initialState.event.questions.length + 1
+      const updatedState = selectedEvent(initialState, action);
+      expect(updatedState.questions.length).toEqual(
+        initialState.questions.length + 1
       );
     });
     it('adds an answer with an ADD_ANSWER action', () => {
@@ -108,13 +94,10 @@ describe('src/reducers/newBetEventReducer', () => {
       const action = addAnswer(questionId);
       const state = {
         ...initialState,
-        event: {
-          ...initialState.newBetEvent,
-          questions: [...initialState.event.questions, { questionId: 2 }]
-        }
+        questions: [...initialState.questions, { questionId: 2 }]
       };
-      const updatedState = newBetEvent(state, action);
-      const updatedQuestion = updatedState.event.questions.find(
+      const updatedState = selectedEvent(state, action);
+      const updatedQuestion = updatedState.questions.find(
         (question) => question.questionId === questionId
       );
       expect(updatedQuestion.answers.length).toEqual(2);

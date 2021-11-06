@@ -17,7 +17,7 @@
     "strict": 0,
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
-    // "no-unused-vars": "warn",
+    "no-unused-vars": 1,
     // "no-empty": "warn",
     // "quotes": ["warn", "single"],
     // "comma-dangle": ["warn", "never"],

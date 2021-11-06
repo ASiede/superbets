@@ -8,7 +8,7 @@ export const mockedStore = {
   navigation: {
     manageTab: ManageTabType.CREATE
   },
-  newBetEvent: {
+  selectedEvent: {
     event: {
       name: '',
       questions: [

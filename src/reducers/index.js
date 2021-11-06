@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
-import user from './userReducer';
-import newBetEvent from './newBetEventReducer';
 import navigation from './navigationReducer';
+import persistingEvent from './persistingReducer';
+import selectedEvent from './eventReducer';
+import user from './userReducer';
 
 export const rootReducer = combineReducers({
   navigation,
-  newBetEvent,
+  persistingEvent,
+  selectedEvent,
   user
 });
 
