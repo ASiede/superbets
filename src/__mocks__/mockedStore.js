@@ -1,10 +1,15 @@
+import { ManageTabType } from '../Types/StateTypes';
+
 export const mockedStore = {
   user: {
     loggedIn: false,
     logInInProgress: false
   },
-  betEvents: {
-    newBetEvent: {
+  navigation: {
+    manageTab: ManageTabType.CREATE
+  },
+  selectedEvent: {
+    event: {
       name: '',
       questions: [
         {

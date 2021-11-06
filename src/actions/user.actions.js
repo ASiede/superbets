@@ -29,7 +29,7 @@ export const storeAuthInfo = (authToken) => (dispatch) => {
 };
 
 export const logInUser =
-  (username, password, loginSnackbars) => async (dispatch) => {
+  (username, password, manageSnackbars) => async (dispatch) => {
     dispatch(setLogInInProgress(true));
     const response = await fetch(`${SUPERBETS_API_BASE_URL}/auth/login`, {
       method: 'POST',
@@ -37,7 +37,7 @@ export const logInUser =
       body: JSON.stringify({ username, password })
     });
     if (!response || response.status !== 200) {
-      loginSnackbars.current.show(
+      manageSnackbars.current.show(
         createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
       );
       dispatch(setLogInInProgress(false));
@@ -46,7 +46,7 @@ export const logInUser =
       try {
         dispatch(storeAuthInfo(responseJson.authToken));
       } catch (err) {
-        loginSnackbars.current.show(
+        manageSnackbars.current.show(
           createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
         );
       } finally {

@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
 import { getEventsByUser } from '../../utils/events/events';
-import EventForm from '../Event/Event';
+import Event from '../Event/Event';
 import { StateType } from '../../Types/StateTypes';
 import { getUserIdFromState } from '../../utils/state/getState';
+import { setEvent } from '../../actions';
 
-export const ConfirmAnswers = () => {
+export const ConfirmAnswers = ({ manageSnackbars }) => {
   const userId = useSelector((state: StateType) => getUserIdFromState(state));
+  const event = useSelector((state: StateType) => state.selectedEvent);
   const [betEvents, setBetEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState();
+  const dispatch = useDispatch();
   useEffect(
     (): any =>
       (async () => {
@@ -20,18 +23,21 @@ export const ConfirmAnswers = () => {
   );
 
   return (
-    <div>
+    <div id='confirm'>
       <Dropdown
         value={selectedEvent}
         options={betEvents}
-        onChange={(target) => setSelectedEvent(target.value)}
+        onChange={(target) => {
+          dispatch(setEvent(target.value));
+          setSelectedEvent(target.value);
+        }}
         optionLabel='name'
         filter
         showClear
         filterBy='name'
         placeholder='Select a Country'
       />
-      {selectedEvent && <EventForm event={selectedEvent} />}
+      {event.name && <Event manageSnackbars={manageSnackbars} />}
     </div>
   );
 };

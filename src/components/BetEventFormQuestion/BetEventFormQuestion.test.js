@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -7,7 +6,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import BetEventFormQuestion from './BetEventFormQuestion';
 import BetEventFormAnswer from '../BetEventFormAnswer/BetEventFormAnswer';
-import { addQuestion, updateAnswer, updateQuestionText } from '../../actions';
+import { addQuestion, updateQuestionText } from '../../actions';
 
 const mockStore = configureMockStore([thunk]);
 const mockDispatch = jest.fn();
@@ -22,15 +21,13 @@ jest.mock('react-redux', () => {
 describe('BetEventFormQuestion', () => {
   const questionId = 1;
   const store = mockStore({
-    betEvents: {
-      newBetEvent: {
-        questions: [
-          {
-            questionId: 1,
-            answers: [{ answerId: 1 }, { answerId: 2 }]
-          }
-        ]
-      }
+    selectedEvent: {
+      questions: [
+        {
+          questionId: 1,
+          answers: [{ answerId: 1 }, { answerId: 2 }]
+        }
+      ]
     }
   });
   const wrapper = mount(

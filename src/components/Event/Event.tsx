@@ -1,10 +1,14 @@
 import { ReactElement } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import EventQuestion from '../EventQuestion/EventQuestion';
-import { EventType } from '../../Types/StateTypes';
+import { EventType, StateType } from '../../Types/StateTypes';
 import './Event.css';
+import { persistUpdatedEvent } from '../../actions';
 
-export const Event = ({ event }: { event: EventType }) => {
+export const Event = ({ manageSnackbars }) => {
+  const event = useSelector((state: StateType) => state.selectedEvent);
+  const dispatch = useDispatch();
   return (
     <div>
       <div>
@@ -18,8 +22,11 @@ export const Event = ({ event }: { event: EventType }) => {
         ) : ( */}
         <Button
           // disabled={!betEventFormCompleted(newBetEvent)}
-          label='Confirm'
-          // onClick={() => dispatch(persistBetEvent(loginSnackbars))}
+          label='Confirm Answers'
+          onClick={() => {
+            document.getElementById('top-header').scrollIntoView();
+            dispatch(persistUpdatedEvent(manageSnackbars));
+          }}
         />
         {/* )} */}
       </div>

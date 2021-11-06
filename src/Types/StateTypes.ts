@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-export enum ManageTab {
+export enum ManageTabType {
   CONFIRM = 'CONFIRM',
   CREATE = 'CREATE',
   EDIT = 'EDIT'
@@ -23,20 +23,19 @@ export interface EventType {
   questions: Array<EventQuestionType>;
 }
 
-export interface BetEventStateType {
-  betEvents: Array<EventType>;
-}
-
 export interface UserStateType {
   loggedIn: boolean;
   username: string;
   id: string;
 }
 
+export interface NavigationType {
+  manageTab: ManageTabType;
+}
+
 export interface StateType {
-  betEvents: BetEventStateType;
+  navigation: NavigationType;
   persistingBetEvent: boolean;
-  manageTab: ManageTab;
-  newBetEvent: EventType;
+  selectedEvent: EventType;
   user: UserStateType;
 }

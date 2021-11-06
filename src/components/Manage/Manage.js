@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Messages } from 'primereact/messages';
 import CreateBetEventForm from '../CreateBetEventForm/CreateBetEventForm';
@@ -6,30 +6,30 @@ import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
 import './Manage.css';
-import { ManageTab } from '../../Types/StateTypes';
+import { ManageTabType } from '../../Types/StateTypes';
 
 export const Manage = () => {
-  const loginSnackbars = useRef(null);
+  const manageSnackbars = useRef(null);
   const loggedIn = useSelector((state) => state.user.loggedIn);
-  const manageTab = useSelector((state) => state.betEvents.manageTab);
+  const manageTab = useSelector((state) => state.navigation.manageTab);
 
   const renderCurrentTab = (tab) => {
     switch (tab) {
-      case ManageTab.CREATE:
+      case ManageTabType.CREATE:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Create New Bet Event</h2>
-            <CreateBetEventForm loginSnackbars={loginSnackbars} />
+            <CreateBetEventForm manageSnackbars={manageSnackbars} />
           </div>
         );
-      case ManageTab.CONFIRM:
+      case ManageTabType.CONFIRM:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
-            <ConfirmAnswers />
+            <ConfirmAnswers manageSnackbars={manageSnackbars} />
           </div>
         );
-      case ManageTab.EDIT:
+      case ManageTabType.EDIT:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Edit Bet Event</h2>
@@ -49,8 +49,12 @@ export const Manage = () => {
   return (
     <div>
       <ManageNav />
-      <Messages ref={loginSnackbars} />
-      {!loggedIn ? <LogIn /> : renderCurrentTab(manageTab)}
+      <Messages ref={manageSnackbars} />
+      {!loggedIn ? (
+        <LogIn manageSnackbars={manageSnackbars} />
+      ) : (
+        renderCurrentTab(manageTab)
+      )}
     </div>
   );
 };

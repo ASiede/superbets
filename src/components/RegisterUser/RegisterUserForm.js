@@ -16,7 +16,7 @@ const defaultUserData = {
   password: ''
 };
 
-export const RegisterUserForm = ({ loginSnackbars }) => {
+export const RegisterUserForm = ({ manageSnackbars }) => {
   const [newUserData, setNewUserData] = useState(defaultUserData);
   const [validEmail, setValidEmail] = useState(true);
   const [inProgress, setInProgress] = useState(false);
@@ -90,7 +90,7 @@ export const RegisterUserForm = ({ loginSnackbars }) => {
               onClick={() =>
                 submitRegistration(
                   newUserData,
-                  loginSnackbars,
+                  manageSnackbars,
                   setNewUserData,
                   setInProgress
                 )
@@ -107,7 +107,7 @@ export const RegisterUserForm = ({ loginSnackbars }) => {
 };
 
 RegisterUserForm.propTypes = {
-  loginSnackbars: PropTypes.object
+  manageSnackbars: PropTypes.object
 };
 
 export const validateEmail = (email, setValidEmail) => {
@@ -120,14 +120,14 @@ export const validateEmail = (email, setValidEmail) => {
 
 export const submitRegistration = async (
   newUserData,
-  loginSnackbars,
+  manageSnackbars,
   setNewUserData,
   setInProgress
 ) => {
   setInProgress(true);
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {
-    loginSnackbars.current.show(
+    manageSnackbars.current.show(
       createSnackbar(
         SNACKBAR_TYPES.SUCCESS,
         SNACKBAR_MESSAGES.REGISTRATION_SUCCESS
@@ -136,7 +136,7 @@ export const submitRegistration = async (
     // TODO: password doesn't clear
     setNewUserData(defaultUserData);
   } else {
-    loginSnackbars.current.show(
+    manageSnackbars.current.show(
       createSnackbar(SNACKBAR_TYPES.ERROR, errorMessage)
     );
   }

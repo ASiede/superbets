@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
@@ -10,12 +9,12 @@ import './BetEventFormQuestion.css';
 export const BetEventFormQuestion = ({ questionId }) => {
   const answers = useSelector(
     (state) =>
-      state.betEvents.newBetEvent.questions.find(
+      state.selectedEvent.questions.find(
         (question) => question.questionId === questionId
       ).answers
   );
   const questionLength = useSelector(
-    (state) => state.betEvents.newBetEvent.questions.length
+    (state) => state.selectedEvent.questions.length
   );
   const dispatch = useDispatch();
 

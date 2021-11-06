@@ -4,12 +4,12 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import BetEventFormQuestion from '../BetEventFormQuestion/BetEventFormQuestion';
-import { setNewBetEventName, persistBetEvent } from '../../actions';
+import { setNewBetEventName, persistNewEvent } from '../../actions';
 import './CreateBetEventForm.css';
 
-export const CreateBetEventForm = ({ loginSnackbars }) => {
+export const CreateBetEventForm = ({ manageSnackbars }) => {
   const dispatch = useDispatch();
-  const newBetEvent = useSelector((state) => state.betEvents.newBetEvent);
+  const newBetEvent = useSelector((state) => state.selectedEvent);
   const persistingBetEvent = useSelector((state) => state.persistingBetEvent);
   return (
     <div>
@@ -18,8 +18,8 @@ export const CreateBetEventForm = ({ loginSnackbars }) => {
           <h5 className='login-label'>Name of Betting Event</h5>
           <InputText
             className='p-inputtext-sm'
-            onChange={(event) =>
-              dispatch(setNewBetEventName(event.target.value))
+            onChange={(changeEvent) =>
+              dispatch(setNewBetEventName(changeEvent.target.value))
             }
           />
         </div>
@@ -36,7 +36,7 @@ export const CreateBetEventForm = ({ loginSnackbars }) => {
           <Button
             disabled={!betEventFormCompleted(newBetEvent)}
             label='Create Bet Event'
-            onClick={() => dispatch(persistBetEvent(loginSnackbars))}
+            onClick={() => dispatch(persistNewEvent(manageSnackbars))}
           />
         )}
       </div>
