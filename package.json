@@ -23,10 +23,14 @@
     "create-react-app": "^4.0.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard-react": "^11.0.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-standard": "^5.0.0",
     "history": "^4.0.0",
     "jwt-decode": "^3.1.2",
+    "prettier": "^2.4.1",
     "primeflex": "^3.0.1",
     "primeicons": "^4.1.0",
     "primereact": "^6.5.1",
@@ -51,11 +55,7 @@
     "@types/react-redux": "^7.1.20",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.22.0",
-    "prettier": "^2.4.1"
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3"
   },
   "jest": {
     "collectCoverageFrom": [

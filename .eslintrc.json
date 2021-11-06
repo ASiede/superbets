@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["standard-react", "standard", "eslint-config-prettier"],
+  "extends": ["standard-react", "standard", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
