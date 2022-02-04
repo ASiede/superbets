@@ -6,7 +6,7 @@ import { createSnackbar } from '../utils/snackbar/Snackbar';
 import {
   persistNewEvent,
   setPersistingBetEvent,
-  resetNewBetEvent
+  resetCurrentBetEvent
 } from './betEvent.actions';
 
 beforeEach(() => {
@@ -86,7 +86,6 @@ describe('persistNewEvent', () => {
       })
     });
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
-    expect(dispatch).toHaveBeenCalledWith(resetNewBetEvent());
     expect(dispatch).toHaveBeenCalledWith(
       updateManageTab(ManageTabType.CONFIRM)
     );

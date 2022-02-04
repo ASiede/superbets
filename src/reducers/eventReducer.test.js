@@ -1,7 +1,7 @@
 import {
   addAnswer,
   addQuestion,
-  resetNewBetEvent,
+  resetCurrentBetEvent,
   setNewBetEventName,
   updateAnswer,
   updateQuestionText
@@ -14,7 +14,7 @@ describe('src/reducers/newBetEventReducer', () => {
       const state = selectedEvent(undefined, {});
       expect(state).toEqual(initialState);
     });
-    it('resets the newBetEvent with a RESET_NEW_BET_EVENT action', () => {
+    it('resets the newBetEvent with a RESET_CURRENT_BET_EVENT action', () => {
       const state = {
         newBetEvent: {
           name: 'World Cup',
@@ -27,7 +27,7 @@ describe('src/reducers/newBetEventReducer', () => {
           ]
         }
       };
-      const action = resetNewBetEvent(true);
+      const action = resetCurrentBetEvent(true);
       const updatedState = selectedEvent(state, action);
       expect(updatedState.event).toEqual(initialState.event);
     });

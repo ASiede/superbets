@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -33,7 +32,7 @@ describe('ManageNav', () => {
     const nav = wrapper.find('nav');
     const p = wrapper.find('p');
     expect(nav.length).toBe(1);
-    expect(p.length).toBe(3);
+    expect(p.length).toBe(2);
   });
   it('dispatches updateManageTab with create tab', () => {
     const store = mockStore({ mockedStore });
@@ -66,9 +65,9 @@ describe('ManageNav', () => {
         <ManageNav />
       </Provider>
     );
-    wrapper.find('p').at(2).simulate('click');
+    wrapper.find('p').at(1).simulate('click');
     expect(mockDispatch).toHaveBeenCalledWith(
-      updateManageTab(ManageTabType.EDIT)
+      updateManageTab(ManageTabType.CONFIRM)
     );
   });
 });

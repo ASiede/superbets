@@ -1,39 +1,43 @@
-import PropTypes from 'prop-types';
+import { ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import BetEventFormAnswer from '../BetEventFormAnswer/BetEventFormAnswer';
+import EventFormAnswer from '../EventFormAnswer/EventFormAnswer';
 import { addQuestion, updateQuestionText } from '../../actions';
-import './BetEventFormQuestion.css';
+import { EventQuestionType, StateType } from '../../Types/StateTypes';
+import { getAnswer } from '../../utils/state/getState';
+import './EventFormQuestion.css';
 
-export const BetEventFormQuestion = ({ questionId }) => {
-  const answers = useSelector(
-    (state) =>
-      state.selectedEvent.questions.find(
-        (question) => question.questionId === questionId
-      ).answers
+export const EventFormQuestion = ({
+  question
+}: {
+  question: EventQuestionType;
+}) => {
+  const answers = useSelector((state: StateType) =>
+    getAnswer(state, question.questionId)
   );
   const questionLength = useSelector(
-    (state) => state.selectedEvent.questions.length
+    (state: StateType) => state.selectedEvent?.questions?.length
   );
   const dispatch = useDispatch();
 
-  const answersList =
-    answers &&
-    answers.reduce((answersList, answer) => {
+  const answersList = answers?.reduce<Array<ReactElement>>(
+    (answersList, answer) => {
       answersList.push(
-        <BetEventFormAnswer
+        <EventFormAnswer
           key={answer.answerId}
-          questionId={questionId}
-          answerId={answer.answerId}
+          questionId={question.questionId}
+          answer={answer}
         />
       );
       return answersList;
-    }, []);
+    },
+    []
+  );
 
   return (
     <div className='form-question-container'>
-      {questionId === questionLength && (
+      {question.questionId === questionLength && (
         <div className='plus'>
           <Button
             icon='pi pi-plus'
@@ -46,12 +50,16 @@ export const BetEventFormQuestion = ({ questionId }) => {
         </div>
       )}
       <div className='form-question'>
-        <h4 className='login-label'>Question {questionId}: </h4>
+        <h4 className='login-label'>Question {question.questionId}: </h4>
         <InputText
+          value={question.text}
           className='p-inputtext-sm extra-wide-input'
           onChange={(event) =>
             dispatch(
-              updateQuestionText({ questionId, text: event.target.value })
+              updateQuestionText({
+                questionId: question.questionId,
+                text: event.target.value
+              })
             )
           }
         />
@@ -61,8 +69,4 @@ export const BetEventFormQuestion = ({ questionId }) => {
   );
 };
 
-BetEventFormQuestion.propTypes = {
-  questionId: PropTypes.number
-};
-
-export default BetEventFormQuestion;
+export default EventFormQuestion;

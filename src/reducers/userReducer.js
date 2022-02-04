@@ -26,7 +26,8 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         username: payload.username,
-        id: payload.id
+        id: payload.id,
+        events: payload.events
       };
     case RESET_USER:
       return initialState;

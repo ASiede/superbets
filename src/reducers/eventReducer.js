@@ -4,7 +4,7 @@ import {
   ADD_ANSWER,
   UPDATE_QUESTION_TEXT,
   UPDATE_ANSWER,
-  RESET_NEW_BET_EVENT,
+  RESET_CURRENT_BET_EVENT,
   SET_EVENT,
   CONFIRM_ANSWER
 } from '../actions/index';
@@ -22,7 +22,7 @@ export const initialState = {
 
 export const selectedEvent = (state = initialState, { type, payload }) => {
   switch (type) {
-    case RESET_NEW_BET_EVENT:
+    case RESET_CURRENT_BET_EVENT:
       return {
         name: '',
         questions: [

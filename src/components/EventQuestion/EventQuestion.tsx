@@ -8,7 +8,7 @@ export const EventQuestion = ({
 }: {
   question: EventQuestionType;
 }) => {
-  const answersList = question.answers.reduce<Array<ReactElement>>(
+  const answersList = question?.answers?.reduce<Array<ReactElement>>(
     (answersList, answer) => {
       answersList.push(
         <EventAnswer
