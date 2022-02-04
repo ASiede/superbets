@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown } from 'primereact/dropdown';
-import { getEventsByUser } from '../../utils/events/events';
 import Event from '../Event/Event';
 import { StateType } from '../../Types/StateTypes';
-import { getUserIdFromState } from '../../utils/state/getState';
 import { setEvent } from '../../actions';
 import { SnackbarType } from '../../Types/MiscTypes';
 
@@ -13,25 +11,16 @@ export const ConfirmAnswers = ({
 }: {
   manageSnackbars: SnackbarType[];
 }) => {
-  const userId = useSelector((state: StateType) => getUserIdFromState(state));
   const event = useSelector((state: StateType) => state.selectedEvent || {});
-  const [betEvents, setBetEvents] = useState([]);
+  const events = useSelector((state: StateType) => state.user.events || []);
   const [selectedEvent, setSelectedEvent] = useState();
   const dispatch = useDispatch();
-  useEffect(
-    (): any =>
-      (async () => {
-        const events = await getEventsByUser(userId);
-        setBetEvents(events);
-      })(),
-    []
-  );
 
   return (
     <div id='confirm'>
       <Dropdown
         value={selectedEvent}
-        options={betEvents}
+        options={events}
         onChange={(target) => {
           dispatch(setEvent(target.value));
           setSelectedEvent(target.value);
@@ -40,8 +29,9 @@ export const ConfirmAnswers = ({
         filter
         showClear
         filterBy='name'
-        placeholder='Select a Country'
+        placeholder='Select an Event'
       />
+      <p>{event.name}</p>
       {event.name && <Event manageSnackbars={manageSnackbars as any} />}
     </div>
   );

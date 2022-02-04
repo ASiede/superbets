@@ -8,6 +8,7 @@ import {
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 import { SNACKBAR_TYPES, SNACKBAR_MESSAGES } from '../components/constants';
 import { SUPERBETS_API_BASE_URL } from '../config';
+import { getEventsByUser } from '../utils/events/events';
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN';
 export const SET_USER = 'SET_USER';
@@ -19,10 +20,12 @@ export const setUser = createAction(SET_USER);
 export const resetUser = createAction(RESET_USER);
 export const setLogInInProgress = createAction(SET_LOG_IN_IN_PROGRESS);
 
-export const storeAuthInfo = (authToken) => (dispatch) => {
+export const storeAuthInfo = (authToken) => async (dispatch) => {
   const decodedToken = jwtDecode(authToken);
   if (decodedToken.user && decodedToken.user.username) {
-    dispatch(setUser(decodedToken.user));
+    const userId = decodedToken.user.id;
+    const events = await getEventsByUser(userId);
+    dispatch(setUser({ ...decodedToken.user, events }));
     saveAuthToken(authToken);
     dispatch(setLogIn(true));
   }

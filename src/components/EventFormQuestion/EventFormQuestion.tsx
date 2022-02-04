@@ -4,13 +4,17 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import EventFormAnswer from '../EventFormAnswer/EventFormAnswer';
 import { addQuestion, updateQuestionText } from '../../actions';
-import { StateType } from '../../Types/StateTypes';
+import { EventQuestionType, StateType } from '../../Types/StateTypes';
 import { getAnswer } from '../../utils/state/getState';
 import './EventFormQuestion.css';
 
-export const EventFormQuestion = ({ questionId }: { questionId: number }) => {
+export const EventFormQuestion = ({
+  question
+}: {
+  question: EventQuestionType;
+}) => {
   const answers = useSelector((state: StateType) =>
-    getAnswer(state, questionId)
+    getAnswer(state, question.questionId)
   );
   const questionLength = useSelector(
     (state: StateType) => state.selectedEvent?.questions?.length
@@ -22,8 +26,8 @@ export const EventFormQuestion = ({ questionId }: { questionId: number }) => {
       answersList.push(
         <EventFormAnswer
           key={answer.answerId}
-          questionId={questionId}
-          answerId={answer.answerId}
+          questionId={question.questionId}
+          answer={answer}
         />
       );
       return answersList;
@@ -33,7 +37,7 @@ export const EventFormQuestion = ({ questionId }: { questionId: number }) => {
 
   return (
     <div className='form-question-container'>
-      {questionId === questionLength && (
+      {question.questionId === questionLength && (
         <div className='plus'>
           <Button
             icon='pi pi-plus'
@@ -46,12 +50,16 @@ export const EventFormQuestion = ({ questionId }: { questionId: number }) => {
         </div>
       )}
       <div className='form-question'>
-        <h4 className='login-label'>Question {questionId}: </h4>
+        <h4 className='login-label'>Question {question.questionId}: </h4>
         <InputText
+          value={question.text}
           className='p-inputtext-sm extra-wide-input'
           onChange={(event) =>
             dispatch(
-              updateQuestionText({ questionId, text: event.target.value })
+              updateQuestionText({
+                questionId: question.questionId,
+                text: event.target.value
+              })
             )
           }
         />

@@ -6,16 +6,16 @@ import { addAnswer, updateAnswer } from '../../actions';
 import './EventFormAnswer.css';
 
 export const EventFormAnswer = ({
-  answerId,
+  answer,
   questionId
 }: {
-  answerId: number;
+  answer: any;
   questionId: number;
 }) => {
   const dispatch = useDispatch();
   return (
-    <div className='form-answer-container' key={answerId}>
-      {answerId === 1 && (
+    <div className='form-answer-container' key={answer.answerId}>
+      {answer.answerId === 1 && (
         <div className='plus'>
           <Button
             icon='pi pi-plus'
@@ -29,14 +29,15 @@ export const EventFormAnswer = ({
       )}
       <div className='form-answer-inputs'>
         <div className='form-answer'>
-          <h5 className='login-label'>Answer {answerId}</h5>
+          <h5 className='login-label'>Answer {answer.answerId}</h5>
           <InputText
+            value={answer.text}
             className='p-inputtext-sm wide-input'
             onChange={(event) =>
               dispatch(
                 updateAnswer({
                   questionId,
-                  answerId,
+                  answerId: answer.answerId,
                   key: 'text',
                   value: event.target.value
                 })
@@ -47,6 +48,7 @@ export const EventFormAnswer = ({
         <div className='form-odds'>
           <h5 className='login-label'>Odds</h5>
           <InputNumber
+            value={answer.odds}
             size={5}
             mode='decimal'
             minFractionDigits={2}
@@ -54,9 +56,9 @@ export const EventFormAnswer = ({
               dispatch(
                 updateAnswer({
                   questionId,
-                  answerId,
+                  answerId: answer.answerId,
                   key: 'odds',
-                  value: 2
+                  value: event.value
                 })
               );
             }}

@@ -4,15 +4,21 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import EventFormQuestion from '../EventFormQuestion/EventFormQuestion';
-import { setNewBetEventName, persistNewEvent } from '../../actions';
+import {
+  setNewBetEventName,
+  persistNewEvent,
+  persistUpdatedEvent
+} from '../../actions';
 import { SnackbarType } from '../../Types/MiscTypes';
 import { EventType, StateType } from '../../Types/StateTypes';
 import './EventForm.css';
 
 export const EventForm = ({
-  manageSnackbars
+  manageSnackbars,
+  newOrEditMode
 }: {
   manageSnackbars: SnackbarType[];
+  newOrEditMode: string;
 }) => {
   const dispatch = useDispatch();
   const event = useSelector((state: StateType) => state.selectedEvent || {});
@@ -25,6 +31,7 @@ export const EventForm = ({
         <div className='name'>
           <h5 className='login-label'>Name of Betting Event</h5>
           <InputText
+            value={event.name}
             className='p-inputtext-sm'
             onChange={(changeEvent) =>
               dispatch(setNewBetEventName(changeEvent.target.value))
@@ -41,8 +48,14 @@ export const EventForm = ({
         ) : (
           <Button
             disabled={!eventFormCompleted(event)}
-            label='Create Bet Event'
-            onClick={() => dispatch(persistNewEvent(manageSnackbars))}
+            label={
+              newOrEditMode === 'New' ? 'Create Bet Event' : 'Update Bet Event'
+            }
+            onClick={() => {
+              newOrEditMode === 'New'
+                ? dispatch(persistNewEvent(manageSnackbars))
+                : dispatch(persistUpdatedEvent(manageSnackbars));
+            }}
           />
         )}
       </div>
@@ -68,7 +81,7 @@ export const constructQuestionsList = (event: EventType) => {
           key={question.questionId}
           className='question-container darkblue-bg'
         >
-          <EventFormQuestion questionId={question.questionId} />
+          <EventFormQuestion question={question} />
         </div>
       );
       return questionsList;

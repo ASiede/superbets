@@ -27,6 +27,7 @@ export interface UserStateType {
   loggedIn: boolean;
   username: string;
   id: string;
+  events: Array<EventType>;
 }
 
 export interface NavigationType {

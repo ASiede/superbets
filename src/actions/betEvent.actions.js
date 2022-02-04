@@ -7,7 +7,7 @@ import { createSnackbar } from '../utils/snackbar/Snackbar';
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const ADD_QUESTION = 'ADD_QUESTION';
 export const CONFIRM_ANSWER = 'CONFIRM_ANSWER';
-export const RESET_NEW_BET_EVENT = 'RESET_NEW_BET_EVENT';
+export const RESET_CURRENT_BET_EVENT = 'RESET_CURRENT_BET_EVENT';
 export const SET_EVENT = 'SET_EVENT';
 export const SET_NEW_BET_EVENT_NAME = 'SET_NEW_BET_EVENT_NAME';
 export const SET_PERSISTING_BET_EVENT = 'SET_PERSISTING_BET_EVENT';
@@ -18,7 +18,7 @@ export const UPDATE_QUESTION_TEXT = 'UPDATE_QUESTION_TEXT';
 export const addAnswer = createAction(ADD_ANSWER);
 export const addQuestion = createAction(ADD_QUESTION);
 export const confirmAnswer = createAction(CONFIRM_ANSWER);
-export const resetNewBetEvent = createAction(RESET_NEW_BET_EVENT);
+export const resetCurrentBetEvent = createAction(RESET_CURRENT_BET_EVENT);
 export const setEvent = createAction(SET_EVENT);
 export const setNewBetEventName = createAction(SET_NEW_BET_EVENT_NAME);
 export const setPersistingBetEvent = createAction(SET_PERSISTING_BET_EVENT);
@@ -50,7 +50,7 @@ export const persistNewEvent =
         return;
       } else {
         dispatch(setPersistingBetEvent(false));
-        dispatch(resetNewBetEvent());
+        dispatch(setEvent(response));
         dispatch(updateManageTab(ManageTabType.CONFIRM));
         manageSnackbars.current.show(
           createSnackbar(
@@ -92,10 +92,11 @@ export const persistUpdatedEvent =
         return;
       } else {
         dispatch(setPersistingBetEvent(false));
+        dispatch(updateManageTab(ManageTabType.CONFIRM));
         manageSnackbars.current.show(
           createSnackbar(
             SNACKBAR_TYPES.SUCCESS,
-            `${response.name} has been created`
+            `${response.name} has been updated`
           )
         );
         return;

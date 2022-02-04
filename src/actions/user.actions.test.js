@@ -15,10 +15,12 @@ import {
 } from '../utils/user/user';
 import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../components/constants';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
+import { getEventsByUser } from '../utils/events/events';
 
 global.fetch = jest.fn();
 jest.mock('jwt-decode');
 jest.mock('../utils/user/user');
+jest.mock('../utils/events/events');
 
 beforeEach(() => {
   fetch.mockClear();
@@ -26,14 +28,18 @@ beforeEach(() => {
 
 describe('src/actions/user.actions', () => {
   describe('storeAuthInfo', () => {
-    it('dispatches setUsername and setLogIn and calls saveAuthToken when there is a username', () => {
+    it('dispatches setUsername and setLogIn and calls saveAuthToken when there is a username', async () => {
       const mockUser = { username: 'Peyton', id: '123' };
+      const mockEvents = [{ name: 'event' }];
       jwtDecode.mockReturnValue({ user: mockUser });
+      getEventsByUser.mockResolvedValueOnce(mockEvents);
       const authToken = '1a';
       const dispatch = jest.fn();
-      storeAuthInfo(authToken)(dispatch);
+      await storeAuthInfo(authToken)(dispatch);
       expect(dispatch).toHaveBeenCalledTimes(2);
-      expect(dispatch).toHaveBeenCalledWith(setUser(mockUser));
+      expect(dispatch).toHaveBeenCalledWith(
+        setUser({ ...mockUser, events: mockEvents })
+      );
       expect(saveAuthToken).toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith(setLogIn(true));
     });

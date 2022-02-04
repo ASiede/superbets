@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { updateManageTab } from '../../actions';
+import { resetCurrentBetEvent, updateManageTab } from '../../actions';
 import { ManageTabType } from '../../Types/StateTypes';
 import './ManageNav.css';
 
@@ -11,22 +11,22 @@ export const ManageNav = () => {
     <div className='manage-nav-container'>
       <nav className='manage-nav'>
         <p
-          onClick={() => dispatch(updateManageTab(ManageTabType.CREATE))}
+          onClick={() => {
+            dispatch(resetCurrentBetEvent());
+            dispatch(updateManageTab(ManageTabType.CREATE));
+          }}
           className='manage-link'
         >
-          CREATE NEW BET EVENT
+          CREATE/EDIT
         </p>
         <p
-          onClick={() => dispatch(updateManageTab(ManageTabType.CONFIRM))}
+          onClick={() => {
+            dispatch(resetCurrentBetEvent());
+            dispatch(updateManageTab(ManageTabType.CONFIRM));
+          }}
           className='manage-link'
         >
           CONFIRM ANSWERS
-        </p>
-        <p
-          onClick={() => dispatch(updateManageTab(ManageTabType.EDIT))}
-          className='manage-link'
-        >
-          EDIT BET EVENT
         </p>
       </nav>
     </div>
