@@ -11,3 +11,5 @@ export const getAnswer = (
   );
   return foundQuestion?.answers || [];
 };
+
+export const getEventName = (state: StateType) => state.selectedEvent?.name;
