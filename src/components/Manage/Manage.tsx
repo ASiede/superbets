@@ -4,7 +4,6 @@ import { Messages } from 'primereact/messages';
 import { SelectButton } from 'primereact/selectbutton';
 import { Dropdown } from 'primereact/dropdown';
 import EventForm from '../EventForm/EventForm';
-import ManageNav from '../ManageNav/ManageNav';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
 import { ManageTabType, StateType } from '../../Types/StateTypes';
@@ -88,7 +87,6 @@ export const Manage = () => {
 
   return (
     <div>
-      <ManageNav />
       <Messages ref={manageSnackbars} />
       {!loggedIn ? (
         <LogIn manageSnackbars={manageSnackbars} />
