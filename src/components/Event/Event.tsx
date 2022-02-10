@@ -2,10 +2,10 @@ import { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import EventQuestion from '../EventQuestion/EventQuestion';
-import { EventType, StateType } from '../../Types/StateTypes';
-import './Event.css';
+import { EventMode, EventType, StateType } from '../../Types';
 import { persistUpdatedEvent } from '../../actions';
 import { SnackbarType } from '../../Types/MiscTypes';
+import './Event.css';
 
 export const Event = ({
   manageSnackbars
@@ -13,6 +13,7 @@ export const Event = ({
   manageSnackbars: SnackbarType[];
 }) => {
   const event = useSelector((state: StateType) => state.selectedEvent || {});
+  const mode = useSelector((state: StateType) => state.eventMode);
   const dispatch = useDispatch();
   return (
     <div>
@@ -22,18 +23,15 @@ export const Event = ({
         </div>
       </div>
       <div>
-        {/* {persistingBetEvent ? (
-          <ProgressSpinner />
-        ) : ( */}
         <Button
-          // disabled={!betEventFormCompleted(newBetEvent)}
-          label='Confirm Answers'
+          label={mode === EventMode.CONFIRM ? 'Confirm Answers' : 'Place Bet'}
           onClick={() => {
             document?.getElementById('top-header')?.scrollIntoView();
-            dispatch(persistUpdatedEvent(manageSnackbars));
+            mode === EventMode.CONFIRM
+              ? dispatch(persistUpdatedEvent(manageSnackbars as any))
+              : console.log('place bet');
           }}
         />
-        {/* )} */}
       </div>
     </div>
   );

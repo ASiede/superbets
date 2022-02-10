@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TabMenu } from 'primereact/tabmenu';
 import { loadUserWithValidJWT, logOutUser } from '../../actions/user.actions';
-import { resetCurrentBetEvent, updateManageTab } from '../../actions';
-import { ManageTabType, StateType } from '../../Types/StateTypes';
+import {
+  resetCurrentBetEvent,
+  setEventMode,
+  updateManageTab
+} from '../../actions';
+import { ManageTabType, StateType, EventMode } from '../../Types';
 import './Nav.css';
 
 export const Nav = () => {
@@ -13,6 +17,7 @@ export const Nav = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // TODO: change numbers to enum
     switch (activeIndex) {
       case 0:
         break;
@@ -24,13 +29,18 @@ export const Nav = () => {
         break;
       case 2:
         dispatch(resetCurrentBetEvent());
+        dispatch(setEventMode(EventMode.NEW));
         dispatch(updateManageTab(ManageTabType.CREATE));
         break;
       case 3:
         dispatch(resetCurrentBetEvent());
+        dispatch(setEventMode(EventMode.CONFIRM));
         dispatch(updateManageTab(ManageTabType.CONFIRM));
         break;
       case 4:
+        dispatch(resetCurrentBetEvent());
+        dispatch(setEventMode(EventMode.GUESS));
+        dispatch(updateManageTab(ManageTabType.PLACE_BET));
         break;
       default:
         break;
@@ -49,7 +59,8 @@ export const Nav = () => {
       icon: 'pi pi-fw pi-user'
     },
     { label: 'New/Edit Event', icon: 'pi pi-fw pi-pencil' },
-    { label: 'Confirm Answer', icon: 'pi pi-fw pi-check' }
+    { label: 'Confirm Answer', icon: 'pi pi-fw pi-check' },
+    { label: 'Place bet', icon: 'pi pi-fw pi-list' }
   ];
 
   return (

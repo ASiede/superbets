@@ -5,7 +5,7 @@ import {
   UPDATE_QUESTION_TEXT,
   UPDATE_ANSWER,
   RESET_CURRENT_BET_EVENT,
-  SET_EVENT,
+  SET_SELECTED_EVENT,
   CONFIRM_ANSWER
 } from '../actions/index';
 
@@ -35,7 +35,7 @@ export const selectedEvent = (state = initialState, { type, payload }) => {
           }
         ]
       };
-    case SET_EVENT: {
+    case SET_SELECTED_EVENT: {
       return {
         ...payload
       };

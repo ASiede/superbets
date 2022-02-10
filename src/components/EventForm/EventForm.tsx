@@ -9,19 +9,17 @@ import {
   persistNewEvent,
   persistUpdatedEvent
 } from '../../actions';
-import { SnackbarType } from '../../Types/MiscTypes';
-import { EventType, StateType } from '../../Types/StateTypes';
+import { EventType, StateType, EventMode, SnackbarType } from '../../Types';
 import './EventForm.css';
 
 export const EventForm = ({
-  manageSnackbars,
-  newOrEditMode
+  manageSnackbars
 }: {
   manageSnackbars: SnackbarType[];
-  newOrEditMode: string;
 }) => {
   const dispatch = useDispatch();
   const event = useSelector((state: StateType) => state.selectedEvent || {});
+  const eventMode = useSelector((state: StateType) => state.eventMode);
   const persistingBetEvent = useSelector(
     (state: StateType) => state.persistingBetEvent
   );
@@ -49,10 +47,12 @@ export const EventForm = ({
           <Button
             disabled={!eventFormCompleted(event)}
             label={
-              newOrEditMode === 'New' ? 'Create Bet Event' : 'Update Bet Event'
+              eventMode === EventMode.NEW
+                ? 'Create Bet Event'
+                : 'Update Bet Event'
             }
             onClick={() => {
-              newOrEditMode === 'New'
+              eventMode === EventMode.NEW
                 ? dispatch(persistNewEvent(manageSnackbars))
                 : dispatch(persistUpdatedEvent(manageSnackbars));
             }}

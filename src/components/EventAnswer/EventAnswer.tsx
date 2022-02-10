@@ -1,7 +1,29 @@
-import { EventAnswerType, EventQuestionType } from '../../Types/StateTypes';
-import { useDispatch } from 'react-redux';
+import {
+  EventAnswerType,
+  EventQuestionType,
+  EventMode,
+  StateType
+} from '../../Types';
+import { useDispatch, useSelector } from 'react-redux';
 import { confirmAnswer } from '../../actions';
 import './EventAnswer.css';
+
+const getAnswerColor = (confirmed: any, mode: any) => {
+  if (mode === EventMode.CONFIRM) {
+    if (confirmed) {
+      return `answer gold-bg mediumblue-border`;
+    } else {
+      return `answer black-bg mediumblue-border`;
+    }
+  }
+  if (mode === EventMode.GUESS) {
+    if (confirmed) {
+      return `guess green-bg mediumblue-border`;
+    } else {
+      return `guess black-bg mediumblue-border`;
+    }
+  }
+};
 
 export const EventAnswer = ({
   answer,
@@ -11,14 +33,13 @@ export const EventAnswer = ({
   question: EventQuestionType;
 }) => {
   const showOdds = false;
+  const mode = useSelector((state: StateType) => state.eventMode);
   const dispatch = useDispatch();
   return (
     <div className='answer-container' key={answer.answerId}>
       <div className='answer-inputs'>
         <div
-          className={`answer ${
-            answer.confirmed ? 'gold-bg' : 'black-bg'
-          } mediumblue-border`}
+          className={getAnswerColor(answer.confirmed, mode)}
           onClick={() =>
             dispatch(
               confirmAnswer({
