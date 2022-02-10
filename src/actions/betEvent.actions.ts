@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import { SNACKBAR_TYPES } from '../components/constants';
-import { ManageTabType } from '../Types/StateTypes';
+import { ManageTabType, EventType, EventMode, SnackbarType } from '../Types';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 
@@ -8,7 +8,8 @@ export const ADD_ANSWER = 'ADD_ANSWER';
 export const ADD_QUESTION = 'ADD_QUESTION';
 export const CONFIRM_ANSWER = 'CONFIRM_ANSWER';
 export const RESET_CURRENT_BET_EVENT = 'RESET_CURRENT_BET_EVENT';
-export const SET_EVENT = 'SET_EVENT';
+export const SET_EVENT_MODE = 'SET_EVENT_MODE';
+export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
 export const SET_NEW_BET_EVENT_NAME = 'SET_NEW_BET_EVENT_NAME';
 export const SET_PERSISTING_BET_EVENT = 'SET_PERSISTING_BET_EVENT';
 export const UPDATE_ANSWER = 'UPDATE_ANSWER';
@@ -19,7 +20,8 @@ export const addAnswer = createAction(ADD_ANSWER);
 export const addQuestion = createAction(ADD_QUESTION);
 export const confirmAnswer = createAction(CONFIRM_ANSWER);
 export const resetCurrentBetEvent = createAction(RESET_CURRENT_BET_EVENT);
-export const setEvent = createAction(SET_EVENT);
+export const setEventMode = createAction(SET_EVENT_MODE);
+export const setSelecteEvent = createAction(SET_SELECTED_EVENT);
 export const setNewBetEventName = createAction(SET_NEW_BET_EVENT_NAME);
 export const setPersistingBetEvent = createAction(SET_PERSISTING_BET_EVENT);
 export const updateAnswer = createAction(UPDATE_ANSWER);
@@ -28,7 +30,7 @@ export const updateOdds = createAction(UPDATE_ODDS);
 export const updateQuestionText = createAction(UPDATE_QUESTION_TEXT);
 
 export const persistNewEvent =
-  (manageSnackbars) => async (dispatch, getState) => {
+  (manageSnackbars: any) => async (dispatch: any, getState: any) => {
     const state = getState();
     const { selectedEvent } = state;
     dispatch(setPersistingBetEvent(true));
@@ -50,7 +52,7 @@ export const persistNewEvent =
         return;
       } else {
         dispatch(setPersistingBetEvent(false));
-        dispatch(setEvent(response));
+        dispatch(setEvent(response, EventMode.CONFIRM));
         dispatch(updateManageTab(ManageTabType.CONFIRM));
         manageSnackbars.current.show(
           createSnackbar(
@@ -60,7 +62,7 @@ export const persistNewEvent =
         );
         return;
       }
-    } catch (error) {
+    } catch (error: any) {
       manageSnackbars.current.show(
         createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
       );
@@ -69,7 +71,7 @@ export const persistNewEvent =
   };
 
 export const persistUpdatedEvent =
-  (manageSnackbars) => async (dispatch, getState) => {
+  (manageSnackbars: any) => async (dispatch: any, getState: any) => {
     const state = getState();
     const { selectedEvent } = state;
     const id = selectedEvent._id || selectedEvent.id;
@@ -101,10 +103,16 @@ export const persistUpdatedEvent =
         );
         return;
       }
-    } catch (error) {
+    } catch (error: any) {
       manageSnackbars.current.show(
         createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
       );
       dispatch(setPersistingBetEvent(false));
     }
+  };
+
+export const setEvent =
+  (event: EventType, mode: EventMode) => (dispatch: any) => {
+    dispatch(setSelecteEvent(event));
+    dispatch(setEventMode(mode));
   };

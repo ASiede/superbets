@@ -9,7 +9,8 @@
   justify-content: center;
 }
 
-.answer {
+.answer,
+.guess {
   display: flex;
   margin-bottom: 15px;
   width: 100%;
@@ -17,6 +18,11 @@
 
 .answer:hover {
   border: #d5a326 1px solid;
+  cursor: pointer;
+}
+
+.guess:hover {
+  border: #4caf50 1px solid;
   cursor: pointer;
 }
 
@@ -36,4 +42,8 @@
 
 .gold-bg {
   background-color: #d5a326;
+}
+
+.green-bg {
+  background-color: #4caf50;
 }

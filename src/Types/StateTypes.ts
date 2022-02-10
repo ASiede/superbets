@@ -2,6 +2,14 @@
 export enum ManageTabType {
   CONFIRM = 'CONFIRM',
   CREATE = 'CREATE',
+  EDIT = 'EDIT',
+  PLACE_BET = 'PLACE_BET'
+}
+
+export enum EventMode {
+  CONFIRM = 'CONFIRM',
+  GUESS = 'GUESS',
+  NEW = 'NEW',
   EDIT = 'EDIT'
 }
 
@@ -38,5 +46,6 @@ export interface StateType {
   navigation: NavigationType;
   persistingBetEvent: boolean;
   selectedEvent?: EventType;
+  eventMode: EventMode;
   user: UserStateType;
 }

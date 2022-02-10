@@ -5,8 +5,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import Event from '../Event/Event';
 import { setEvent } from '../../actions';
-import { getEventName } from '../../utils/state/getState';
-import { StateType, SnackbarType } from '../../Types';
+import { StateType, SnackbarType, EventMode } from '../../Types';
 import './ConfirmAnswers.css';
 
 const COPY_TO_CLIPBOARD = 'Copy To Clipboard';
@@ -17,15 +16,14 @@ export const ConfirmAnswers = ({
 }: {
   manageSnackbars: SnackbarType[];
 }) => {
-  const eventName = useSelector((state: StateType) => getEventName(state));
+  const event = useSelector((state: StateType) => state.selectedEvent);
   const user = useSelector((state: StateType) => state.user);
-  const [selectedEvent, setSelectedEvent] = useState();
   const [copyCodeToolTip, setCopyCodeToolTip] = useState(COPY_TO_CLIPBOARD);
   const [copyLinkToolTip, setCopyLinkToolTip] = useState(COPY_TO_CLIPBOARD);
   const dispatch = useDispatch();
 
   const events = user.events || [];
-  const encodedEvent = Buffer.from(`${user.username}:${eventName}`).toString(
+  const encodedEvent = Buffer.from(`${user.username}:${event?.name}`).toString(
     'base64'
   );
   const eventLink = `https://superbets.herokuapp.com/${encodedEvent}`; // TODO: update with local dev base url
@@ -33,20 +31,19 @@ export const ConfirmAnswers = ({
   return (
     <div id='confirm'>
       <Dropdown
-        value={selectedEvent}
+        value={event}
         options={events}
-        onChange={(target) => {
-          dispatch(setEvent(target.value));
-          setSelectedEvent(target.value);
-        }}
+        onChange={(target) =>
+          dispatch(setEvent(target.value, EventMode.CONFIRM))
+        }
         optionLabel='name'
         filter
         showClear
         filterBy='name'
         placeholder='Select an Event'
       />
-      <p>{eventName}</p>
-      {eventName && (
+      <p>{event?.name}</p>
+      {event?.name && (
         <div className='confirm-container'>
           <div>{<Event manageSnackbars={manageSnackbars as any} />}</div>
           <div className='side-card'>

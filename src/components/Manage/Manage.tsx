@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Messages } from 'primereact/messages';
 import { SelectButton } from 'primereact/selectbutton';
@@ -6,16 +6,17 @@ import { Dropdown } from 'primereact/dropdown';
 import EventForm from '../EventForm/EventForm';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { ManageTabType, StateType } from '../../Types/StateTypes';
-import { resetCurrentBetEvent, setEvent } from '../../actions';
+import { ManageTabType, StateType, EventMode } from '../../Types';
+import { resetCurrentBetEvent, setEvent, setEventMode } from '../../actions';
+import { PlaceBet } from '../PlaceBet/PlaceBet';
 import './Manage.css';
 
 export const Manage = () => {
   const manageSnackbars = useRef(null);
-  const [newOrEditMode, setNewOrEditMode] = useState('New');
   const events = useSelector((state: StateType) => state.user.events || []);
   const loggedIn = useSelector((state: StateType) => state.user.loggedIn);
-  const [selectedEvent, setSelectedEvent] = useState();
+  const eventMode = useSelector((state: StateType) => state.eventMode);
+  const event = useSelector((state: StateType) => state.selectedEvent);
   const manageTab = useSelector(
     (state: StateType) => state.navigation.manageTab
   );
@@ -23,10 +24,9 @@ export const Manage = () => {
 
   useEffect(() => {
     dispatch(resetCurrentBetEvent());
-    setSelectedEvent(undefined);
-  }, [newOrEditMode, dispatch]);
+  }, [eventMode, dispatch]);
 
-  const options = ['New', 'Edit'];
+  const options = [EventMode.NEW, EventMode.EDIT];
 
   const renderCurrentTab = (tab: ManageTabType) => {
     switch (tab) {
@@ -35,18 +35,17 @@ export const Manage = () => {
           <div className='manage'>
             <h2 className='blue-text'>Create New Bet Event</h2>
             <SelectButton
-              value={newOrEditMode}
+              value={eventMode}
               options={options}
-              onChange={(e) => setNewOrEditMode(e.value)}
+              onChange={(e) => dispatch(setEventMode(e.value))}
             />
-            {newOrEditMode === 'Edit' && (
+            {eventMode === EventMode.EDIT && (
               <div className='dropdown'>
                 <Dropdown
-                  value={selectedEvent}
+                  value={event}
                   options={events}
                   onChange={(target) => {
-                    dispatch(setEvent(target.value));
-                    setSelectedEvent(target.value);
+                    dispatch(setEvent(target.value, EventMode.EDIT));
                   }}
                   optionLabel='name'
                   filter
@@ -55,10 +54,7 @@ export const Manage = () => {
                 />
               </div>
             )}
-            <EventForm
-              manageSnackbars={manageSnackbars as any}
-              newOrEditMode={newOrEditMode}
-            />
+            <EventForm manageSnackbars={manageSnackbars as any} />
           </div>
         );
       case ManageTabType.CONFIRM:
@@ -68,11 +64,11 @@ export const Manage = () => {
             <ConfirmAnswers manageSnackbars={manageSnackbars as any} />
           </div>
         );
-      case ManageTabType.EDIT:
+      case ManageTabType.PLACE_BET:
         return (
           <div className='manage'>
-            <h2 className='blue-text'>Edit Bet Event</h2>
-            {/* <CreateBetEventForm /> */}
+            <h2 className='blue-text'>Place Bet</h2>
+            <PlaceBet manageSnackbars={manageSnackbars as any} />
           </div>
         );
       default:
