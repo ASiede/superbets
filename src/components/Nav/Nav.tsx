@@ -9,6 +9,7 @@ import {
   updateManageTab
 } from '../../actions';
 import { ManageTabType, StateType, EventMode } from '../../Types';
+import { history } from '../App/App';
 import './Nav.css';
 
 export const Nav = () => {
@@ -20,27 +21,33 @@ export const Nav = () => {
     // TODO: change numbers to enum
     switch (activeIndex) {
       case 0:
+        dispatch(resetCurrentBetEvent());
+        history.push('/');
         break;
       case 1:
         if (loggedIn) {
           dispatch(logOutUser());
         }
         dispatch(updateManageTab(ManageTabType.CREATE));
+        history.push('/manage');
         break;
       case 2:
         dispatch(resetCurrentBetEvent());
         dispatch(setEventMode(EventMode.NEW));
         dispatch(updateManageTab(ManageTabType.CREATE));
+        history.push('/manage');
         break;
       case 3:
         dispatch(resetCurrentBetEvent());
         dispatch(setEventMode(EventMode.CONFIRM));
         dispatch(updateManageTab(ManageTabType.CONFIRM));
+        history.push('/manage');
         break;
       case 4:
         dispatch(resetCurrentBetEvent());
         dispatch(setEventMode(EventMode.GUESS));
         dispatch(updateManageTab(ManageTabType.PLACE_BET));
+        history.push('/manage');
         break;
       default:
         break;
