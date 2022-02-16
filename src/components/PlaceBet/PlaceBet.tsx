@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { getEventFromEncoded } from '../../utils/events/events';
 import Event from '../Event/Event';
+import { setEvent, updateBettor } from '../../actions';
 import { EventMode, SnackbarType, StateType } from '../../Types';
-import { setEvent } from '../../actions';
-import { useDispatch, useSelector } from 'react-redux';
 
 export const PlaceBet = ({
   manageSnackbars
@@ -17,9 +17,8 @@ export const PlaceBet = ({
   const dispatch = useDispatch();
 
   const handleSearchForEvent = async () => {
-    const event1 = await getEventFromEncoded(codeInput);
-    console.log('EVENT', event1);
-    dispatch(setEvent(event1, EventMode.GUESS));
+    const decodedEvent = await getEventFromEncoded(codeInput);
+    dispatch(setEvent(decodedEvent, EventMode.GUESS));
   };
   return (
     <div>
@@ -33,7 +32,16 @@ export const PlaceBet = ({
           className='p-button-warning'
           onClick={handleSearchForEvent}
         />
-        {event?.name && <Event manageSnackbars={manageSnackbars as any} />}
+        {event?.name && (
+          <div>
+            <h2>{event.name}</h2>
+            <h5 className='login-label'>Your Name</h5>
+            <InputText
+              onChange={(e) => dispatch(updateBettor(e.target.value))}
+            />
+            <Event manageSnackbars={manageSnackbars as any} />
+          </div>
+        )}
       </div>
     </div>
   );

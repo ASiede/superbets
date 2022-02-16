@@ -2,9 +2,8 @@ import { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import EventQuestion from '../EventQuestion/EventQuestion';
-import { EventMode, EventType, StateType } from '../../Types';
-import { persistUpdatedEvent } from '../../actions';
-import { SnackbarType } from '../../Types/MiscTypes';
+import { persistUpdatedEvent, persistSubmission } from '../../actions';
+import { EventMode, EventType, StateType, SnackbarType } from '../../Types';
 import './Event.css';
 
 export const Event = ({
@@ -14,7 +13,15 @@ export const Event = ({
 }) => {
   const event = useSelector((state: StateType) => state.selectedEvent || {});
   const mode = useSelector((state: StateType) => state.eventMode);
+  const bettor = useSelector((state: StateType) => !!state.bettor);
   const dispatch = useDispatch();
+  const handleButtonClick = () => {
+    document?.getElementById('top-header')?.scrollIntoView();
+    mode === EventMode.CONFIRM
+      ? dispatch(persistUpdatedEvent(manageSnackbars as any))
+      : dispatch(persistSubmission(manageSnackbars as any));
+  };
+
   return (
     <div>
       <div>
@@ -24,13 +31,9 @@ export const Event = ({
       </div>
       <div>
         <Button
+          disabled={EventMode.GUESS && !bettor}
           label={mode === EventMode.CONFIRM ? 'Confirm Answers' : 'Place Bet'}
-          onClick={() => {
-            document?.getElementById('top-header')?.scrollIntoView();
-            mode === EventMode.CONFIRM
-              ? dispatch(persistUpdatedEvent(manageSnackbars as any))
-              : console.log('place bet');
-          }}
+          onClick={handleButtonClick}
         />
       </div>
     </div>

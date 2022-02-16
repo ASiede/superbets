@@ -15,18 +15,20 @@ export enum EventMode {
 
 export interface EventAnswerType {
   answerId: number;
-  text?: string;
+  text: string;
   odds?: number;
   confirmed?: boolean;
+  guessed?: boolean;
 }
 
 export interface EventQuestionType {
   questionId: number;
   text?: string;
-  answers?: Array<EventAnswerType>;
+  answers: Array<EventAnswerType>;
 }
 
 export interface EventType {
+  _id?: string;
   name?: string;
   questions?: Array<EventQuestionType>;
 }
@@ -43,9 +45,10 @@ export interface NavigationType {
 }
 
 export interface StateType {
+  bettor?: string;
+  eventMode: EventMode;
   navigation: NavigationType;
   persistingBetEvent: boolean;
   selectedEvent?: EventType;
-  eventMode: EventMode;
   user: UserStateType;
 }
