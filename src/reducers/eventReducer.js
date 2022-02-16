@@ -6,7 +6,7 @@ import {
   UPDATE_ANSWER,
   RESET_CURRENT_BET_EVENT,
   SET_SELECTED_EVENT,
-  CONFIRM_ANSWER
+  SELECT_ANSWER
 } from '../actions/index';
 
 export const initialState = {
@@ -82,16 +82,17 @@ export const selectedEvent = (state = initialState, { type, payload }) => {
         questions: questionsWithUpdatedAnswer
       };
     }
-    case CONFIRM_ANSWER: {
+    case SELECT_ANSWER: {
+      console.log('payload', payload.type);
       const questionsWithUpdatedAnswer = state.questions.map((question) => {
         if (question.questionId === payload.questionId) {
           const updatedAnswers = question.answers.map((answer) => {
             if (answer.answerId === payload.answerId) {
               return {
                 ...answer,
-                confirmed: !answer.confirmed
+                [payload.type]: !answer[payload.type]
               };
-            } else return { ...answer, confirmed: false };
+            } else return { ...answer, [payload.type]: false };
           });
           return {
             ...question,

@@ -1,12 +1,12 @@
 import { createAction } from 'redux-actions';
 import { SNACKBAR_TYPES } from '../components/constants';
-import { ManageTabType, EventType, EventMode, SnackbarType } from '../Types';
+import { ManageTabType, EventType, EventMode } from '../Types';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createSnackbar } from '../utils/snackbar/Snackbar';
 
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const ADD_QUESTION = 'ADD_QUESTION';
-export const CONFIRM_ANSWER = 'CONFIRM_ANSWER';
+export const SELECT_ANSWER = 'SELECT_ANSWER';
 export const RESET_CURRENT_BET_EVENT = 'RESET_CURRENT_BET_EVENT';
 export const SET_EVENT_MODE = 'SET_EVENT_MODE';
 export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
@@ -18,7 +18,7 @@ export const UPDATE_ODDS = 'UPDATE_ODDS';
 export const UPDATE_QUESTION_TEXT = 'UPDATE_QUESTION_TEXT';
 export const addAnswer = createAction(ADD_ANSWER);
 export const addQuestion = createAction(ADD_QUESTION);
-export const confirmAnswer = createAction(CONFIRM_ANSWER);
+export const selectAnswer = createAction(SELECT_ANSWER);
 export const resetCurrentBetEvent = createAction(RESET_CURRENT_BET_EVENT);
 export const setEventMode = createAction(SET_EVENT_MODE);
 export const setSelecteEvent = createAction(SET_SELECTED_EVENT);
