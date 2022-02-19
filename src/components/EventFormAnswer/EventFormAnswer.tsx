@@ -52,7 +52,7 @@ export const EventFormAnswer = ({
             size={5}
             mode='decimal'
             minFractionDigits={2}
-            onChange={(event) => {
+            onChange={(event) =>
               dispatch(
                 updateAnswer({
                   questionId,
@@ -60,8 +60,8 @@ export const EventFormAnswer = ({
                   key: 'odds',
                   value: event.value
                 })
-              );
-            }}
+              )
+            }
           />
         </div>
       </div>

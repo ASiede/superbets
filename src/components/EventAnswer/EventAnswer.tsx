@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { selectAnswer } from '../../actions';
 import {
   EventAnswerType,
   EventQuestionType,
   EventMode,
   StateType
 } from '../../Types';
-import { selectAnswer } from '../../actions';
 import './EventAnswer.css';
 
-const getAnswerColor = (answer: any, mode: any) => {
+export const getAnswerColor = (answer: any, mode: any) => {
   if (mode === EventMode.CONFIRM) {
     if (answer.confirmed) {
       return `answer gold-bg mediumblue-border`;
