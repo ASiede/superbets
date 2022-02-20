@@ -85,7 +85,7 @@ export const Manage = () => {
     <div>
       <Messages ref={manageSnackbars} />
       {!loggedIn ? (
-        <LogIn manageSnackbars={manageSnackbars} />
+        <LogIn manageSnackbars={manageSnackbars as any} />
       ) : (
         renderCurrentTab(manageTab)
       )}

@@ -1,8 +1,13 @@
 import RegisterUserForm from '../RegisterUser/RegisterUserForm';
 import LogInForm from '../LogInForm/LogInForm';
+import { SnackbarType } from '../../Types';
 import './LogIn.css';
 
-export const LogIn = ({ manageSnackbars }) => {
+export const LogIn = ({
+  manageSnackbars
+}: {
+  manageSnackbars: SnackbarType[];
+}) => {
   return (
     <div className='login-container'>
       <div className='forms-container'>

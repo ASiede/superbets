@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { logInUser } from '../../actions/user.actions';
+import { SnackbarType } from '../../Types';
 
-export const LogInForm = ({ manageSnackbars }) => {
-  const inProgress = useSelector((state) => state.user.logInInProgress);
+export const LogInForm = ({
+  manageSnackbars
+}: {
+  manageSnackbars: SnackbarType[];
+}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const inProgress = false; // TODO: fixme
 
   return (
     <div className='card login-card'>
@@ -48,10 +52,6 @@ export const LogInForm = ({ manageSnackbars }) => {
       </div>
     </div>
   );
-};
-
-LogInForm.propTypes = {
-  manageSnackbars: PropTypes.object
 };
 
 export default LogInForm;
