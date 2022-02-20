@@ -1,4 +1,3 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -7,7 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { createSnackbar } from '../../utils/snackbar/Snackbar';
-import { registerUser } from '../../utils/user/user';
+// import { registerUser } from '../../utils/user/user';
 import RegisterUserForm, {
   submitRegistration,
   validateEmail
@@ -19,11 +18,12 @@ const mockStore = configureMockStore([thunk]);
 jest.mock('../../utils/user/user');
 
 describe('RegisterUserForm', () => {
+  const mockManageSnackbars: any = [];
   it('renders elements of the RegistrationForm when inProgress false', () => {
     const store = mockStore({ validEmail: false });
     const wrapper = mount(
       <Provider store={store}>
-        <RegisterUserForm />
+        <RegisterUserForm manageSnackbars={mockManageSnackbars} />
       </Provider>
     );
     const inputs = wrapper.find(InputText);
@@ -37,7 +37,7 @@ describe('RegisterUserForm', () => {
     const store = mockStore({ validEmail: false });
     const wrapper = mount(
       <Provider store={store}>
-        <RegisterUserForm />
+        <RegisterUserForm manageSnackbars={mockManageSnackbars} />
       </Provider>
     );
     const inputs = wrapper.find(InputText);
@@ -51,7 +51,7 @@ describe('RegisterUserForm', () => {
     const store = mockStore({ validEmail: true });
     const wrapper = mount(
       <Provider store={store}>
-        <RegisterUserForm />
+        <RegisterUserForm manageSnackbars={mockManageSnackbars} />
       </Provider>
     );
     wrapper
@@ -82,7 +82,7 @@ describe('RegisterUserForm', () => {
     const store = mockStore({ validEmail: false });
     const wrapper = mount(
       <Provider store={store}>
-        <RegisterUserForm />
+        <RegisterUserForm manageSnackbars={mockManageSnackbars} />
       </Provider>
     );
     wrapper
@@ -128,7 +128,7 @@ describe('RegisterUserForm', () => {
       };
       const setNewUserData = jest.fn();
       const setInProgress = jest.fn();
-      registerUser.mockResolvedValueOnce({ status: 201 });
+      // registerUser.mockResolvedValueOnce({ status: 201 });
       await submitRegistration(
         newUserData,
         manageSnackbars,
@@ -156,10 +156,10 @@ describe('RegisterUserForm', () => {
       };
       const setNewUserData = jest.fn();
       const mockErrorMessage = 'bad stuff';
-      registerUser.mockResolvedValueOnce({
-        status: 400,
-        errorMessage: mockErrorMessage
-      });
+      // registerUser.mockResolvedValueOnce({
+      //   status: 400,
+      //   errorMessage: mockErrorMessage
+      // });
       await submitRegistration(
         newUserData,
         manageSnackbars,

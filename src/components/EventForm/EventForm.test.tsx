@@ -14,7 +14,6 @@ import {
   setNewBetEventName
 } from '../../actions';
 import EventFormQuestion from '../EventFormQuestion/EventFormQuestion';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { EventMode } from '../../Types';
 
 const mockStore = configureMockStore([thunk]);
@@ -66,19 +65,6 @@ describe('EventForm', () => {
     expect(button.length).toBeGreaterThan(1);
     expect(inputText.length).toBeGreaterThan(0);
     expect(betEventFormQuestion.length).toEqual(2);
-  });
-  it('renders 1 Spinner when persistingEvent is true', () => {
-    const store = mockStore({
-      persistingBetEvent: true,
-      selectedEvent: { questions: [] }
-    });
-    const wrapper = mount(
-      <Provider store={store}>
-        <EventForm manageSnackbars={mockManageSnackbars} />
-      </Provider>
-    );
-    const progressSpinner = wrapper.find(ProgressSpinner);
-    expect(progressSpinner.length).toEqual(1);
   });
   it('dispatches setNewBetEventName on question input change', () => {
     const mockValue = 'The Best';
