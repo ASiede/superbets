@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import EventFormQuestion from '../EventFormQuestion/EventFormQuestion';
 import {
   setNewBetEventName,
@@ -41,23 +40,20 @@ export const EventForm = ({
         </div>
       </div>
       <div>
-        {persistingBetEvent ? (
-          <ProgressSpinner />
-        ) : (
-          <Button
-            disabled={!eventFormCompleted(event)}
-            label={
-              eventMode === EventMode.NEW
-                ? 'Create Bet Event'
-                : 'Update Bet Event'
-            }
-            onClick={() => {
-              eventMode === EventMode.NEW
-                ? dispatch(persistNewEvent(manageSnackbars))
-                : dispatch(persistUpdatedEvent(manageSnackbars));
-            }}
-          />
-        )}
+        <Button
+          loading={persistingBetEvent}
+          disabled={!eventFormCompleted(event)}
+          label={
+            eventMode === EventMode.NEW
+              ? 'Create Bet Event'
+              : 'Update Bet Event'
+          }
+          onClick={() => {
+            eventMode === EventMode.NEW
+              ? dispatch(persistNewEvent(manageSnackbars))
+              : dispatch(persistUpdatedEvent(manageSnackbars));
+          }}
+        />
       </div>
     </div>
   );

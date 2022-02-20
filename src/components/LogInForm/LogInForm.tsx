@@ -3,8 +3,7 @@ import { useDispatch } from 'react-redux';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { logInUser } from '../../actions/user.actions';
+import { logInUser } from '../../actions';
 import { SnackbarType } from '../../Types';
 
 export const LogInForm = ({
@@ -12,10 +11,16 @@ export const LogInForm = ({
 }: {
   manageSnackbars: SnackbarType[];
 }) => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
-  const inProgress = false; // TODO: fixme
+  const [inProgress, setInProgress] = useState(false);
+  const formCompleted = password.length && username.length;
+
+  const handleLogInClick = () => {
+    setInProgress(true);
+    dispatch(logInUser(username, password, manageSnackbars));
+  };
 
   return (
     <div className='card login-card'>
@@ -23,32 +28,31 @@ export const LogInForm = ({
         <h5 className='login-label'>Username</h5>
         <InputText
           className='p-inputtext-sm'
-          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div>
         <h5 className='login-label'>Password</h5>
         <Password
+          id='input'
           className='p-inputtext-sm'
-          value={password}
           feedback={false}
           toggleMask={true}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.code === 'Enter' && formCompleted) {
+              handleLogInClick();
+            }
+          }}
         />
       </div>
       <div className='login-submit'>
-        {inProgress ? (
-          <ProgressSpinner />
-        ) : (
-          <Button
-            label='Log In'
-            onClick={() =>
-              dispatch(logInUser(username, password, manageSnackbars))
-            }
-            disabled={!(password.length && username.length)}
-          />
-        )}
+        <Button
+          loading={inProgress}
+          label='Log In'
+          onClick={handleLogInClick}
+          disabled={!formCompleted}
+        />
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { createSnackbar } from '../../utils/snackbar/Snackbar';
 import { registerUser } from '../../utils/user/user';
 import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../constants';
+import { SnackbarType } from '../../Types';
 
 const defaultUserData = {
   firstName: '',
@@ -16,10 +16,18 @@ const defaultUserData = {
   password: ''
 };
 
-export const RegisterUserForm = ({ manageSnackbars }) => {
+export const RegisterUserForm = ({
+  manageSnackbars
+}: {
+  manageSnackbars: SnackbarType[];
+}) => {
   const [newUserData, setNewUserData] = useState(defaultUserData);
   const [validEmail, setValidEmail] = useState(true);
   const [inProgress, setInProgress] = useState(false);
+
+  const formCompleted =
+    !Object.values(newUserData).some((v) => v === '') && validEmail;
+
   return (
     <div>
       <div className='card login-card'>
@@ -79,27 +87,32 @@ export const RegisterUserForm = ({ manageSnackbars }) => {
             onChange={(e) =>
               setNewUserData({ ...newUserData, password: e.target.value })
             }
-          />
-        </div>
-        <div className='login-submit'>
-          {inProgress ? (
-            <ProgressSpinner />
-          ) : (
-            <Button
-              label='Register User'
-              onClick={() =>
+            onKeyUp={(e) => {
+              if (e.code === 'Enter' && formCompleted) {
                 submitRegistration(
                   newUserData,
                   manageSnackbars,
                   setNewUserData,
                   setInProgress
-                )
+                );
               }
-              disabled={
-                Object.values(newUserData).some((v) => v === '') || !validEmail
-              }
-            />
-          )}
+            }}
+          />
+        </div>
+        <div className='login-submit'>
+          <Button
+            loading={inProgress}
+            label='Register User'
+            onClick={() =>
+              submitRegistration(
+                newUserData,
+                manageSnackbars,
+                setNewUserData,
+                setInProgress
+              )
+            }
+            disabled={!formCompleted}
+          />
         </div>
       </div>
     </div>
@@ -110,7 +123,7 @@ RegisterUserForm.propTypes = {
   manageSnackbars: PropTypes.object
 };
 
-export const validateEmail = (email, setValidEmail) => {
+export const validateEmail = (email: string, setValidEmail: any) => {
   const re =
     // eslint-disable-next-line
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -119,10 +132,10 @@ export const validateEmail = (email, setValidEmail) => {
 };
 
 export const submitRegistration = async (
-  newUserData,
-  manageSnackbars,
-  setNewUserData,
-  setInProgress
+  newUserData: any,
+  manageSnackbars: any,
+  setNewUserData: any,
+  setInProgress: any
 ) => {
   setInProgress(true);
   const { status, errorMessage } = await registerUser(newUserData);

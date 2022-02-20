@@ -7,7 +7,6 @@ import Nav from './Nav';
 import { TabMenu } from 'primereact/tabmenu';
 import { resetCurrentBetEvent } from '../../actions';
 import { history } from '../App/App';
-import React from 'react';
 
 jest.mock('../../actions');
 jest.mock('../App/App');

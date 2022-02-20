@@ -5,7 +5,6 @@ import configureMockStore from 'redux-mock-store';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import LoginForm from './LogInForm';
 import { logInUser } from '../../actions/user.actions';
 
@@ -38,7 +37,8 @@ describe('src/components/LoginForm', () => {
     expect(passwordInput.length).toEqual(1);
     expect(button.length).toEqual(1);
   });
-  it.skip('renders LogInForm and spinner when logInInProgress true', () => {
+
+  it.skip('renders LogInForm when logInInProgress true', () => {
     const store = mockStore({ user: { logInInProgress: true } });
     const wrapper = mount(
       <Provider store={store}>
@@ -48,12 +48,11 @@ describe('src/components/LoginForm', () => {
     const inputs = wrapper.find(InputText);
     const passwordInput = wrapper.find(Password);
     const button = wrapper.find(Button);
-    const spinner = wrapper.find(ProgressSpinner);
     expect(inputs.length).toEqual(2);
     expect(passwordInput.length).toEqual(1);
     expect(button.length).toEqual(0);
-    expect(spinner.length).toEqual(1);
   });
+
   it('enables button when username and password are set', () => {
     const store = mockStore({ user: { logInInProgress: false } });
     const wrapper = mount(
