@@ -4,8 +4,8 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import EventFormAnswer from '../EventFormAnswer/EventFormAnswer';
 import { addQuestion, updateQuestionText } from '../../actions';
-import { EventQuestionType, StateType } from '../../Types/StateTypes';
 import { getAnswer } from '../../utils/state/getState';
+import { EventQuestionType, StateType } from '../../Types/StateTypes';
 import './EventFormQuestion.css';
 
 export const EventFormQuestion = ({

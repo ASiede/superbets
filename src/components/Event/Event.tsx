@@ -16,7 +16,7 @@ export const Event = ({
   const bettor = useSelector((state: StateType) => !!state.bettor);
   const dispatch = useDispatch();
   const handleButtonClick = () => {
-    document?.getElementById('top-header')?.scrollIntoView();
+    document.getElementById('top-header')?.scrollIntoView();
     mode === EventMode.CONFIRM
       ? dispatch(persistUpdatedEvent(manageSnackbars as any))
       : dispatch(persistSubmission(manageSnackbars as any));
