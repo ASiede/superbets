@@ -37,10 +37,9 @@ beforeEach(() => {
 describe('ConfirmAnswers', () => {
   it('renders 1 Drop down prior to event selection', () => {
     const store = mockStore({ ...mockedStore, selectedEvent: null });
-    const mockSnackBars: any = [];
     const wrapper = mount(
       <Provider store={store}>
-        <ConfirmAnswers manageSnackbars={mockSnackBars} />
+        <ConfirmAnswers />
       </Provider>
     );
     const dropdown = wrapper.find(Dropdown);
@@ -51,10 +50,9 @@ describe('ConfirmAnswers', () => {
       ...mockedStore,
       selectedEvent: { name: 'superbowl' }
     });
-    const mockSnackBars: any = [];
     const wrapper = mount(
       <Provider store={store}>
-        <ConfirmAnswers manageSnackbars={mockSnackBars} />
+        <ConfirmAnswers />
       </Provider>
     );
     const event = wrapper.find(Event);
@@ -70,11 +68,10 @@ describe('ConfirmAnswers', () => {
       ...mockedStore,
       user: { events: [{ name: 'superbowl' }] }
     });
-    const mockSnackBars: any = [];
     const mockValue: any = 'superbowl';
     const wrapper: any = mount(
       <Provider store={store}>
-        <ConfirmAnswers manageSnackbars={mockSnackBars} />
+        <ConfirmAnswers />
       </Provider>
     );
     wrapper.find(Dropdown).at(0).props().onChange({ value: mockValue });
@@ -87,10 +84,9 @@ describe('ConfirmAnswers', () => {
       ...mockedStore,
       selectedEvent: { name: 'superbowl' }
     });
-    const mockSnackBars: any = [];
     const wrapper: any = mount(
       <Provider store={store}>
-        <ConfirmAnswers manageSnackbars={mockSnackBars} />
+        <ConfirmAnswers />
       </Provider>
     );
     wrapper.find(Button).at(1).props().onClick();

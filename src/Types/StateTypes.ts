@@ -50,5 +50,6 @@ export interface StateType {
   navigation: NavigationType;
   persistingBetEvent: boolean;
   selectedEvent?: EventType;
+  toast: any;
   user: UserStateType;
 }

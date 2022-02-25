@@ -4,13 +4,8 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import { logInUser } from '../../actions';
-import { SnackbarType } from '../../Types';
 
-export const LogInForm = ({
-  manageSnackbars
-}: {
-  manageSnackbars: SnackbarType[];
-}) => {
+export const LogInForm = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +14,7 @@ export const LogInForm = ({
 
   const handleLogInClick = () => {
     setInProgress(true);
-    dispatch(logInUser(username, password, manageSnackbars));
+    dispatch(logInUser(username, password));
   };
 
   return (

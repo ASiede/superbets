@@ -1,18 +1,26 @@
 import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Messages } from 'primereact/messages';
+import { Toast } from 'primereact/toast';
 import { SelectButton } from 'primereact/selectbutton';
 import { Dropdown } from 'primereact/dropdown';
 import EventForm from '../EventForm/EventForm';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
 import { ManageTabType, StateType, EventMode } from '../../Types';
-import { resetCurrentBetEvent, setEvent, setEventMode } from '../../actions';
+import {
+  resetCurrentBetEvent,
+  setEvent,
+  setEventMode,
+  setToast
+} from '../../actions';
 import { PlaceBet } from '../PlaceBet/PlaceBet';
 import './Manage.css';
 
 export const Manage = () => {
-  const manageSnackbars = useRef(null);
+  const toast: any = useRef(null);
+  const dispatch = useDispatch();
+  dispatch(setToast(toast));
+
   const events = useSelector((state: StateType) => state.user.events || []);
   const loggedIn = useSelector((state: StateType) => state.user.loggedIn);
   const eventMode = useSelector((state: StateType) => state.eventMode);
@@ -20,7 +28,6 @@ export const Manage = () => {
   const manageTab = useSelector(
     (state: StateType) => state.navigation.manageTab
   );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(resetCurrentBetEvent());
@@ -54,28 +61,28 @@ export const Manage = () => {
                 />
               </div>
             )}
-            <EventForm manageSnackbars={manageSnackbars as any} />
+            <EventForm />
           </div>
         );
       case ManageTabType.CONFIRM:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
-            <ConfirmAnswers manageSnackbars={manageSnackbars as any} />
+            <ConfirmAnswers />
           </div>
         );
       case ManageTabType.PLACE_BET:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Place Bet</h2>
-            <PlaceBet manageSnackbars={manageSnackbars as any} />
+            <PlaceBet />
           </div>
         );
       default:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Confirm Answers</h2>
-            <ConfirmAnswers manageSnackbars={manageSnackbars as any} />
+            <ConfirmAnswers />
           </div>
         );
     }
@@ -83,12 +90,8 @@ export const Manage = () => {
 
   return (
     <div>
-      <Messages ref={manageSnackbars} />
-      {!loggedIn ? (
-        <LogIn manageSnackbars={manageSnackbars as any} />
-      ) : (
-        renderCurrentTab(manageTab)
-      )}
+      <Toast ref={toast} />
+      {!loggedIn ? <LogIn /> : renderCurrentTab(manageTab)}
     </div>
   );
 };

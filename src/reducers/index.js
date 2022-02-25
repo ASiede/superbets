@@ -5,6 +5,7 @@ import navigation from './navigationReducer';
 import persistingEvent from './persistingReducer';
 import selectedEvent from './eventReducer';
 import user from './userReducer';
+import toast from './toastReducer';
 
 export const rootReducer = combineReducers({
   bettor,
@@ -12,6 +13,7 @@ export const rootReducer = combineReducers({
   navigation,
   persistingEvent,
   selectedEvent,
+  toast,
   user
 });
 

@@ -40,10 +40,9 @@ describe('Event', () => {
         ]
       }
     });
-    const mockSnackBars: any = [];
     const wrapper = mount(
       <Provider store={store}>
-        <Event manageSnackbars={mockSnackBars} />
+        <Event />
       </Provider>
     );
     const button = wrapper.find(Button);
@@ -53,26 +52,24 @@ describe('Event', () => {
   });
   it('calls handleButtonClick on button click', () => {
     const store = mockStore({ ...mockedStore, eventMode: EventMode.GUESS });
-    const mockSnackBars: any = [];
     const wrapper: any = mount(
       <Provider store={store}>
-        <Event manageSnackbars={mockSnackBars} />
+        <Event />
       </Provider>
     );
     wrapper.find(Button).props().onClick();
     expect(mockDispatch).toBeCalledTimes(1);
-    expect(persistSubmission).toBeCalledWith(mockSnackBars);
+    expect(persistSubmission).toBeCalled();
   });
   it('calls handleButtonClick on button click', () => {
     const store = mockStore({ ...mockedStore, eventMode: EventMode.CONFIRM });
-    const mockSnackBars: any = [];
     const wrapper: any = mount(
       <Provider store={store}>
-        <Event manageSnackbars={mockSnackBars} />
+        <Event />
       </Provider>
     );
     wrapper.find(Button).props().onClick();
     expect(mockDispatch).toBeCalledTimes(1);
-    expect(persistUpdatedEvent).toBeCalledWith(mockSnackBars);
+    expect(persistUpdatedEvent).toBeCalled();
   });
 });

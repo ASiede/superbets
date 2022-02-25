@@ -48,7 +48,6 @@ describe('EventForm', () => {
       }
     ]
   };
-  const mockManageSnackbars: any = [];
 
   it('renders 1 Button, 1 InputText, and 2 EventFormQuestion', () => {
     const store = mockStore({
@@ -56,7 +55,7 @@ describe('EventForm', () => {
     });
     const wrapper = mount(
       <Provider store={store}>
-        <EventForm manageSnackbars={mockManageSnackbars} />
+        <EventForm />
       </Provider>
     );
     const button = wrapper.find(Button);
@@ -73,7 +72,7 @@ describe('EventForm', () => {
     });
     const wrapper = mount(
       <Provider store={store}>
-        <EventForm manageSnackbars={mockManageSnackbars} />
+        <EventForm />
       </Provider>
     );
     wrapper
@@ -89,7 +88,7 @@ describe('EventForm', () => {
     });
     const wrapper = mount(
       <Provider store={store}>
-        <EventForm manageSnackbars={mockManageSnackbars} />
+        <EventForm />
       </Provider>
     );
     wrapper.find(Button).at(3).simulate('click');
@@ -103,7 +102,7 @@ describe('EventForm', () => {
     });
     const wrapper = mount(
       <Provider store={store}>
-        <EventForm manageSnackbars={mockManageSnackbars} />
+        <EventForm />
       </Provider>
     );
     wrapper.find(Button).at(3).simulate('click');

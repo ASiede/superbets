@@ -1,8 +1,8 @@
 import { createAction } from 'redux-actions';
-import { SNACKBAR_TYPES } from '../components/constants';
-import { ManageTabType, EventType, EventMode } from '../Types';
+import { TOAST_TYPES } from '../components/constants';
+import { ManageTabType, EventType, EventMode, StateType } from '../Types';
 import { SUPERBETS_API_BASE_URL } from '../config';
-import { createSnackbar } from '../utils/snackbar/Snackbar';
+import { createToast } from '../utils/toast/Toast';
 
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const ADD_QUESTION = 'ADD_QUESTION';
@@ -29,52 +29,44 @@ export const updateManageTab = createAction(UPDATE_MANAGE_TAB);
 export const updateOdds = createAction(UPDATE_ODDS);
 export const updateQuestionText = createAction(UPDATE_QUESTION_TEXT);
 
-export const persistNewEvent =
-  (manageSnackbars: any) => async (dispatch: any, getState: any) => {
-    const state = getState();
-    const { selectedEvent } = state;
-    dispatch(setPersistingBetEvent(true));
-    try {
-      const result = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...selectedEvent,
-          createdBy: state.user.id
-        })
-      });
-      const response = await result.json();
-      if (!response || result.status !== 201) {
-        manageSnackbars.current.show(
-          createSnackbar(SNACKBAR_TYPES.ERROR, response.message)
-        );
-        dispatch(setPersistingBetEvent(false));
-        return;
-      } else {
-        dispatch(setPersistingBetEvent(false));
-        dispatch(setEvent(response, EventMode.CONFIRM));
-        dispatch(updateManageTab(ManageTabType.CONFIRM));
-        manageSnackbars.current.show(
-          createSnackbar(
-            SNACKBAR_TYPES.SUCCESS,
-            `${response.name} has been created`
-          )
-        );
-        return;
-      }
-    } catch (error: any) {
-      manageSnackbars.current.show(
-        createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
-      );
+export const persistNewEvent = () => async (dispatch: any, getState: any) => {
+  const state = getState();
+  const { selectedEvent, toast } = state;
+  dispatch(setPersistingBetEvent(true));
+  try {
+    const result = await fetch(`${SUPERBETS_API_BASE_URL}/betevent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...selectedEvent,
+        createdBy: state.user.id
+      })
+    });
+    const response = await result.json();
+    if (!response || result.status !== 201) {
+      toast.current.show(createToast(TOAST_TYPES.ERROR, response.message));
       dispatch(setPersistingBetEvent(false));
+      return;
+    } else {
+      dispatch(setPersistingBetEvent(false));
+      dispatch(setEvent(response, EventMode.CONFIRM));
+      dispatch(updateManageTab(ManageTabType.CONFIRM));
+      toast.current.show(
+        createToast(TOAST_TYPES.SUCCESS, `${response.name} has been created`)
+      );
+      return;
     }
-  };
+  } catch (error: any) {
+    toast.current.show(createToast(TOAST_TYPES.ERROR, error.message));
+    dispatch(setPersistingBetEvent(false));
+  }
+};
 
 export const persistUpdatedEvent =
-  (manageSnackbars: any) => async (dispatch: any, getState: any) => {
-    const state = getState();
-    const { selectedEvent } = state;
-    const id = selectedEvent._id || selectedEvent.id;
+  () => async (dispatch: any, getState: any) => {
+    const state: StateType = getState();
+    const { selectedEvent, toast } = state;
+    const id = selectedEvent?._id;
     dispatch(setPersistingBetEvent(true));
     try {
       const result = await fetch(`${SUPERBETS_API_BASE_URL}/betevent/${id}`, {
@@ -87,26 +79,19 @@ export const persistUpdatedEvent =
       });
       const response = await result.json();
       if (!response || result.status !== 201) {
-        manageSnackbars.current.show(
-          createSnackbar(SNACKBAR_TYPES.ERROR, response.message)
-        );
+        toast.current.show(createToast(TOAST_TYPES.ERROR, response.message));
         dispatch(setPersistingBetEvent(false));
         return;
       } else {
         dispatch(setPersistingBetEvent(false));
         dispatch(updateManageTab(ManageTabType.CONFIRM));
-        manageSnackbars.current.show(
-          createSnackbar(
-            SNACKBAR_TYPES.SUCCESS,
-            `${response.name} has been updated`
-          )
+        toast.current.show(
+          createToast(TOAST_TYPES.SUCCESS, `${response.name} has been updated`)
         );
         return;
       }
     } catch (error: any) {
-      manageSnackbars.current.show(
-        createSnackbar(SNACKBAR_TYPES.ERROR, error.message)
-      );
+      toast.current.show(createToast(TOAST_TYPES.ERROR, error.message));
       dispatch(setPersistingBetEvent(false));
     }
   };

@@ -22,12 +22,11 @@ jest.mock('../../actions/user.actions');
 const mockStore = configureMockStore([thunk]);
 
 describe('src/components/LoginForm', () => {
-  const mockSnackbars: any = [];
   it('renders LogInForm when logInInProgress false', () => {
     const store = mockStore({ user: { logInInProgress: false } });
     const wrapper = mount(
       <Provider store={store}>
-        <LoginForm manageSnackbars={mockSnackbars} />
+        <LoginForm />
       </Provider>
     );
     const inputs = wrapper.find(InputText);
@@ -42,7 +41,7 @@ describe('src/components/LoginForm', () => {
     const store = mockStore({ user: { logInInProgress: true } });
     const wrapper = mount(
       <Provider store={store}>
-        <LoginForm manageSnackbars={mockSnackbars} />
+        <LoginForm />
       </Provider>
     );
     const inputs = wrapper.find(InputText);
@@ -57,7 +56,7 @@ describe('src/components/LoginForm', () => {
     const store = mockStore({ user: { logInInProgress: false } });
     const wrapper = mount(
       <Provider store={store}>
-        <LoginForm manageSnackbars={mockSnackbars} />
+        <LoginForm />
       </Provider>
     );
     wrapper
@@ -69,6 +68,7 @@ describe('src/components/LoginForm', () => {
       .at(1)
       .simulate('change', { target: { value: 'password' } });
     wrapper.find(Button).at(0).simulate('click');
-    expect(mockDispatch).toHaveBeenCalledWith(logInUser());
+    // TODO:fixme
+    expect(mockDispatch).toHaveBeenCalledWith(logInUser('foo', 'bar'));
   });
 });

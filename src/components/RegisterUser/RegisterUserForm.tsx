@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
-import { createSnackbar } from '../../utils/snackbar/Snackbar';
+import { createToast } from '../../utils/toast/Toast';
 import { registerUser } from '../../utils/user/user';
-import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../constants';
-import { SnackbarType } from '../../Types';
+import { TOAST_MESSAGES, TOAST_TYPES } from '../constants';
+import { useSelector } from 'react-redux';
 
 const defaultUserData = {
   firstName: '',
@@ -16,11 +15,8 @@ const defaultUserData = {
   password: ''
 };
 
-export const RegisterUserForm = ({
-  manageSnackbars
-}: {
-  manageSnackbars: SnackbarType[];
-}) => {
+export const RegisterUserForm = () => {
+  const toast = useSelector((state: any) => state.toast);
   const [newUserData, setNewUserData] = useState(defaultUserData);
   const [validEmail, setValidEmail] = useState(true);
   const [inProgress, setInProgress] = useState(false);
@@ -91,9 +87,9 @@ export const RegisterUserForm = ({
               if (e.code === 'Enter' && formCompleted) {
                 submitRegistration(
                   newUserData,
-                  manageSnackbars,
                   setNewUserData,
-                  setInProgress
+                  setInProgress,
+                  toast
                 );
               }
             }}
@@ -106,9 +102,9 @@ export const RegisterUserForm = ({
             onClick={() =>
               submitRegistration(
                 newUserData,
-                manageSnackbars,
                 setNewUserData,
-                setInProgress
+                setInProgress,
+                toast
               )
             }
             disabled={!formCompleted}
@@ -117,10 +113,6 @@ export const RegisterUserForm = ({
       </div>
     </div>
   );
-};
-
-RegisterUserForm.propTypes = {
-  manageSnackbars: PropTypes.object
 };
 
 export const validateEmail = (email: string, setValidEmail: any) => {
@@ -133,25 +125,20 @@ export const validateEmail = (email: string, setValidEmail: any) => {
 
 export const submitRegistration = async (
   newUserData: any,
-  manageSnackbars: any,
   setNewUserData: any,
-  setInProgress: any
+  setInProgress: any,
+  toast: any
 ) => {
   setInProgress(true);
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {
-    manageSnackbars.current.show(
-      createSnackbar(
-        SNACKBAR_TYPES.SUCCESS,
-        SNACKBAR_MESSAGES.REGISTRATION_SUCCESS
-      )
+    toast.current.show(
+      createToast(TOAST_TYPES.SUCCESS, TOAST_MESSAGES.REGISTRATION_SUCCESS)
     );
     // TODO: password doesn't clear
     setNewUserData(defaultUserData);
   } else {
-    manageSnackbars.current.show(
-      createSnackbar(SNACKBAR_TYPES.ERROR, errorMessage)
-    );
+    toast.current.show(createToast(TOAST_TYPES.ERROR, errorMessage));
   }
   setInProgress(false);
 };
