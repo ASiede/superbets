@@ -13,8 +13,8 @@ import {
   clearAuthToken,
   getAuthToken
 } from '../utils/user/user';
-import { SNACKBAR_MESSAGES, SNACKBAR_TYPES } from '../components/constants';
-import { createSnackbar } from '../utils/snackbar/Snackbar';
+import { TOAST_MESSAGES, TOAST_TYPES } from '../components/constants';
+import { createToast } from '../utils/toast/Toast';
 import { getEventsByUser } from '../utils/events/events';
 
 global.fetch = jest.fn();
@@ -48,20 +48,21 @@ describe('src/actions/user.actions', () => {
     const username = 'pete';
     const password = 'password';
     const mockShow = jest.fn();
-    const manageSnackbars = {
+    const toast = {
       current: {
         show: mockShow
       }
     };
     it('dispatches storeAuthInfo when there is a successful login', async () => {
       const dispatch = jest.fn();
+      const getState = () => ({ toast });
       fetch.mockResolvedValueOnce({
         status: 200,
         json: jest.fn().mockResolvedValueOnce({
           authToken: '1a'
         })
       });
-      await logInUser(username, password, manageSnackbars)(dispatch);
+      await logInUser(username, password)(dispatch, getState);
       expect(dispatch).toHaveBeenCalledTimes(3);
       expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
       expect(dispatch.mock.calls[0][0].payload).toEqual(true);
@@ -70,14 +71,15 @@ describe('src/actions/user.actions', () => {
     });
     it('returns an error object when there is not a successful login', async () => {
       const mockStatus = 400;
+      const getState = () => ({ toast });
       const dispatch = jest.fn();
       fetch.mockResolvedValueOnce({
         status: mockStatus
       });
-      await logInUser(username, password, manageSnackbars)(dispatch);
+      await logInUser(username, password)(dispatch, getState);
       expect(mockShow).toHaveBeenCalled();
       expect(mockShow).toHaveBeenCalledWith(
-        createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
+        createToast(TOAST_TYPES.ERROR, TOAST_MESSAGES.LOGIN_ERROR)
       );
       expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
       expect(dispatch.mock.calls[0][0].payload).toEqual(true);
@@ -86,6 +88,7 @@ describe('src/actions/user.actions', () => {
     });
     it('returns an error object when there is an error storing auth info', async () => {
       const dispatch = jest.fn();
+      const getState = () => ({ toast });
       fetch.mockResolvedValueOnce({
         status: 200,
         json: jest.fn().mockResolvedValueOnce({
@@ -96,9 +99,9 @@ describe('src/actions/user.actions', () => {
       dispatch.mockImplementationOnce(() => {
         throw new Error();
       });
-      await logInUser(username, password, manageSnackbars)(dispatch);
+      await logInUser(username, password)(dispatch, getState);
       expect(mockShow).toHaveBeenCalledWith(
-        createSnackbar(SNACKBAR_TYPES.ERROR, SNACKBAR_MESSAGES.LOGIN_ERROR)
+        createToast(TOAST_TYPES.ERROR, TOAST_MESSAGES.LOGIN_ERROR)
       );
       expect(dispatch.mock.calls[0][0].type).toEqual('SET_LOG_IN_IN_PROGRESS');
       expect(dispatch.mock.calls[0][0].payload).toEqual(true);

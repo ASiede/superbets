@@ -5,17 +5,13 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import Event from '../Event/Event';
 import { setEvent } from '../../actions';
-import { StateType, SnackbarType, EventMode } from '../../Types';
+import { StateType, EventMode } from '../../Types';
 import './ConfirmAnswers.css';
 
 const COPY_TO_CLIPBOARD = 'Copy To Clipboard';
 const COPIED_TO_CLIPBOARD = 'Copied To Clipboard!';
 
-export const ConfirmAnswers = ({
-  manageSnackbars
-}: {
-  manageSnackbars: SnackbarType[];
-}) => {
+export const ConfirmAnswers = () => {
   const event = useSelector((state: StateType) => state.selectedEvent);
   const user = useSelector((state: StateType) => state.user);
   const [copyCodeToolTip, setCopyCodeToolTip] = useState(COPY_TO_CLIPBOARD);
@@ -45,7 +41,7 @@ export const ConfirmAnswers = ({
       <p>{event?.name}</p>
       {event?.name && (
         <div className='confirm-container'>
-          <div>{<Event manageSnackbars={manageSnackbars as any} />}</div>
+          <div>{<Event />}</div>
           <div className='side-card'>
             <div className='copy-code'>
               <p>This is the Code for your event</p>

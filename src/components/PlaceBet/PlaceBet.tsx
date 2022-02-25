@@ -5,13 +5,9 @@ import { Button } from 'primereact/button';
 import { getEventFromEncoded } from '../../utils/events/events';
 import Event from '../Event/Event';
 import { setEvent, updateBettor } from '../../actions';
-import { EventMode, SnackbarType, StateType } from '../../Types';
+import { EventMode, StateType } from '../../Types';
 
-export const PlaceBet = ({
-  manageSnackbars
-}: {
-  manageSnackbars: SnackbarType[];
-}) => {
+export const PlaceBet = () => {
   const [codeInput, setCodeInput] = useState('');
   const event = useSelector((state: StateType) => state.selectedEvent);
   const dispatch = useDispatch();
@@ -39,7 +35,7 @@ export const PlaceBet = ({
             <InputText
               onChange={(e) => dispatch(updateBettor(e.target.value))}
             />
-            <Event manageSnackbars={manageSnackbars as any} />
+            <Event />
           </div>
         )}
       </div>

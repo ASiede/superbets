@@ -8,14 +8,10 @@ import {
   persistNewEvent,
   persistUpdatedEvent
 } from '../../actions';
-import { EventType, StateType, EventMode, SnackbarType } from '../../Types';
+import { EventType, StateType, EventMode } from '../../Types';
 import './EventForm.css';
 
-export const EventForm = ({
-  manageSnackbars
-}: {
-  manageSnackbars: SnackbarType[];
-}) => {
+export const EventForm = () => {
   const dispatch = useDispatch();
   const event = useSelector((state: StateType) => state.selectedEvent || {});
   const eventMode = useSelector((state: StateType) => state.eventMode);
@@ -50,8 +46,8 @@ export const EventForm = ({
           }
           onClick={() => {
             eventMode === EventMode.NEW
-              ? dispatch(persistNewEvent(manageSnackbars))
-              : dispatch(persistUpdatedEvent(manageSnackbars));
+              ? dispatch(persistNewEvent())
+              : dispatch(persistUpdatedEvent());
           }}
         />
       </div>

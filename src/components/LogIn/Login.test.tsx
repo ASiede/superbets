@@ -11,11 +11,10 @@ const mockStore = configureMockStore([thunk]);
 
 describe('src/components/Login', () => {
   it('renders Messages, LogInForm, and RegistrationForm', () => {
-    const mockSnackbars: any = [];
     const store = mockStore(mockedStore);
     const wrapper = mount(
       <Provider store={store}>
-        <LogIn manageSnackbars={mockSnackbars} />
+        <LogIn />
       </Provider>
     );
     const logInForm = wrapper.find(LogInForm);

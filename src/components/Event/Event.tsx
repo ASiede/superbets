@@ -3,14 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'primereact/button';
 import EventQuestion from '../EventQuestion/EventQuestion';
 import { persistUpdatedEvent, persistSubmission } from '../../actions';
-import { EventMode, EventType, StateType, SnackbarType } from '../../Types';
+import { EventMode, EventType, StateType } from '../../Types';
 import './Event.css';
 
-export const Event = ({
-  manageSnackbars
-}: {
-  manageSnackbars: SnackbarType[];
-}) => {
+export const Event = () => {
   const event = useSelector((state: StateType) => state.selectedEvent || {});
   const mode = useSelector((state: StateType) => state.eventMode);
   const bettor = useSelector((state: StateType) => !!state.bettor);
@@ -18,8 +14,8 @@ export const Event = ({
   const handleButtonClick = () => {
     document.getElementById('top-header')?.scrollIntoView();
     mode === EventMode.CONFIRM
-      ? dispatch(persistUpdatedEvent(manageSnackbars as any))
-      : dispatch(persistSubmission(manageSnackbars as any));
+      ? dispatch(persistUpdatedEvent())
+      : dispatch(persistSubmission());
   };
 
   return (

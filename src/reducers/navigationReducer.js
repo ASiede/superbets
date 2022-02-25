@@ -1,4 +1,4 @@
-import { UPDATE_MANAGE_TAB } from '../actions/index';
+import { UPDATE_MANAGE_TAB } from '../actions';
 import { ManageTabType } from '../Types/StateTypes';
 
 export const initialState = {
