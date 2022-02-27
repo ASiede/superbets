@@ -4,13 +4,12 @@ import { createBrowserHistory } from 'history';
 import Landing from '../Landing/Landing';
 import Nav from '../Nav/Nav';
 import Manage from '../Manage/Manage';
-import SubmitBet from '../SubmitBet/SubmitBet';
-import Leaderboard from '../Leaderboard/Leaderboard';
 import 'primereact/resources/themes/vela-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import './App.css';
+import Leaderboard from '../Leaderboard/Leaderboard';
 
 PrimeReact.ripple = true;
 
@@ -24,8 +23,7 @@ export const App = () => (
       </header>
       <Route exact path='/' component={Landing} />
       <Route exact path='/manage' component={Manage} />
-      <Route exact path='/submit' component={SubmitBet} />
-      <Route exact path='/leaderboard' component={Leaderboard} />
+      <Route exact path='/leaderboard/:id' component={Leaderboard} />
     </div>
   </Router>
 );

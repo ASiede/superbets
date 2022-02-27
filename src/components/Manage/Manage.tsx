@@ -6,14 +6,15 @@ import { Dropdown } from 'primereact/dropdown';
 import EventForm from '../EventForm/EventForm';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { ManageTabType, StateType, EventMode } from '../../Types';
+import { PlaceBet } from '../PlaceBet/PlaceBet';
+import LeaderboardSearch from '../LeaderboardSearch/LeaderboardSearch';
 import {
   resetCurrentBetEvent,
   setEvent,
   setEventMode,
   setToast
 } from '../../actions';
-import { PlaceBet } from '../PlaceBet/PlaceBet';
+import { ManageTabType, StateType, EventMode } from '../../Types';
 import './Manage.css';
 
 export const Manage = () => {
@@ -78,6 +79,13 @@ export const Manage = () => {
             <PlaceBet />
           </div>
         );
+      case ManageTabType.LEADERBOARD:
+        return (
+          <div className='manage'>
+            <h2 className='blue-text'>Leaderboard</h2>
+            <LeaderboardSearch />
+          </div>
+        );
       default:
         return (
           <div className='manage'>
@@ -91,7 +99,11 @@ export const Manage = () => {
   return (
     <div>
       <Toast ref={toast} />
-      {!loggedIn ? <LogIn /> : renderCurrentTab(manageTab)}
+      {!loggedIn && manageTab !== ManageTabType.LEADERBOARD ? (
+        <LogIn />
+      ) : (
+        renderCurrentTab(manageTab)
+      )}
     </div>
   );
 };

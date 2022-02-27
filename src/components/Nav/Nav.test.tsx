@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import Nav from './Nav';
 import { TabMenu } from 'primereact/tabmenu';
 import { resetCurrentBetEvent } from '../../actions';
-import { history } from '../App/App';
 
 jest.mock('../../actions');
 jest.mock('../App/App');
@@ -53,6 +52,5 @@ describe('Nav', () => {
     );
     wrapper.find(TabMenu).props().onTabChange({ index: 0 });
     expect(resetCurrentBetEvent).toHaveBeenCalled();
-    expect(history.push).toHaveBeenCalledWith('/');
   });
 });
