@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TabMenu } from 'primereact/tabmenu';
-import { loadUserWithValidJWT, logOutUser } from '../../actions/user.actions';
 import {
   resetCurrentBetEvent,
   setEventMode,
-  updateManageTab
+  updateManageTab,
+  loadUserWithValidJWT,
+  logOutUser
 } from '../../actions';
-import { ManageTabType, StateType, EventMode } from '../../Types';
 import { history } from '../App/App';
+import { ManageTabType, StateType, EventMode } from '../../Types';
 import './Nav.css';
 
 export const Nav = () => {
@@ -22,7 +23,6 @@ export const Nav = () => {
     switch (activeIndex) {
       case 0:
         dispatch(resetCurrentBetEvent());
-        history.push('/');
         break;
       case 1:
         if (loggedIn) {
@@ -49,6 +49,11 @@ export const Nav = () => {
         dispatch(updateManageTab(ManageTabType.PLACE_BET));
         history.push('/manage');
         break;
+      case 5:
+        dispatch(resetCurrentBetEvent());
+        dispatch(updateManageTab(ManageTabType.LEADERBOARD));
+        history.push('/manage');
+        break;
       default:
         break;
     }
@@ -67,7 +72,8 @@ export const Nav = () => {
     },
     { label: 'New/Edit Event', icon: 'pi pi-fw pi-pencil' },
     { label: 'Confirm Answer', icon: 'pi pi-fw pi-check' },
-    { label: 'Place bet', icon: 'pi pi-fw pi-list' }
+    { label: 'Place bet', icon: 'pi pi-fw pi-list' },
+    { label: 'Leaderboard', icon: 'pi pi-fw pi-star' }
   ];
 
   return (

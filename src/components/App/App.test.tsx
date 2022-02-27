@@ -11,6 +11,6 @@ describe('App', () => {
     const route = app.find(Route);
     expect(router.length).toEqual(1);
     expect(nav.length).toEqual(1);
-    expect(route.length).toEqual(4);
+    expect(route.length).toEqual(3);
   });
 });
