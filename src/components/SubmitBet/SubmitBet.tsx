@@ -7,7 +7,7 @@ import Event from '../Event/Event';
 import { setEvent, updateBettor } from '../../actions';
 import { EventMode, StateType } from '../../Types';
 
-export const PlaceBet = () => {
+export const SubmitBet = () => {
   const [codeInput, setCodeInput] = useState('');
   const event = useSelector((state: StateType) => state.selectedEvent);
   const dispatch = useDispatch();

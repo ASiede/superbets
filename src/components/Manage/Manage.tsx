@@ -6,7 +6,7 @@ import { Dropdown } from 'primereact/dropdown';
 import EventForm from '../EventForm/EventForm';
 import LogIn from '../LogIn/LogIn';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { PlaceBet } from '../PlaceBet/PlaceBet';
+import { SubmitBet } from '../SubmitBet/SubmitBet';
 import LeaderboardSearch from '../LeaderboardSearch/LeaderboardSearch';
 import {
   resetCurrentBetEvent,
@@ -72,11 +72,11 @@ export const Manage = () => {
             <ConfirmAnswers />
           </div>
         );
-      case ManageTabType.PLACE_BET:
+      case ManageTabType.SUBMIT_BET:
         return (
           <div className='manage'>
             <h2 className='blue-text'>Place Bet</h2>
-            <PlaceBet />
+            <SubmitBet />
           </div>
         );
       case ManageTabType.LEADERBOARD:

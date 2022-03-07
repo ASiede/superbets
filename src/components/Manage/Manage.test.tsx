@@ -11,7 +11,7 @@ import { ManageTabType } from '../../Types/StateTypes';
 import { SelectButton } from 'primereact/selectbutton';
 import { Dropdown } from 'primereact/dropdown';
 import { setEvent, setEventMode } from '../../actions';
-import { PlaceBet } from '../PlaceBet/PlaceBet';
+import { SubmitBet } from '../SubmitBet/SubmitBet';
 import { EventMode } from '../../Types';
 
 const mockStore = configureMockStore([thunk]);
@@ -102,19 +102,19 @@ describe('src/components/Mangage', () => {
     expect(confirmAnswers.length).toEqual(1);
   });
 
-  it('renders PlaceBet component when tab is PLACE_BET', () => {
+  it('renders SubmitBet component when tab is SUBMIT_BET', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      navigation: { manageTab: ManageTabType.PLACE_BET }
+      navigation: { manageTab: ManageTabType.SUBMIT_BET }
     });
     const wrapper = mount(
       <Provider store={store}>
         <Manage />
       </Provider>
     );
-    const placeBet = wrapper.find(PlaceBet);
-    expect(placeBet.length).toEqual(1);
+    const submitBet = wrapper.find(SubmitBet);
+    expect(submitBet.length).toEqual(1);
   });
 
   it('renders ConfirmAnswers component when tab is undefined', () => {

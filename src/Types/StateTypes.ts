@@ -3,7 +3,7 @@ export enum ManageTabType {
   CONFIRM = 'CONFIRM',
   CREATE = 'CREATE',
   EDIT = 'EDIT',
-  PLACE_BET = 'PLACE_BET',
+  SUBMIT_BET = 'SUBMIT_BET',
   LEADERBOARD = 'LEADERBOARD'
 }
 
