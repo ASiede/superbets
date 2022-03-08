@@ -1,8 +1,9 @@
 import { createAction } from 'redux-actions';
-import { TOAST_TYPES } from '../components/constants';
-import { ManageTabType, EventType, EventMode, StateType } from '../Types';
+import { ROUTES, TOAST_TYPES } from '../components/constants';
+import { EventType, EventMode, StateType } from '../Types';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createToast } from '../utils/toast/Toast';
+import { history } from '../components/App/App';
 
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const ADD_QUESTION = 'ADD_QUESTION';
@@ -25,7 +26,6 @@ export const setSelecteEvent = createAction(SET_SELECTED_EVENT);
 export const setNewBetEventName = createAction(SET_NEW_BET_EVENT_NAME);
 export const setPersistingBetEvent = createAction(SET_PERSISTING_BET_EVENT);
 export const updateAnswer = createAction(UPDATE_ANSWER);
-export const updateManageTab = createAction(UPDATE_MANAGE_TAB);
 export const updateOdds = createAction(UPDATE_ODDS);
 export const updateQuestionText = createAction(UPDATE_QUESTION_TEXT);
 
@@ -44,20 +44,20 @@ export const persistNewEvent = () => async (dispatch: any, getState: any) => {
     });
     const response = await result.json();
     if (!response || result.status !== 201) {
-      toast.current.show(createToast(TOAST_TYPES.ERROR, response.message));
+      toast?.current?.show(createToast(TOAST_TYPES.ERROR, response.message));
       dispatch(setPersistingBetEvent(false));
       return;
     } else {
       dispatch(setPersistingBetEvent(false));
       dispatch(setEvent(response, EventMode.CONFIRM));
-      dispatch(updateManageTab(ManageTabType.CONFIRM));
-      toast.current.show(
+      history.push(`/${ROUTES.CONFIRM}`);
+      toast?.current?.show(
         createToast(TOAST_TYPES.SUCCESS, `${response.name} has been created`)
       );
       return;
     }
   } catch (error: any) {
-    toast.current.show(createToast(TOAST_TYPES.ERROR, error.message));
+    toast?.current?.show(createToast(TOAST_TYPES.ERROR, error.message));
     dispatch(setPersistingBetEvent(false));
   }
 };
@@ -79,19 +79,19 @@ export const persistUpdatedEvent =
       });
       const response = await result.json();
       if (!response || result.status !== 201) {
-        toast.current.show(createToast(TOAST_TYPES.ERROR, response.message));
+        toast?.current?.show(createToast(TOAST_TYPES.ERROR, response.message));
         dispatch(setPersistingBetEvent(false));
         return;
       } else {
         dispatch(setPersistingBetEvent(false));
-        dispatch(updateManageTab(ManageTabType.CONFIRM));
-        toast.current.show(
+        history.push(`/${ROUTES.CONFIRM}`);
+        toast?.current?.show(
           createToast(TOAST_TYPES.SUCCESS, `${response.name} has been updated`)
         );
         return;
       }
     } catch (error: any) {
-      toast.current.show(createToast(TOAST_TYPES.ERROR, error.message));
+      toast?.current?.show(createToast(TOAST_TYPES.ERROR, error.message));
       dispatch(setPersistingBetEvent(false));
     }
   };

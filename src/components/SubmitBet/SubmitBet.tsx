@@ -17,7 +17,8 @@ export const SubmitBet = () => {
     dispatch(setEvent(decodedEvent, EventMode.GUESS));
   };
   return (
-    <div>
+    <div className='manage'>
+      <h2 className='blue-text'>Place Bet</h2>
       <div>
         <InputText
           placeholder='Event Code'

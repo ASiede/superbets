@@ -1,11 +1,4 @@
 /* eslint-disable no-unused-vars */
-export enum ManageTabType {
-  CONFIRM = 'CONFIRM',
-  CREATE = 'CREATE',
-  EDIT = 'EDIT',
-  SUBMIT_BET = 'SUBMIT_BET',
-  LEADERBOARD = 'LEADERBOARD'
-}
 
 export enum EventMode {
   CONFIRM = 'CONFIRM',
@@ -41,14 +34,9 @@ export interface UserStateType {
   events: Array<EventType>;
 }
 
-export interface NavigationType {
-  manageTab: ManageTabType;
-}
-
 export interface StateType {
   bettor?: string;
   eventMode: EventMode;
-  navigation: NavigationType;
   persistingBetEvent: boolean;
   selectedEvent?: EventType;
   toast: any;

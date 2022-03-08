@@ -1,6 +1,4 @@
-import { updateManageTab } from '.';
 import { TOAST_TYPES } from '../components/constants';
-import { ManageTabType } from '../Types/StateTypes';
 import { SUPERBETS_API_BASE_URL } from '../config';
 import { createToast } from '../utils/toast/Toast';
 import { persistNewEvent, setPersistingBetEvent } from './betEvent.actions';
@@ -83,9 +81,6 @@ describe('persistNewEvent', () => {
       })
     });
     expect(dispatch).toHaveBeenCalledWith(setPersistingBetEvent(false));
-    expect(dispatch).toHaveBeenCalledWith(
-      updateManageTab(ManageTabType.CONFIRM)
-    );
     expect(mockShow).toHaveBeenCalledWith(
       createToast(TOAST_TYPES.SUCCESS, `${mockName} has been created`)
     );

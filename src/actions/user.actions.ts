@@ -44,7 +44,7 @@ export const logInUser =
       body: JSON.stringify({ username, password })
     });
     if (!response || response.status !== 200) {
-      toast.current.show(
+      toast?.current?.show(
         createToast(TOAST_TYPES.ERROR, TOAST_MESSAGES.LOGIN_ERROR)
       );
       dispatch(setLogInInProgress(false));
@@ -53,7 +53,7 @@ export const logInUser =
       try {
         dispatch(storeAuthInfo(responseJson.authToken));
       } catch (err) {
-        toast.current.show(
+        toast?.current?.show(
           createToast(TOAST_TYPES.ERROR, TOAST_MESSAGES.LOGIN_ERROR)
         );
       } finally {

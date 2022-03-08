@@ -2,15 +2,17 @@ import { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { history } from '../App/App';
+import { ROUTES } from '../constants';
 
 export const LeaderboardSearch = () => {
   const [codeInput, setCodeInput] = useState('');
   const handleSearchForEvent = async () => {
-    history.push(`/leaderboard/${codeInput}`);
+    history.push(`/${ROUTES.LEADERBOARD}/${codeInput}`);
   };
 
   return (
-    <div>
+    <div className='manage'>
+      <h2 className='blue-text'>Leaderboard</h2>
       <div>
         <InputText
           placeholder='Event Code'

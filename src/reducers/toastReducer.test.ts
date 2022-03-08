@@ -1,5 +1,3 @@
-import { setToast, SET_TOAST, updateManageTab } from '../actions';
-import { ManageTabType } from '../Types/StateTypes';
 import toast from './toastReducer';
 
 describe('src/reducers/toastReducer', () => {
@@ -13,7 +11,6 @@ describe('src/reducers/toastReducer', () => {
     //   const toastAction = { type: SET_TOAST, payload: toast };
     //   const action = setToast({});
     //   const updatedState = toast({}, action);
-    //   expect(updatedState.manageTab).toEqual(toast);
     // });
   });
 });
