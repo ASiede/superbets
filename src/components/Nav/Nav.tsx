@@ -2,57 +2,67 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TabMenu } from 'primereact/tabmenu';
+import { history } from '../App/App';
 import {
   resetCurrentBetEvent,
   setEventMode,
-  updateManageTab,
   loadUserWithValidJWT,
   logOutUser
 } from '../../actions';
-import { history } from '../App/App';
-import { ManageTabType, StateType, EventMode } from '../../Types';
+import { ROUTES } from '../constants';
+import { StateType, EventMode } from '../../Types';
 import './Nav.css';
 
+const tabMap: any = {
+  [ROUTES.HOME]: 0,
+  [ROUTES.MANAGE]: 2,
+  [ROUTES.CONFIRM]: 3,
+  [ROUTES.SUBMIT]: 4,
+  [ROUTES.LEADERBOARD_SEARCH]: 5,
+  [ROUTES.LEADERBOARD]: 5
+};
+
 export const Nav = () => {
+  const endpoint: string = location.pathname.split('/')[1];
+  const defaultTab = tabMap[endpoint];
+
   const loggedIn = useSelector((state: StateType) => state.user.loggedIn);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(defaultTab);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // TODO: change numbers to enum
     switch (activeIndex) {
-      case 0:
+      case tabMap.home:
+        history.push('/');
         dispatch(resetCurrentBetEvent());
         break;
       case 1:
         if (loggedIn) {
           dispatch(logOutUser());
         }
-        dispatch(updateManageTab(ManageTabType.CREATE));
-        history.push('/manage');
+        history.push('/');
         break;
-      case 2:
+      case tabMap.manage:
         dispatch(resetCurrentBetEvent());
         dispatch(setEventMode(EventMode.NEW));
-        dispatch(updateManageTab(ManageTabType.CREATE));
-        history.push('/manage');
+        history.push(`/${ROUTES.MANAGE}`);
         break;
-      case 3:
+      case tabMap.confirm:
         dispatch(resetCurrentBetEvent());
         dispatch(setEventMode(EventMode.CONFIRM));
-        dispatch(updateManageTab(ManageTabType.CONFIRM));
-        history.push('/manage');
+        history.push(`/${ROUTES.CONFIRM}`);
         break;
-      case 4:
+      case tabMap.submit:
         dispatch(resetCurrentBetEvent());
         dispatch(setEventMode(EventMode.GUESS));
-        dispatch(updateManageTab(ManageTabType.PLACE_BET));
-        history.push('/manage');
+        history.push(`/${ROUTES.SUBMIT}`);
         break;
-      case 5:
+      case tabMap.leaderboard:
+        if (endpoint === ROUTES.LEADERBOARD) {
+          break;
+        }
         dispatch(resetCurrentBetEvent());
-        dispatch(updateManageTab(ManageTabType.LEADERBOARD));
-        history.push('/manage');
+        history.push(`/${ROUTES.LEADERBOARD_SEARCH}`);
         break;
       default:
         break;
@@ -70,9 +80,9 @@ export const Nav = () => {
       label: `${loggedIn ? 'Log Out' : 'Log In'}`,
       icon: 'pi pi-fw pi-user'
     },
-    { label: 'New/Edit Event', icon: 'pi pi-fw pi-pencil' },
-    { label: 'Confirm Answer', icon: 'pi pi-fw pi-check' },
-    { label: 'Place bet', icon: 'pi pi-fw pi-list' },
+    { label: 'Manage Event', icon: 'pi pi-fw pi-pencil' },
+    { label: 'Confirm Answers', icon: 'pi pi-fw pi-check' },
+    { label: 'Submit Bet', icon: 'pi pi-fw pi-list' },
     { label: 'Leaderboard', icon: 'pi pi-fw pi-star' }
   ];
 

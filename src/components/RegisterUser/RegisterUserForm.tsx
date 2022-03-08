@@ -132,13 +132,13 @@ export const submitRegistration = async (
   setInProgress(true);
   const { status, errorMessage } = await registerUser(newUserData);
   if (status === 201) {
-    toast.current.show(
+    toast?.current?.show(
       createToast(TOAST_TYPES.SUCCESS, TOAST_MESSAGES.REGISTRATION_SUCCESS)
     );
     // TODO: password doesn't clear
     setNewUserData(defaultUserData);
   } else {
-    toast.current.show(createToast(TOAST_TYPES.ERROR, errorMessage));
+    toast?.current?.show(createToast(TOAST_TYPES.ERROR, errorMessage));
   }
   setInProgress(false);
 };

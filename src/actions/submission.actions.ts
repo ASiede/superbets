@@ -39,19 +39,19 @@ export const persistSubmission = () => async (dispatch: any, getState: any) => {
     });
     const response = await result.json();
     if (!response || result.status !== 201) {
-      toast.current.show(createToast(TOAST_TYPES.ERROR, response.message));
+      toast?.current?.show(createToast(TOAST_TYPES.ERROR, response.message));
       dispatch(setPersistingBetEvent(false));
       return;
     } else {
       dispatch(setPersistingBetEvent(false));
       // TODO: move to leaderboard tab
-      toast.current.show(
+      toast?.current?.show(
         createToast(TOAST_TYPES.SUCCESS, `Submission successful`)
       );
       return;
     }
   } catch (error: any) {
-    toast.current.show(createToast(TOAST_TYPES.ERROR, error.message));
+    toast?.current?.show(createToast(TOAST_TYPES.ERROR, error.message));
     dispatch(setPersistingBetEvent(false));
   }
 };

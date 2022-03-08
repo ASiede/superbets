@@ -7,11 +7,10 @@ import LogIn from '../LogIn/LogIn';
 import { EventForm } from '../EventForm/EventForm';
 import mockedStore from '../../__mocks__/mockedStore';
 import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
-import { ManageTabType } from '../../Types/StateTypes';
 import { SelectButton } from 'primereact/selectbutton';
 import { Dropdown } from 'primereact/dropdown';
 import { setEvent, setEventMode } from '../../actions';
-import { PlaceBet } from '../PlaceBet/PlaceBet';
+import { SubmitBet } from '../SubmitBet/SubmitBet';
 import { EventMode } from '../../Types';
 
 const mockStore = configureMockStore([thunk]);
@@ -43,7 +42,6 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      navigation: { manageTab: ManageTabType.CREATE },
       eventMode: EventMode.EDIT
     });
     const mockEvent = { name: 'mockEvent' };
@@ -71,7 +69,6 @@ describe('src/components/Mangage', () => {
     const store = mockStore({
       ...mockedStore,
       user: { loggedIn: true },
-      navigation: { manageTab: ManageTabType.CREATE },
       eventMode: EventMode.NEW
     });
     const wrapper = mount(
@@ -90,8 +87,7 @@ describe('src/components/Mangage', () => {
   it('renders a ConfirmAnswers component when tab is CONFIRM', () => {
     const store = mockStore({
       ...mockedStore,
-      user: { loggedIn: true },
-      navigation: { manageTab: ManageTabType.CONFIRM }
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -102,26 +98,24 @@ describe('src/components/Mangage', () => {
     expect(confirmAnswers.length).toEqual(1);
   });
 
-  it('renders PlaceBet component when tab is PLACE_BET', () => {
+  it('renders SubmitBet component when tab is SUBMIT_BET', () => {
     const store = mockStore({
       ...mockedStore,
-      user: { loggedIn: true },
-      navigation: { manageTab: ManageTabType.PLACE_BET }
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>
         <Manage />
       </Provider>
     );
-    const placeBet = wrapper.find(PlaceBet);
-    expect(placeBet.length).toEqual(1);
+    const submitBet = wrapper.find(SubmitBet);
+    expect(submitBet.length).toEqual(1);
   });
 
   it('renders ConfirmAnswers component when tab is undefined', () => {
     const store = mockStore({
       ...mockedStore,
-      user: { loggedIn: true },
-      navigation: { manageTab: undefined }
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>
