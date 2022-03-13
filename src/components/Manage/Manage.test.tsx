@@ -6,11 +6,9 @@ import Manage from './Manage';
 import LogIn from '../LogIn/LogIn';
 import { EventForm } from '../EventForm/EventForm';
 import mockedStore from '../../__mocks__/mockedStore';
-import ConfirmAnswers from '../ConfirmAnswers/ConfirmAnswers';
 import { SelectButton } from 'primereact/selectbutton';
 import { Dropdown } from 'primereact/dropdown';
 import { setEvent, setEventMode } from '../../actions';
-import { SubmitBet } from '../SubmitBet/SubmitBet';
 import { EventMode } from '../../Types';
 
 const mockStore = configureMockStore([thunk]);
@@ -82,47 +80,5 @@ describe('src/components/Mangage', () => {
     expect(selectButton.length).toEqual(1);
     expect(dropdown.length).toEqual(0);
     expect(eventForm.length).toEqual(1);
-  });
-
-  it('renders a ConfirmAnswers component when tab is CONFIRM', () => {
-    const store = mockStore({
-      ...mockedStore,
-      user: { loggedIn: true }
-    });
-    const wrapper = mount(
-      <Provider store={store}>
-        <Manage />
-      </Provider>
-    );
-    const confirmAnswers = wrapper.find(ConfirmAnswers);
-    expect(confirmAnswers.length).toEqual(1);
-  });
-
-  it('renders SubmitBet component when tab is SUBMIT_BET', () => {
-    const store = mockStore({
-      ...mockedStore,
-      user: { loggedIn: true }
-    });
-    const wrapper = mount(
-      <Provider store={store}>
-        <Manage />
-      </Provider>
-    );
-    const submitBet = wrapper.find(SubmitBet);
-    expect(submitBet.length).toEqual(1);
-  });
-
-  it('renders ConfirmAnswers component when tab is undefined', () => {
-    const store = mockStore({
-      ...mockedStore,
-      user: { loggedIn: true }
-    });
-    const wrapper = mount(
-      <Provider store={store}>
-        <Manage />
-      </Provider>
-    );
-    const confirmAnswers = wrapper.find(ConfirmAnswers);
-    expect(confirmAnswers.length).toEqual(1);
   });
 });
