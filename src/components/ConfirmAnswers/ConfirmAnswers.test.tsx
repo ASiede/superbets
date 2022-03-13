@@ -10,6 +10,7 @@ import Event from '../Event/Event';
 import { InputText } from 'primereact/inputtext';
 import { setEvent } from '../../actions';
 import { EventMode } from '../../Types';
+import LogIn from '../LogIn/LogIn';
 
 const mockStore = configureMockStore([thunk]);
 const mockDispatch = jest.fn();
@@ -35,8 +36,26 @@ beforeEach(() => {
 });
 
 describe('ConfirmAnswers', () => {
+  it('renders LogIn if not loggedIn', () => {
+    const store = mockStore({
+      ...mockedStore,
+      selectedEvent: null,
+      user: { loggedIn: false }
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <ConfirmAnswers />
+      </Provider>
+    );
+    const logIn = wrapper.find(LogIn);
+    expect(logIn.length).toBe(1);
+  });
   it('renders 1 Drop down prior to event selection', () => {
-    const store = mockStore({ ...mockedStore, selectedEvent: null });
+    const store = mockStore({
+      ...mockedStore,
+      selectedEvent: null,
+      user: { loggedIn: true }
+    });
     const wrapper = mount(
       <Provider store={store}>
         <ConfirmAnswers />
@@ -48,7 +67,8 @@ describe('ConfirmAnswers', () => {
   it('renders 1 Event, 2 Input Text, 3 Button after to event selection', () => {
     const store = mockStore({
       ...mockedStore,
-      selectedEvent: { name: 'superbowl' }
+      selectedEvent: { name: 'superbowl' },
+      user: { loggedIn: true }
     });
     const wrapper = mount(
       <Provider store={store}>
@@ -66,7 +86,7 @@ describe('ConfirmAnswers', () => {
   it('dispatches setEvent on dropdown change', () => {
     const store = mockStore({
       ...mockedStore,
-      user: { events: [{ name: 'superbowl' }] }
+      user: { loggedIn: true, events: [{ name: 'superbowl' }] }
     });
     const mockValue: any = 'superbowl';
     const wrapper: any = mount(
@@ -82,7 +102,8 @@ describe('ConfirmAnswers', () => {
   it('copies to clipboard', () => {
     const store = mockStore({
       ...mockedStore,
-      selectedEvent: { name: 'superbowl' }
+      selectedEvent: { name: 'superbowl' },
+      user: { loggedIn: true }
     });
     const wrapper: any = mount(
       <Provider store={store}>
